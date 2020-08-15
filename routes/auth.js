@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const passport = require('../config/ppConfig')
 
-app.get('/bnet', passport.authenticate('bnet'))
+router.get('/bnet', passport.authenticate('bnet'))
 
-app.get('/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo', successRedirect: '/' }))
+router.get('/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo', successRedirect: '/' }))
 
 router.get('/logout', (req, res)=>{
   req.logOut()
