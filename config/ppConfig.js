@@ -33,10 +33,10 @@ passport.use(new BnetStrategy({
         })
             .then(([user, created]) => {
                 if (created) {
-                    console.log("New user created:", user)
+                    console.log("New user created:", user.get().battletag)
                     return done(null, user)
                 } else {
-                    console.log("Returning user:", user)
+                    console.log("Returning user:", user.get().battletag)
                     return done(null, user)
                 }
             })
