@@ -11,11 +11,11 @@
   </head>
   <body>
     <header>
-      <% include partials/navbar %>
+      <%- partial('navbar.ejs') %>
     </header>
     <main>
       <div class="container">
-        <% include partials/alerts%>
+        <%- partial('alerts.ejs')%>
         <h1>Authentication App</h1>
         <%- body %>
       </div>
