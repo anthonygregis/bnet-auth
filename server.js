@@ -24,7 +24,12 @@ app.use(layouts);
 app.use(session({
   secret: SECRET_SESSION,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    maxAge: 8 * 60 * 60 * 1000
+  }
 }))
 // init passport and run session on middleware
 app.use(passport.initialize())
@@ -47,7 +52,21 @@ app.get('/auth/bnet',
 app.get('/auth/bnet/callback',
     passport.authenticate('bnet', { failureRedirect: '/' }),
     function(req, res){
-      res.redirect('/');
+      console.log(res)
+});
+
+app.get('/', function(req, res) {
+  if(req.isAuthenticated()) {
+    var output = '<h1>Express OAuth Test</h1>' + req.user.id + '<br>';
+    if(req.user.battletag) {
+      output += req.user.battletag + '<br>';
+    }
+    output += '<a href="/logout">Logout</a>';
+    res.send(output);
+  } else {
+    res.send('<h1>Express OAuth Test</h1>' +
+        '<a href="/auth/bnet">Login with Bnet</a>');
+  }
 });
 
 // app.get('/', (req, res) => {

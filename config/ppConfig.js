@@ -7,39 +7,26 @@ const BNET_SECRET = process.env.BNET_SECRET
 
 //passport serrialize's info to make it easier to login
 passport.serializeUser((user, cb) => {
-    cb(null, user.id)
+    cb(null, user)
 })
 
 // deserializeUser takes the id and looks it up in db
-passport.deserializeUser((id, cb) => {
-
-    db.user.findByPk(id)
-    .then(user => {
-        cb(null, user)
-    }).catch(cb)
+passport.deserializeUser((obj, cb) => {
+    cb(null, obj)
 })
 
 passport.use(new BnetStrategy({
-    clientID: BNET_ID,
-    clientSecret: BNET_SECRET,
-    callbackURL: "https://localhost:3000/auth/bnet/callback",
-    scope: ['wow.profile', 'openid']
-}, (accessToken, refreshToken, profile, cb) => {
-    console.log(`Connecting battle.net user '${profile.battletag}' ('${profile.id}')`)
-    cb(null, profile)
-    // db.user.findOne({
-    //     where: { email }
-    // })
-    // .then(user => {
-    //     if(!user || !user.validPassword(password)) {
-    //         cb(null, false)
-    //     } else {
-    //         cb(null, user)
-    //     }
-    // })
-    // .catch(err => {
-    //     cb(err, null)
-    // })
-}))
+        clientID: BNET_ID,
+        clientSecret: BNET_SECRET,
+        scope: ['wow.profile'],
+        passReqToCallback: true,
+        callbackURL: "https://thedevtron.com/auth/bnet/callback"
+    },
+    (req, accessToken, refreshToken, profile, done) => {
+        console.log("User Profile:", profile)
+        console.log(`Connecting battle.net user '${profile.battletag}' ('${profile.id}')`)
+        return done(null, profile)
+    })
+)
 
 module.exports = passport
