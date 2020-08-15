@@ -38,15 +38,9 @@ app.use(passport.session())
 //flash for temp messages to the user
 app.use(flash())
 
-app.get('/auth/bnet',
-    passport.authenticate('bnet')
-);
+app.get('/auth/bnet', passport.authenticate('bnet'))
 
-app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo' }),
-    (req, res) => {
-      res.redirect('/');
-    }
-)
+app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo', successRedirect: '/' }))
 
 app.get('/', function(req, res) {
   if(req.user) {

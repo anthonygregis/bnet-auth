@@ -22,9 +22,7 @@ passport.deserializeUser((bnetId, done) => {
         .then(user => {
             done(null, user)
         })
-        .catch(err => {
-            done(err, null)
-        })
+        .catch(done)
 })
 
 passport.use(new BnetStrategy({
@@ -52,9 +50,7 @@ passport.use(new BnetStrategy({
                     return done(null, user)
                 }
             })
-            .catch(err => {
-                return done(err, null)
-            })
+            .catch(done)
     })
 )
 
