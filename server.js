@@ -8,7 +8,7 @@ const passport = require('./config/ppConfig')
 const flash = require('connect-flash')
 
 // require authorization middleware
-const isLoggedIn = require('./middleware/isLoggedIn')
+// const isLoggedIn = require('./middleware/isLoggedIn')
 
 app.set('view engine', 'ejs');
 
@@ -38,13 +38,6 @@ app.use(passport.session())
 //flash for temp messages to the user
 app.use(flash())
 
-app.use((req, res, next) => {
-  // before every route, attach our current user to res.local
-  res.locals.alerts = req.flash()
-  res.locals.currentUser = req.user
-  next()
-})
-
 app.get('/auth/bnet',
     passport.authenticate('bnet')
 );
@@ -56,7 +49,10 @@ app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: 
 )
 
 app.get('/', function(req, res) {
-  if(req.isAuthenticated()) {
+  if(req.user) {
+    console.log(req.user)
+  }
+  if(req.user) {
     var output = '<h1>Express OAuth Test</h1>' + req.user.id + '<br>';
     if(req.user.battletag) {
       output += req.user.battletag + '<br>';
