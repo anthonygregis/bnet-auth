@@ -8,7 +8,7 @@ router.get('/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/
 
 router.get('/logout', (req, res)=>{
   req.logOut()
-  req.flash('Thank you, come again... Apu')
+  req.flash('Thank you, come again...')
   res.redirect('/')
 })
 
