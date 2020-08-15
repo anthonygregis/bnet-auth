@@ -13,7 +13,6 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "bcrypt": "^5.0.0",
     "connect-flash": "^0.1.1",
     "dotenv": "^8.0.0",
     "ejs": "^2.6.2",
