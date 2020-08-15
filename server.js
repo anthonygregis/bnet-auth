@@ -59,25 +59,15 @@ app.use((req, res, next) => {
 });
 
 // MOVED TO ROUTER AUTH
-app.get('/auth/bnet', passport.authenticate('bnet'))
-
-app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo', successRedirect: '/' }))
+// app.get('/auth/bnet', passport.authenticate('bnet'))
+//
+// app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/auth/error', successRedirect: '/' }))
 
 app.get('/', function(req, res) {
   res.render('index')
 });
 
-// app.use('/auth', require('./routes/auth'));
-
-// app.get('/', (req, res) => {
-//   res.render('index', { alerts: req.flash() });
-// });
-//
-// app.get('/profile', isLoggedIn, (req, res) => {
-//   res.render('profile');
-// });
-//
-
+app.use('/auth', require('./routes/auth'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
