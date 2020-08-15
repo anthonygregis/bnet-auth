@@ -37,7 +37,8 @@ app.use(session({
     secure: true,
     httpOnly: true,
     maxAge: 8 * 60 * 60 * 1000
-  }
+  },
+  proxy: true
 }))
 
 // ENSURE ALL TABLES PRESENT

@@ -8,7 +8,7 @@ const BNET_SECRET = process.env.BNET_SECRET
 //passport serrialize's info to make it easier to login
 passport.serializeUser((user, done) => {
     console.log("Serializer : ", user.bnetId)
-    done(null, user.get().bnetId)
+    done(null, user.bnetId)
 })
 
 // deserializeUser takes the id and looks it up in db
