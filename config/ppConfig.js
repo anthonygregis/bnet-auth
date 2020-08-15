@@ -6,13 +6,13 @@ const BNET_ID = process.env.BNET_ID
 const BNET_SECRET = process.env.BNET_SECRET
 
 //passport serrialize's info to make it easier to login
-passport.serializeUser((user, cb) => {
-    cb(null, user)
+passport.serializeUser((user, done) => {
+    return done(null, user)
 })
 
 // deserializeUser takes the id and looks it up in db
-passport.deserializeUser((obj, cb) => {
-    cb(null, obj)
+passport.deserializeUser((obj, done) => {
+    return done(null, obj)
 })
 
 passport.use(new BnetStrategy({
