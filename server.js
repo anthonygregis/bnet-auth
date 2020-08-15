@@ -63,11 +63,12 @@ app.use((req, res, next) => {
 //
 // app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/auth/error', successRedirect: '/' }))
 
+app.use('/auth', require('./routes/auth'));
+
 app.get('/', function(req, res) {
   res.render('index')
 });
 
-app.use('/auth', require('./routes/auth'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
