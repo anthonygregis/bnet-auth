@@ -3,13 +3,9 @@ const router = express.Router();
 const db = require('../models');
 const passport = require('../config/ppConfig')
 
-router.get('/login', passport.authenticate('bnet'))
+app.get('/bnet', passport.authenticate('bnet'))
 
-router.get('/login/callback', passport.authenticate('bnet', { failureRedirect: '/' }),
-    (req, res) => {
-      res.redirect('/');
-    }
-)
+app.get('/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo', successRedirect: '/' }))
 
 router.get('/logout', (req, res)=>{
   req.logOut()
