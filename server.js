@@ -7,12 +7,6 @@ const SECRET_SESSION = process.env.SECRET_SESSION
 const passport = require('./config/ppConfig')
 const flash = require('connect-flash')
 
-const db = require('./models')
-const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const seqStore = new SequelizeStore({
-  db: db.sequelize,
-  expiration: 8 * 60 * 60 * 1000
-});
 
 // require authorization middleware
 // const isLoggedIn = require('./middleware/isLoggedIn')
@@ -30,7 +24,6 @@ app.use(layouts);
 //saveUninitialized: if we have a new session, we will save it, make this true
 app.use(session({
   secret: SECRET_SESSION,
-  store: seqStore,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -39,10 +32,6 @@ app.use(session({
     maxAge: 8 * 60 * 60 * 1000
   }
 }))
-
-// ENSURE ALL TABLES PRESENT
-seqStore.sync()
-
 // init passport and run session on middleware
 app.use(passport.initialize())
 app.use(passport.session())
