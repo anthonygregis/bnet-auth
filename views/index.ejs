@@ -1,1 +1,9 @@
-<h2>Homepage</h2>
+<% if (currentUser) { %>
+    <h1>Express OAuth Test - <%=  currentUser.bnetId %></h1>
+    <%=  currentUser.battletag %>
+    <br>
+    <a href="/logout">Logout</a>
+<% } else { %>
+    <a href="/auth/bnet">Login with Bnet</a>
+<% } %>
+

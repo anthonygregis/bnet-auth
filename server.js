@@ -50,26 +50,20 @@ app.use(passport.session())
 //flash for temp messages to the user
 app.use(flash())
 
+app.use((req, res, next) => {
+  // before every route, attach the flash messages and current user to res.locals
+  res.locals.alerts = req.flash();
+  res.locals.currentUser = req.user;
+  next();
+});
+
 // MOVED TO ROUTER AUTH
 app.get('/auth/bnet', passport.authenticate('bnet'))
 
 app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo', successRedirect: '/' }))
 
 app.get('/', function(req, res) {
-  if(req.user) {
-    console.log(req.user)
-  }
-  if(req.user) {
-    var output = '<h1>Express OAuth Test</h1>' + req.user.id + '<br>';
-    if(req.user.battletag) {
-      output += req.user.battletag + '<br>';
-    }
-    output += '<a href="/logout">Logout</a>';
-    res.send(output);
-  } else {
-    res.send('<h1>Express OAuth Test</h1>' +
-        '<a href="/auth/bnet">Login with Bnet</a>');
-  }
+  res.render('/')
 });
 
 // app.use('/auth', require('./routes/auth'));
