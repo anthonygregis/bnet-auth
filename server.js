@@ -42,7 +42,7 @@ app.get('/auth/bnet',
     passport.authenticate('bnet')
 );
 
-app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/' }),
+app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo' }),
     (req, res) => {
       res.redirect('/');
     }
