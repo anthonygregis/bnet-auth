@@ -25,7 +25,24 @@ passport.use(new BnetStrategy({
     (req, accessToken, refreshToken, profile, done) => {
         console.log("User Profile:", profile)
         console.log(`Connecting battle.net user '${profile.battletag}' ('${profile.id}')`)
-        return done(null, profile)
+        db.user.findOrCreate({
+            where: {
+                bnetId: profile.id,
+                battletag: profile.battletag
+            }
+        })
+            .then(([user, created]) => {
+                if (created) {
+                    console.log("New user created:", user)
+                    return done(null, user)
+                } else {
+                    console.log("Returning user:", user)
+                    return done(null, user)
+                }
+            })
+            .catch(err => {
+                return done(err, null)
+            })
     })
 )
 
