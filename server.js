@@ -63,7 +63,7 @@ app.get('/auth/bnet', passport.authenticate('bnet'))
 app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo', successRedirect: '/' }))
 
 app.get('/', function(req, res) {
-  res.render('/')
+  res.render('index')
 });
 
 // app.use('/auth', require('./routes/auth'));
