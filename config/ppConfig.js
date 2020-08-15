@@ -20,7 +20,7 @@ passport.use(new BnetStrategy({
         clientSecret: BNET_SECRET,
         scope: ['wow.profile'],
         passReqToCallback: true,
-        callbackURL: "https://thedevtron.com/auth/bnet/callback"
+        callbackURL: "https://battle-net-auth.herokuapp.com/auth/bnet/callback"
     },
     (req, accessToken, refreshToken, profile, done) => {
         console.log("User Profile:", profile)
