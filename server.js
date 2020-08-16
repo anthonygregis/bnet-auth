@@ -41,6 +41,9 @@ app.use(session({
   proxy: true
 }))
 
+// DEBUGGING | Remove later
+db.sequelize.sync({ force: true })
+
 // ENSURE ALL TABLES PRESENT
 seqStore.sync()
 

@@ -13,6 +13,7 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^2.4.0",
     "connect-session-sequelize": "^7.0.1",

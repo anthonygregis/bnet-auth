@@ -2,6 +2,7 @@ require('dotenv').config();
 const passport = require('passport')
 const BnetStrategy = require('passport-bnet').Strategy;
 const db = require('../models')
+const axios = require('axios').default
 const BNET_ID = process.env.BNET_ID
 const BNET_SECRET = process.env.BNET_SECRET
 
@@ -43,7 +44,18 @@ passport.use(new BnetStrategy({
         })
             .then(([user, created]) => {
                 if (created) {
+                    user.accessToken = accessToken
                     console.log("New user created:", user.get().battletag)
+
+                    // Retrieve Characters
+                    axios.get(`https://us.api.blizzard.com/profile/user/wow?namespace=profile-us&locale=en_US&access_token=${accessToken}`)
+                        .then(profileData => {
+                            console.log(profileData)
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+
                     return done(null, user)
                 } else {
                     console.log("Returning user:", user.get().battletag)
