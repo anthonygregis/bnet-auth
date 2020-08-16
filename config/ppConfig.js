@@ -94,12 +94,11 @@ passport.use(new BnetStrategy({
                                         })
                                 })
                             })
+                            return done(null, user)
                         })
                         .catch(err => {
                             console.log(err)
                         })
-
-                    return done(null, user)
                 } else {
                     console.log("Returning user:", user.get().battletag)
                     return done(null, user)
