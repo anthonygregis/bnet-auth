@@ -79,7 +79,7 @@ passport.use(new BnetStrategy({
                                                             if (created) {
                                                                 console.log("New Realm Created:", realm.name)
                                                             }
-                                                            newChar.addRealm(realm)
+                                                            newChar.setRealm(realm)
                                                         })
                                                 })
                                         })
