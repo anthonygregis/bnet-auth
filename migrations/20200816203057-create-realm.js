@@ -1,13 +1,22 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('realms', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      battletag: {
+      name: {
+        type: Sequelize.STRING
+      },
+      type: {
+        type: Sequelize.STRING
+      },
+      isTournament: {
+        type: Sequelize.BOOLEAN
+      },
+      slug: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -21,6 +30,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('realms');
   }
 };

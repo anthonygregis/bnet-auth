@@ -1,14 +1,29 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('characters', {
       id: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      battletag: {
+      name: {
         type: Sequelize.STRING
+      },
+      class: {
+        type: Sequelize.STRING
+      },
+      race: {
+        type: Sequelize.STRING
+      },
+      gender: {
+        type: Sequelize.STRING
+      },
+      faction: {
+        type: Sequelize.STRING
+      },
+      level: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -21,6 +36,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('characters');
   }
 };
