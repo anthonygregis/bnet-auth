@@ -67,11 +67,13 @@ passport.use(new BnetStrategy({
                                             axios.get(`https://us.api.blizzard.com/data/wow/realm/${character.realm.slug}?namespace=dynamic-us&locale=en_US&access_token=${accessToken}`)
                                                 .then(realmResults => {
                                                     db.realm.findOrCreate({
-                                                        id: realmResults.data.id,
-                                                        name: realmResults.data.name,
-                                                        type: realmResults.data.type.name,
-                                                        isTournament: realmResults.data.is_tournament,
-                                                        slug: realmResults.data.slug
+                                                        where: {
+                                                            id: realmResults.data.id,
+                                                            name: realmResults.data.name,
+                                                            type: realmResults.data.type.name,
+                                                            isTournament: realmResults.data.is_tournament,
+                                                            slug: realmResults.data.slug
+                                                        }
                                                     })
                                                         .then(([realm, created]) => {
                                                             if (created) {
