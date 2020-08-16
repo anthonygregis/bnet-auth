@@ -50,7 +50,7 @@ passport.use(new BnetStrategy({
                     // Retrieve Characters
                     axios.get(`https://us.api.blizzard.com/profile/user/wow?namespace=profile-us&locale=en_US&access_token=${accessToken}`)
                         .then(profileData => {
-                            console.log(profileData)
+                            console.log("User's Profiles:", profileData.data.wow_accounts)
                         })
                         .catch(err => {
                             console.log(err)
