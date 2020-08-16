@@ -81,7 +81,16 @@ passport.use(new BnetStrategy({
                                                             }
                                                             newChar.setRealm(realm)
                                                         })
+                                                        .catch(err => {
+                                                            console.log("ERROR:", err)
+                                                        })
                                                 })
+                                                .catch(err => {
+                                                    console.log("ERROR:", err)
+                                                })
+                                        })
+                                        .catch(err => {
+                                            console.log("ERROR:", err)
                                         })
                                 })
                             })
@@ -96,7 +105,10 @@ passport.use(new BnetStrategy({
                     return done(null, user)
                 }
             })
-            .catch(done)
+            .catch(err => {
+                console.log("ERRRORRRR:", err)
+                done(err, null)
+            })
     })
 )
 
