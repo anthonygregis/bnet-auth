@@ -50,37 +50,38 @@ passport.use(new BnetStrategy({
                     // Retrieve Characters
                     axios.get(`https://us.api.blizzard.com/profile/user/wow?namespace=profile-us&locale=en_US&access_token=${accessToken}`)
                         .then(profileData => {
-                            let wowCharacters = profileData.data.wow_accounts.characters
-                            wowCharacters.forEach(character => {
-                                user.createCharacter({
-                                    id: character.id,
-                                    name: character.name,
-                                    class: character.playable_class.name,
-                                    race: character.playable_race.name,
-                                    gender: character.gender.name,
-                                    faction: character.faction.name,
-                                    level: character.level
-                                })
-                                    .then(newChar => {
-                                        user.addCharacter(newChar)
-                                        axios.get(`https://us.api.blizzard.com/data/wow/realm/${character.realm.slug}?namespace=dynamic-us&locale=en_US&access_token=${accessToken}`)
-                                            .then(realmResults => {
-                                                db.realm.findOrCreate({
-                                                    id: realmResults.data.id,
-                                                    name: realmResults.data.name,
-                                                    type: realmResults.data.type.name,
-                                                    isTournament: realmResults.data.is_tournament,
-                                                    slug: realmResults.data.slug
-                                                })
-                                                    .then(([realm, created]) => {
-                                                        if (created) {
-                                                            console.log("New Realm Created:", realm.name)
-                                                        }
-                                                        newChar.addRealm(realm)
-                                                    })
-                                            })
-                                    })
-                            })
+                            let wowAccounts = profileData.data.wow_accounts
+                            console.log(wowAccounts)
+                            // wowCharacters.forEach(character => {
+                            //     user.createCharacter({
+                            //         id: character.id,
+                            //         name: character.name,
+                            //         class: character.playable_class.name,
+                            //         race: character.playable_race.name,
+                            //         gender: character.gender.name,
+                            //         faction: character.faction.name,
+                            //         level: character.level
+                            //     })
+                            //         .then(newChar => {
+                            //             user.addCharacter(newChar)
+                            //             axios.get(`https://us.api.blizzard.com/data/wow/realm/${character.realm.slug}?namespace=dynamic-us&locale=en_US&access_token=${accessToken}`)
+                            //                 .then(realmResults => {
+                            //                     db.realm.findOrCreate({
+                            //                         id: realmResults.data.id,
+                            //                         name: realmResults.data.name,
+                            //                         type: realmResults.data.type.name,
+                            //                         isTournament: realmResults.data.is_tournament,
+                            //                         slug: realmResults.data.slug
+                            //                     })
+                            //                         .then(([realm, created]) => {
+                            //                             if (created) {
+                            //                                 console.log("New Realm Created:", realm.name)
+                            //                             }
+                            //                             newChar.addRealm(realm)
+                            //                         })
+                            //                 })
+                            //         })
+                            // })
                         })
                         .catch(err => {
                             console.log(err)
