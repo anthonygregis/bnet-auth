@@ -1,10 +1,12 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const passport = require('../config/ppConfig')
 
 router.get('/bnet', passport.authenticate('bnet'))
 
-router.get('/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/weewoo', successRedirect: '/auth/success' }))
+router.get('/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/auth/failure' }), (req, res) => {
+  res.redirect('/auth/success')
+})
 
 router.get('/success', (req, res) => {
   res.redirect('/')
@@ -16,4 +18,4 @@ router.get('/logout', (req, res)=>{
   res.redirect('/')
 })
 
-module.exports = router;
+module.exports = router
