@@ -25,37 +25,42 @@ const testAuctionMethod = () => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
                         .then(results => {
+                            let i = 0
                             status = results.status
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
-                            if(status === 200) {
-                                auctionData.forEach(itemListing => {
-                                    db.item.findOrCreate({
-                                        where: {
-                                            id: itemListing.id
-                                        }
-                                    })
-                                        .then((wowItem, created) => {
-                                            if (created) {
-                                                console.log("New item added:", wowItem.id)
+                            while(i <= auctionData.length) {
+                                auctionSubData = auctionData.slice(i, 100)
+                                i += 100
+                                if(status === 200) {
+                                    auctionSubData.forEach(itemListing => {
+                                        db.item.findOrCreate({
+                                            where: {
+                                                id: itemListing.id
                                             }
-                                            wowItem.createPricingData({
-                                                buyout: itemListing.buyout,
-                                                quantity: itemListing.quantity
+                                        })
+                                            .then((wowItem, created) => {
+                                                if (created) {
+                                                    console.log("New item added:", wowItem.id)
+                                                }
+                                                wowItem.createPricingData({
+                                                    buyout: itemListing.buyout,
+                                                    quantity: itemListing.quantity
+                                                })
+                                                    .then(pricingData => {
+                                                        pricingData.setConnectedRealm(aConRealm)
+                                                    })
+                                                    .catch(err => {
+                                                        console.log("ERROR:", err)
+                                                    })
                                             })
-                                                .then(pricingData => {
-                                                    pricingData.setConnectedRealm(aConRealm)
-                                                })
-                                                .catch(err => {
-                                                    console.log("ERROR:", err)
-                                                })
-                                        })
-                                        .catch(err => {
-                                            console.log("ERROR:", err)
-                                        })
-                                })
-                            } else {
-                                console.log("Auction House Fetch Failed:", statusMessage)
+                                            .catch(err => {
+                                                console.log("ERROR:", err)
+                                            })
+                                    })
+                                } else {
+                                    console.log("Auction House Fetch Failed:", statusMessage)
+                                }
                             }
                         })
                         .catch(err => {
