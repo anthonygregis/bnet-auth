@@ -21,7 +21,7 @@ const testAuctionMethod = () => {
         .then(connRealm => {
             connRealm.forEach(aConRealm => {
                 let auctionHouse = aConRealm.auctionHouse
-                axios.get(`${auctionHouse}&accessToken=${access_token}`)
+                axios.get(`${auctionHouse}&access_token=${access_token}`)
                     .then(results => {
                         console.log(results)
                     })
