@@ -4,10 +4,12 @@ const db = require('./models')
 const testAuctionMethod = () => {
     db.connectedRealm.findAll()
         .then(connRealm => {
-            console.log(connRealm)
+            connRealm.forEach(aConRealm => {
+                console.log(aConRealm.auctionHouse)
+            })
         })
         .catch(err => {
-            console.log("ERROR:", err)
+            console.log(err)
         })
 }
 
