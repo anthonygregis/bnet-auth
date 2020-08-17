@@ -43,7 +43,7 @@ const testAuctionMethod = () => {
                                                 if (created) {
                                                     console.log("New item added:", wowItem.id)
                                                 }
-                                                db.create.pricingData({
+                                                db.pricingData.create({
                                                     buyout: itemListing.buyout,
                                                     quantity: itemListing.quantity
                                                 })
