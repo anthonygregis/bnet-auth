@@ -26,7 +26,8 @@ const testAuctionMethod = () => {
                         .then(results => {
                             status = results.status
                             statusMessage = results.statusText
-                            auctionData = results.body
+                            auctionData = results.body.auctions
+                            console.log(results.body)
                             if(status === 200) {
                                 auctionData.forEach(itemListing => {
                                     db.item.findOrCreate({
