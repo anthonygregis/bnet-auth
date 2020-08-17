@@ -10,21 +10,26 @@ const BNET_SECRET = process.env.BNET_SECRET
 const getToken = () => {
     exec(`curl -u ${BNET_ID}:${BNET_SECRET} -d grant_type=client_credentials https://us.battle.net/oauth/token`
         , (error, result, metadata) => {
-            console.log(result.access_token)
+            results = JSON.parse(result)
+            return results.access_token
         });
 }
 
 const testAuctionMethod = () => {
-    getToken()
-    // db.connectedRealm.findAll()
-    //     .then(connRealm => {
-    //         connRealm.forEach(aConRealm => {
-    //             let auctionHouse = aConRealm.auctionHouse
-    //         })
-    //     })
-    //     .catch(err => {
-    //         console.log(err)
-    //     })
+    let access_token = getToken()
+    db.connectedRealm.findAll()
+        .then(connRealm => {
+            connRealm.forEach(aConRealm => {
+                let auctionHouse = aConRealm.auctionHouse
+                axios.get(`${auctionHouse}&accessToken=${access_token}`)
+                    .then(results => {
+                        console.log(results)
+                    })
+            })
+        })
+        .catch(err => {
+            console.log(err)
+        })
 }
 
 //Start Express
