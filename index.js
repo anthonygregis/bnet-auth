@@ -48,7 +48,7 @@ const testAuctionMethod = () => {
                                                     quantity: itemListing.quantity
                                                 })
                                                     .then(pricingData => {
-                                                        wowItem.addPricingData(pricingData)
+                                                        pricingData.setItem(wowItem)
                                                         pricingData.setConnectedRealm(aConRealm)
                                                     })
                                                     .catch(err => {
