@@ -78,7 +78,7 @@ passport.use(new BnetStrategy({
                                                         .then(([realm, created]) => {
                                                             if (created) {
                                                                 console.log("New Realm Created:", realm.name)
-                                                                axios.get(realmResults.data.connected_realm.href, user.accessToken)
+                                                                axios.get(`${realmResults.data.connected_realm.href}&access_token=${user.accessToken}`)
                                                                     .then(connRealmResults => {
                                                                         let connectedRealm = connRealmResults.data
                                                                         db.connectedRealm.findOrCreate({
@@ -107,10 +107,19 @@ passport.use(new BnetStrategy({
                                                                                                 }
                                                                                                 foundRealm.setconnectedRealm(foundCRealm)
                                                                                             })
+                                                                                            .catch(err => {
+                                                                                                console.log("ERROR:", err)
+                                                                                            })
                                                                                     })
                                                                                 }
                                                                                 realm.setconnectedRealm(foundCRealm)
                                                                             })
+                                                                            .catch(err => {
+                                                                                console.log("ERROR:", err)
+                                                                            })
+                                                                    })
+                                                                    .catch(err => {
+                                                                        console.log("ERROR:", err)
                                                                     })
                                                             }
                                                             newChar.setRealm(realm)
