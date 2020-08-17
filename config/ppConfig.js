@@ -26,7 +26,7 @@ passport.deserializeUser((id, done) => {
             }]
     })
         .then(user => {
-            console.log("Deserializer : ", user.name)
+            console.log("Deserializer : ", user.battletag)
             done(null, user)
         })
         .catch(done)
