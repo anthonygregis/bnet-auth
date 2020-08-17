@@ -2,7 +2,7 @@ const server = require('./server')
 const db = require('./models')
 
 const testAuctionMethod = () => {
-    db.connectedRealms.findAll()
+    db.connectedRealm.findAll()
         .then(connRealm => {
             connRealm.forEach(aConRealm => {
                 console.log(aConRealm.auctionHouse)
