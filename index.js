@@ -21,6 +21,8 @@ var options = {
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
         console.log(body);
+    } else {
+        console.log(response, body)
     }
 }
 
@@ -33,7 +35,6 @@ const testAuctionMethod = () => {
         .then(connRealm => {
             connRealm.forEach(aConRealm => {
                 let auctionHouse = aConRealm.auctionHouse
-                axios.get(auctionHouse, )
             })
         })
         .catch(err => {
