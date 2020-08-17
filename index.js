@@ -65,12 +65,12 @@ const testAuctionMethod = () => {
                                 }
                             }
                             while(i <= auctionData.length)
+                            setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
                         })
                         .catch(err => {
                             console.log("ERROR:", err)
                         })
                 })
-                setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
             })
             .catch(err => {
                 console.log(err)
