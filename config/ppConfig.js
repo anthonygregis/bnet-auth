@@ -78,7 +78,7 @@ passport.use(new BnetStrategy({
                                                         .then(([realm, created]) => {
                                                             if (created) {
                                                                 console.log("New Realm Created:", realm.name)
-                                                                axios.get(`${realmResults.data.connected_realm.href}&access_token=${user.accessToken}`)
+                                                                axios.get(`${realmResults.data.connected_realm.href}&locale=en_US&access_token=${user.accessToken}`)
                                                                     .then(connRealmResults => {
                                                                         let connectedRealm = connRealmResults.data
                                                                         db.connectedRealm.findOrCreate({
