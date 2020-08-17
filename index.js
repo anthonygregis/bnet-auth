@@ -29,9 +29,8 @@ const testAuctionMethod = () => {
                             status = results.status
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
-                            do {
+                            for(;i <= auctionData.length; i += 100) {
                                 auctionSubData = auctionData.slice(i, 100)
-                                i += 100
                                 if(status === 200) {
                                     auctionSubData.forEach(itemListing => {
                                         db.item.findOrCreate({
@@ -64,7 +63,6 @@ const testAuctionMethod = () => {
                                     console.log("Auction House Fetch Failed:", statusMessage)
                                 }
                             }
-                            while(i <= auctionData.length)
                             setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
                         })
                         .catch(err => {
