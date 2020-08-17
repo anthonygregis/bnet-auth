@@ -4,9 +4,7 @@ const db = require('./models')
 const testAuctionMethod = () => {
     db.connectedRealm.findAll()
         .then(connRealm => {
-            connRealm.forEach(aConRealm => {
-                console.log(aConRealm.dataValue.auctionHouse)
-            })
+            console.log(connRealm)
         })
         .catch(err => {
             console.log("ERROR:", err)
