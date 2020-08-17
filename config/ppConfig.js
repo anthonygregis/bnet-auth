@@ -14,7 +14,6 @@ passport.serializeUser((user, done) => {
 
 // deserializeUser takes the id and looks it up in db
 passport.deserializeUser((id, done) => {
-    console.log("Deserializer : ", id)
     db.user.findOne({
         where: {
             id: id
@@ -27,6 +26,7 @@ passport.deserializeUser((id, done) => {
             }]
     })
         .then(user => {
+            console.log("Deserializer : ", user.get())
             done(null, user)
         })
         .catch(done)
