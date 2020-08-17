@@ -36,7 +36,7 @@ const testAuctionMethod = () => {
                                     auctionSubData.forEach(itemListing => {
                                         db.item.findOrCreate({
                                             where: {
-                                                id: itemListing.id
+                                                id: itemListing.item.id
                                             }
                                         })
                                             .then((wowItem, created) => {
