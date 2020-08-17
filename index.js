@@ -3,6 +3,7 @@ const server = require('./server')
 const db = require('./models')
 const request = require('request')
 const axios = require('axios')
+var exec = require('exec')
 const BNET_ID = process.env.BNET_ID
 const BNET_SECRET = process.env.BNET_SECRET
 
