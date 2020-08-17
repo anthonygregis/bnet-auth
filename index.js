@@ -62,7 +62,7 @@ const testAuctionMethod = () => {
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
-                            setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
+                            // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
                         })
                         .catch(err => {
                             console.log("ERROR:", err)
