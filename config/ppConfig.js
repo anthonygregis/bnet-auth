@@ -106,7 +106,7 @@ passport.use(new BnetStrategy({
                                                                                                 if (created) {
                                                                                                     console.log("New Realm found and created:", foundRealm.name)
                                                                                                 }
-                                                                                                foundRealm.setconnectedRealm(foundCRealm)
+                                                                                                foundRealm.setConnectedRealm(foundCRealm)
                                                                                             })
                                                                                             .catch(err => {
                                                                                                 console.log("ERROR:", err)
