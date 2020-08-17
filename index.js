@@ -26,8 +26,8 @@ const testAuctionMethod = () => {
                         .then(results => {
                             status = results.status
                             statusMessage = results.statusText
-                            console.log(results.body)
-                            if(status === 1000) {
+                            auctionData = results.data.auctions
+                            if(status === 200) {
                                 auctionData.forEach(itemListing => {
                                     db.item.findOrCreate({
                                         where: {
@@ -71,5 +71,5 @@ const testAuctionMethod = () => {
 //Start Express
 server
 
-//Run console.log every 5 minutes
-setInterval(testAuctionMethod, 60000)
+//Run auctionHouse every hour
+setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
