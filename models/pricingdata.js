@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.pricingdata.hasMany(models.item)
-      models.pricingdata.hasMany(models.connectedrealm)
+      models.pricingData.hasMany(models.item)
+      models.pricingData.hasMany(models.connectedrealm)
     }
   };
   pricingData.init({
