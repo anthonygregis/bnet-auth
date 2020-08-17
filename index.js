@@ -25,6 +25,9 @@ const testAuctionMethod = () => {
                     .then(results => {
                         console.log(results)
                     })
+                    .catch(err => {
+                        console.log("ERROR:", err)
+                    })
             })
         })
         .catch(err => {
