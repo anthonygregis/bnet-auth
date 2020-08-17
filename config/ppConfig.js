@@ -92,6 +92,7 @@ passport.use(new BnetStrategy({
                                                                                 if (created) {
                                                                                     console.log("New Connected Realm Found, Generating Realms.")
                                                                                     connectedRealm.realms.forEach(realm => {
+                                                                                        console.log(realm)
                                                                                         db.realm.findOrCreate({
                                                                                             where: {
                                                                                                 id: realm.id,
@@ -112,7 +113,7 @@ passport.use(new BnetStrategy({
                                                                                             })
                                                                                     })
                                                                                 }
-                                                                                realm.setconnectedRealm(foundCRealm)
+                                                                                realm.setConnectedRealm(foundCRealm)
                                                                             })
                                                                             .catch(err => {
                                                                                 console.log("ERROR:", err)
