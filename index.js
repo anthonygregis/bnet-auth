@@ -62,6 +62,7 @@ const testAuctionMethod = () => {
                             console.log("ERROR:", err)
                         })
                 })
+                setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
             })
             .catch(err => {
                 console.log(err)
@@ -71,6 +72,4 @@ const testAuctionMethod = () => {
 
 //Start Express
 server
-
-//Run auctionHouse every hour
-setTimeout(testAuctionMethod, 1 * 60 * 60 * 1000)
+testAuctionMethod()
