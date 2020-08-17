@@ -7,32 +7,35 @@ var exec = require('exec')
 const BNET_ID = process.env.BNET_ID
 const BNET_SECRET = process.env.BNET_SECRET
 
-const getToken = () => {
+const getToken = (cb) => {
     exec(`curl -u ${BNET_ID}:${BNET_SECRET} -d grant_type=client_credentials https://us.battle.net/oauth/token`
         , (error, result, metadata) => {
             results = JSON.parse(result)
-            return results.access_token
+            cb(results.access_token)
         });
 }
 
 const testAuctionMethod = () => {
-    let access_token = getToken()
-    db.connectedRealm.findAll()
-        .then(connRealm => {
-            connRealm.forEach(aConRealm => {
-                let auctionHouse = aConRealm.auctionHouse
-                axios.get(`${auctionHouse}&access_token=${access_token}`)
-                    .then(results => {
-                        console.log(results)
-                    })
-                    .catch(err => {
-                        console.log("ERROR:", err)
-                    })
+    getToken(access_token => {
+        db.connectedRealm.findAll()
+            .then(connRealm => {
+                connRealm.forEach(aConRealm => {
+                    let auctionHouse = aConRealm.auctionHouse
+                    axios.get(`${auctionHouse}&access_token=${access_token}`)
+                        .then(results => {
+                            console.log("Status:", results.status)
+                            console.log("Status Message:", results.statusText)
+                            console.log(results.data)
+                        })
+                        .catch(err => {
+                            console.log("ERROR:", err)
+                        })
+                })
             })
-        })
-        .catch(err => {
-            console.log(err)
-        })
+            .catch(err => {
+                console.log(err)
+            })
+    })
 }
 
 //Start Express
