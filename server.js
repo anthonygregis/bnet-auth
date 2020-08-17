@@ -42,7 +42,7 @@ app.use(session({
 }))
 
 // DEBUGGING | Remove later
-// db.sequelize.sync({ force: true })
+db.sequelize.sync()
 
 // ENSURE ALL TABLES PRESENT
 seqStore.sync()

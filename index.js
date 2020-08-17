@@ -71,4 +71,4 @@ const testAuctionMethod = () => {
 server
 
 //Run console.log every 5 minutes
-// setInterval(testAuctionMethod, 60000)
+setInterval(testAuctionMethod, 60000)
