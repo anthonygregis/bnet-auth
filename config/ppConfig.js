@@ -18,7 +18,13 @@ passport.deserializeUser((id, done) => {
     db.user.findOne({
         where: {
             id: id
-        }
+        },
+        include: [{
+                model: db.character,
+                include: {
+                    model: db.realm
+                }
+            }]
     })
         .then(user => {
             done(null, user)
