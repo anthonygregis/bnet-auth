@@ -10,7 +10,7 @@ const BNET_SECRET = process.env.BNET_SECRET
 const getToken = () => {
     exec(`curl -u ${BNET_ID}:${BNET_SECRET} -d grant_type=client_credentials https://us.battle.net/oauth/token`
         , (error, result, metadata) => {
-            console.log(result);
+            console.log(result.parse());
         });
 }
 
