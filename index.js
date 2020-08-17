@@ -8,6 +8,9 @@ const testAuctionMethod = () => {
                 console.log(aConRealm.dataValue.auctionHouse)
             })
         })
+        .catch(err => {
+            console.log("ERROR:", err)
+        })
 }
 
 //Start Express
