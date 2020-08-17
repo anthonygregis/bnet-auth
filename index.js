@@ -42,7 +42,7 @@ const testAuctionMethod = () => {
                                                 quantity: itemListing.quantity
                                             })
                                                 .then(pricingData => {
-                                                    aConRealm.addPricingData(pricingData)
+                                                    pricingData.setConnectedRealm(aConRealm)
                                                 })
                                                 .catch(err => {
                                                     console.log("ERROR:", err)
