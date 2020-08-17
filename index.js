@@ -1,7 +1,13 @@
 const server = require('./server')
+const db = require('./models')
 
 const testAuctionMethod = () => {
-    console.log("Running")
+    db.connectedRealms.findAll()
+        .then(connRealm => {
+            connRealm.forEach(aConRealm => {
+                console.log(aConRealm.auctionHouse)
+            })
+        })
 }
 
 //Start Express
