@@ -16,6 +16,7 @@ const getToken = (cb) => {
 }
 
 const testAuctionMethod = () => {
+    console.log("Running auction house grabbing")
     getToken(access_token => {
         db.connectedRealm.findAll()
             .then(connRealm => {
@@ -72,4 +73,4 @@ const testAuctionMethod = () => {
 server
 
 //Run auctionHouse every hour
-setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
+setTimeout(testAuctionMethod, 1 * 60 * 60 * 1000)
