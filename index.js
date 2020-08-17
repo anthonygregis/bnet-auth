@@ -6,32 +6,15 @@ const axios = require('axios')
 const BNET_ID = process.env.BNET_ID
 const BNET_SECRET = process.env.BNET_SECRET
 
-var dataString = 'grant_type=client_credentials'
-
-var options = {
-    url: 'https://us.battle.net/oauth/token',
-    method: 'POST',
-    body: dataString,
-    auth: {
-        'user': BNET_ID,
-        'pass': BNET_SECRET
-    }
+const getToken = () => {
+    exec(`curl -u ${BNET_ID}:${BNET_SECRET} -d grant_type=client_credentials https://us.battle.net/oauth/token`
+        , (error, result, metadata) => {
+            console.log(result);
+        });
 }
-
-function callback(error, response, body) {
-    if (!error && response.statusCode == 200) {
-        console.log(body)
-    } else {
-        console.log("STATUS CODE:", response.statusCode)
-        console.log("ERROR:", error)
-    }
-}
-
-
-
 
 const testAuctionMethod = () => {
-    request(options, callback)
+    getToken()
     db.connectedRealm.findAll()
         .then(connRealm => {
             connRealm.forEach(aConRealm => {
