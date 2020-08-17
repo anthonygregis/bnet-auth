@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.pricingData.hasMany(models.item)
-      models.pricingData.hasMany(models.connectedrealm)
+      models.pricingData.hasMany(models.connectedRealm)
     }
   };
   pricingData.init({
