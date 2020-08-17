@@ -44,11 +44,11 @@ const testAuctionMethod = () => {
                                                     console.log("New item added:", wowItem.id)
                                                 }
                                                 db.pricingData.create({
-                                                    buyout: itemListing.buyout,
-                                                    quantity: itemListing.quantity
+                                                    unitPrice: itemListing.unit_price,
+                                                    quantity: itemListing.quantity,
+                                                    itemId: itemListing.item.id
                                                 })
                                                     .then(pricingData => {
-                                                        pricingData.setItem(wowItem)
                                                         pricingData.setConnectedRealm(aConRealm)
                                                     })
                                                     .catch(err => {
