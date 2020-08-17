@@ -23,9 +23,38 @@ const testAuctionMethod = () => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
                         .then(results => {
-                            console.log("Status:", results.status)
-                            console.log("Status Message:", results.statusText)
-                            console.log(results.data)
+                            status = results.status
+                            statusMessage = results.statusText
+                            auctionData = results.body
+                            if(status === 200) {
+                                auctionData.forEach(itemListing => {
+                                    db.item.findOrCreate({
+                                        where: {
+                                            id: itemListing.id
+                                        }
+                                    })
+                                        .then((wowItem, created) => {
+                                            if (created) {
+                                                console.log("New item added:", wowItem.id)
+                                            }
+                                            wowItem.createPricingData({
+                                                buyout: itemListing.buyout,
+                                                quantity: itemListing.quantity
+                                            })
+                                                .then(pricingData => {
+                                                    aConRealm.addPricingData(pricingData)
+                                                })
+                                                .catch(err => {
+                                                    console.log("ERROR:", err)
+                                                })
+                                        })
+                                        .catch(err => {
+                                            console.log("ERROR:", err)
+                                        })
+                                })
+                            } else {
+                                console.log("Auction House Fetch Failed:", statusMessage)
+                            }
                         })
                         .catch(err => {
                             console.log("ERROR:", err)
@@ -41,5 +70,5 @@ const testAuctionMethod = () => {
 //Start Express
 server
 
-//Run console.log every 5 mintes
-setInterval(testAuctionMethod, 5000)
+//Run console.log every 5 minutes
+setInterval(testAuctionMethod, 60000)
