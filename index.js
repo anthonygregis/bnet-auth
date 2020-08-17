@@ -29,7 +29,7 @@ const testAuctionMethod = () => {
                             status = results.status
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
-                            while(i <= auctionData.length) {
+                            do {
                                 auctionSubData = auctionData.slice(i, 100)
                                 i += 100
                                 if(status === 200) {
@@ -45,7 +45,7 @@ const testAuctionMethod = () => {
                                                 }
                                                 console.log("Item Data:", itemListing)
                                                 db.pricingData.create({
-                                                    unitPrice: itemListing.unit_price,
+                                                    unitPrice: itemListing.unit_price || itemListing.buyout,
                                                     quantity: itemListing.quantity,
                                                     itemId: itemListing.item.id
                                                 })
@@ -64,6 +64,7 @@ const testAuctionMethod = () => {
                                     console.log("Auction House Fetch Failed:", statusMessage)
                                 }
                             }
+                            while(i <= auctionData.length)
                         })
                         .catch(err => {
                             console.log("ERROR:", err)
