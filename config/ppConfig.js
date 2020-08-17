@@ -78,6 +78,40 @@ passport.use(new BnetStrategy({
                                                         .then(([realm, created]) => {
                                                             if (created) {
                                                                 console.log("New Realm Created:", realm.name)
+                                                                axios.get(realmResults.data.connected_realm.href, user.accessToken)
+                                                                    .then(connRealmResults => {
+                                                                        let connectedRealm = connRealmResults.data
+                                                                        db.connectedRealm.findOrCreate({
+                                                                            where: {
+                                                                                id: connectedRealm.id,
+                                                                                mythicLeaderboard: connectedRealm.mythic_leaderboards.href,
+                                                                                auctionHouse: connectedRealm.auctions.href
+                                                                            }
+                                                                        })
+                                                                            .then(([foundCRealm, created]) => {
+                                                                                if (created) {
+                                                                                    console.log("New Connected Realm Found, Generating Realms.")
+                                                                                    connectedRealm.realms.forEach(realm => {
+                                                                                        db.realm.findOrCreate({
+                                                                                            where: {
+                                                                                                id: realm.id,
+                                                                                                name: realm.name,
+                                                                                                type: realm.type.name,
+                                                                                                isTournament: realm.is_tournament,
+                                                                                                slug: realm.slug
+                                                                                            }
+                                                                                        })
+                                                                                            .then(([foundRealm, created]) => {
+                                                                                                if (created) {
+                                                                                                    console.log("New Realm found and created:", foundRealm.name)
+                                                                                                }
+                                                                                                foundRealm.setconnectedRealm(foundCRealm)
+                                                                                            })
+                                                                                    })
+                                                                                }
+                                                                                realm.setconnectedRealm(foundCRealm)
+                                                                            })
+                                                                    })
                                                             }
                                                             newChar.setRealm(realm)
                                                         })

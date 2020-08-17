@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class realm extends Model {
+  class connectedRealm extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,22 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.realm.hasMany(models.character)
-      models.realm.belongsTo(models.connectedRealm)
+      models.connectedRealm.hasMany(models.realm)
     }
   };
-  realm.init({
+  connectedRealm.init({
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true
     },
-    name: DataTypes.STRING,
-    type: DataTypes.STRING,
-    isTournament: DataTypes.BOOLEAN,
-    slug: DataTypes.STRING
+    mythicLeaderboard: DataTypes.STRING,
+    auctionHouse: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'realm',
+    modelName: 'connectedRealm',
   });
-  return realm;
+  return connectedRealm;
 };
