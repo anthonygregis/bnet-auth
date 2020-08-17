@@ -6,7 +6,7 @@ const axios = require('axios')
 const BNET_ID = process.env.BNET_ID
 const BNET_SECRET = process.env.BNET_SECRET
 
-var dataString = 'grant_type=client_credentials';
+var dataString = 'grant_type=client_credentials'
 
 var options = {
     url: 'https://us.battle.net/oauth/token',
@@ -16,13 +16,14 @@ var options = {
         'user': BNET_ID,
         'pass': BNET_SECRET
     }
-};
+}
 
 function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
-        console.log(body);
+        console.log(body)
     } else {
-        console.log(response.statusCode, body);
+        console.log("STATUS CODE:", response.statusCode)
+        console.log("ERROR:", error)
     }
 }
 
