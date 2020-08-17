@@ -25,13 +25,12 @@ const testAuctionMethod = () => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
                         .then(results => {
-                            let i = 0
                             status = results.status
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
-                            for(;i <= auctionData.length; i += 100) {
-                                auctionSubData = auctionData.slice(i, 100)
-                                if(status === 200) {
+                            if(status === 200) {
+                                for(let i = 0; i <= auctionData.length; i += 100) {
+                                    auctionSubData = auctionData.slice(i, 100)
                                     auctionSubData.forEach(itemListing => {
                                         db.item.findOrCreate({
                                             where: {
@@ -59,9 +58,9 @@ const testAuctionMethod = () => {
                                                 console.log("ERROR:", err)
                                             })
                                     })
-                                } else {
-                                    console.log("Auction House Fetch Failed:", statusMessage)
                                 }
+                            } else {
+                                console.log("Auction House Fetch Failed:", statusMessage)
                             }
                             setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
                         })
