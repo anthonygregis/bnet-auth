@@ -43,11 +43,12 @@ const testAuctionMethod = () => {
                                                 if (created) {
                                                     console.log("New item added:", wowItem.id)
                                                 }
-                                                wowItem.createpricingData({
+                                                db.create.pricingData({
                                                     buyout: itemListing.buyout,
                                                     quantity: itemListing.quantity
                                                 })
                                                     .then(pricingData => {
+                                                        wowItem.addPricingData(pricingData)
                                                         pricingData.setConnectedRealm(aConRealm)
                                                     })
                                                     .catch(err => {
