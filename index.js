@@ -19,13 +19,14 @@ const testAuctionMethod = () => {
     getToken(access_token => {
         db.connectedRealm.findAll()
             .then(connRealm => {
+                console.log(connRealm)
                 connRealm.forEach(aConRealm => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
                         .then(results => {
                             status = results.status
                             statusMessage = results.statusText
-                            auctionData = results.body
+                            auctionData = JSON.parse(results.body)
                             if(status === 200) {
                                 auctionData.forEach(itemListing => {
                                     db.item.findOrCreate({
