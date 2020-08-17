@@ -26,7 +26,7 @@ passport.deserializeUser((id, done) => {
             }]
     })
         .then(user => {
-            console.log("Deserializer : ", user.get())
+            console.log("Deserializer : ", user.name)
             done(null, user)
         })
         .catch(done)
@@ -40,7 +40,7 @@ passport.use(new BnetStrategy({
         callbackURL: "https://battle-net-auth.herokuapp.com/auth/bnet/callback"
     },
     (req, accessToken, refreshToken, profile, done) => {
-        console.log("User Profile:", profile)
+        // console.log("User Profile:", profile)
         console.log(`Connecting battle.net user '${profile.battletag}' ('${profile.id}')`)
         db.user.findOrCreate({
             where: {
@@ -98,7 +98,7 @@ passport.use(new BnetStrategy({
                                                                                 if (created) {
                                                                                     console.log("New Connected Realm Found, Generating Realms.")
                                                                                     connectedRealm.realms.forEach(realm => {
-                                                                                        console.log(realm)
+                                                                                        // console.log(realm)
                                                                                         db.realm.findOrCreate({
                                                                                             where: {
                                                                                                 id: realm.id,
