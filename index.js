@@ -22,7 +22,7 @@ function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
         console.log(body);
     } else {
-        console.log(response, body)
+        console.log(response.statusCode, body);
     }
 }
 
