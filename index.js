@@ -5,7 +5,7 @@ const testAuctionMethod = () => {
     db.connectedRealm.findAll()
         .then(connRealm => {
             connRealm.forEach(aConRealm => {
-                console.log(aConRealm.auctionHouse)
+                console.log(aConRealm.dataValue.auctionHouse)
             })
         })
 }
