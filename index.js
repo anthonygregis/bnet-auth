@@ -16,35 +16,34 @@ const getToken = (cb) => {
 }
 
 let insertData = (itemListing) => {
-    console.log(itemListing)
-    // setTimeout(() => {
-    //     db.item.findOrCreate({
-    //         where: {
-    //             id: itemListing.item.id
-    //         }
-    //     })
-    //         .then((wowItem, created) => {
-    //             if (created) {
-    //                 console.log("New item added:", wowItem.id)
-    //             }
-    //             // console.log("Item Data:", itemListing)
-    //             db.pricingData.create({
-    //                 unitPrice: itemListing.unit_price || itemListing.buyout,
-    //                 quantity: itemListing.quantity,
-    //                 itemId: itemListing.item.id
-    //             })
-    //                 .then(pricingData => {
-    //                     pricingData.setConnectedRealm(aConRealm)
-    //                     return "Done"
-    //                 })
-    //                 .catch(err => {
-    //                     console.log("ERROR:", err)
-    //                 })
-    //         })
-    //         .catch(err => {
-    //             console.log("ERROR:", err)
-    //         })
-    // }, 1000)
+    itemListing = JSON.parse(itemListing)
+    setTimeout(() => {
+        db.item.findOrCreate({
+            where: {
+                id: itemListing.item.id
+            }
+        })
+            .then((wowItem, created) => {
+                if (created) {
+                    console.log("New item added:", wowItem.id)
+                }
+                // console.log("Item Data:", itemListing)
+                db.pricingData.create({
+                    unitPrice: itemListing.unit_price || itemListing.buyout,
+                    quantity: itemListing.quantity,
+                    itemId: itemListing.item.id
+                })
+                    .then(pricingData => {
+                        pricingData.setConnectedRealm(aConRealm)
+                    })
+                    .catch(err => {
+                        console.log("ERROR:", err)
+                    })
+            })
+            .catch(err => {
+                console.log("ERROR:", err)
+            })
+    }, 1000)
 }
 
 const testAuctionMethod = () => {
@@ -65,20 +64,15 @@ const testAuctionMethod = () => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                var data = ''
                                 //Create a readable stream
-                                var readerStream = fs.createReadStream('auctionData.js', {
-                                    objectMode: true
-                                });
+                                var readerStream = fs.createReadStream('auctionData.js');
 
                                 // Handle stream events --> data, end, and error
-                                readerStream.on('data',async function(chunk) {
-                                    await insertData(chunk)
-                                    // data += chunk;
+                                readerStream.on('data', function(chunk) {
+                                    insertData(chunk)
                                 });
 
                                 readerStream.on('end',function() {
-                                    // console.log("Data:", data)
                                     console.log("Done")
                                 });
 
