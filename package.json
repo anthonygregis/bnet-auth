@@ -32,6 +32,7 @@
     "pg": "^7.11.0",
     "request": "^2.88.2",
     "sequelize": "^5.8.12",
-    "stream-array": "^1.1.2"
+    "stream-array": "^1.1.2",
+    "stream-json": "^1.7.1"
   }
 }

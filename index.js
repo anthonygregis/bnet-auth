@@ -2,10 +2,11 @@ require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
 const server = require('./server')
-const stream = require('stream')
 const db = require('./models')
 const axios = require('axios')
 var exec = require('exec')
+const { Pick } = require('stream-json/filters/Pick');
+const { streamArray } = require('stream-json/streamers/StreamArray');
 const BNET_ID = process.env.BNET_ID
 const BNET_SECRET = process.env.BNET_SECRET
 
@@ -51,24 +52,12 @@ const testAuctionMethod = () => {
         db.connectedRealm.findAll()
             .then(connRealm => {
                 // console.log(connRealm)
-                connRealm.forEach(aConRealm => {
+                connRealm.forEach(async aConRealm => {
                     let auctionHouse = aConRealm.auctionHouse
                     const writeStream = fs.createWriteStream(path.resolve(__dirname, 'auctionData.txt'))
-                    axios({
-                        method: 'get',
-                        url: `${auctionHouse}&access_token=${access_token}`,
-                        responseType: 'stream'
-                    })
-                        .then(results => {
-                            status = results.status
-                            statusMessage = results.statusText
-                            if(status === 200) {
-                                results.data.auctions
-                            } else {
-                                console.log("Auction House Fetch Failed:", statusMessage)
-                            }
-                            // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
-                        })
+                    const stream = await axios
+                        .get(`${auctionHouse}&access_token=${access_token}`, { responseType: 'stream' })
+                        .then(results => results.data.auctions)
 
                         const pipeline = stream
                             .pipe(Pick.withParser({ filter: "auctions" }))
