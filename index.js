@@ -65,11 +65,11 @@ const testAuctionMethod = () => {
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
                             if(status === 200) {
-                                createReadableStreamSomehow({ objectMode: true })
-
-                                var readerStream = fs.createReadStream('auctionData.js'); //Create a readable stream
-
-                                readerStream.setEncoding('UTF8'); // Set the encoding to be utf8.
+                                //Create a readable stream
+                                var readerStream = fs.createReadStream('auctionData.js', {
+                                    encoding: "utf8",
+                                    objectMode: true
+                                });
 
                                 // Handle stream events --> data, end, and error
                                 readerStream.on('data', function(chunk) {
