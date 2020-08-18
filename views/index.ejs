@@ -1,11 +1,6 @@
 
 <% if (currentUser) { %>
     <h1>Express OAuth Test - <%=  currentUser.id %></h1>
-    <%=  currentUser.battletag %>
-        <% currentUser.characters.forEach(character => { %>
-            <%= character.name %>
-                <%= character.realm.name %>
-        <% }) %>
     <br>
     <a href="/auth/logout">Logout</a>
 <% } else { %>
