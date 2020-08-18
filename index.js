@@ -71,10 +71,17 @@ const testAuctionMethod = () => {
 
                                 // Handle stream events --> data, end, and error
                                 readerStream.on('data', function(chunk) {
-                                    console.log("Chunk:", chunk)
+                                    console.log("Chunk:", JSON.parse(chunk))
                                     // data += chunk;
                                 });
 
+                                // readerStream.on('end',function() {
+                                //     // console.log("Data:", data)
+                                // });
+                                //
+                                // readerStream.on('error', function(err) {
+                                //     console.log(err.stack);
+                                // });
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
