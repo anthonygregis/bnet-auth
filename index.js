@@ -33,8 +33,6 @@ const testAuctionMethod = () => {
                             if(status === 200) {
                                 var readerStream = fs.createReadStream('auctionData.js'); //Create a readable stream
 
-                                readerStream.setEncoding('UTF8'); // Set the encoding to be utf8.
-
                                 readerStream.on('readable', function() {
                                     while ((chunk=readerStream.read()) != null) {
                                         data += chunk;
