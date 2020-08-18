@@ -1,9 +1,6 @@
-
 <% if (currentUser) { %>
     <h1>Express OAuth Test - <%=  currentUser.id %></h1>
-    <br>
-    <a href="/auth/logout">Logout</a>
 <% } else { %>
-    <a href="/auth/bnet">Login with Bnet</a>
+    <h1>Not Logged In</h1>
 <% } %>
 

@@ -12,11 +12,13 @@
     <li><a href="/realms">Realms</a></li>
     <li><a href="/items?sortBy=available">Most Available</a></li>
     <li><a href="/items?sortBy=dayChange">Potential Deals</a></li>
-    <li><a href="/notifications">Your Notifications</a></li>
-    <li><div class="divider"></div></li>
-    <li><a class="subheader">Your Characters' Realms</a></li>
-    <% currentUser.characters.forEach(character => { %>
-        <li><a class="waves-effect" href="/realm/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
-    <% }) %>
+    <% if (currentUser) { %>
+        <li><a href="/notifications">Your Notifications</a></li>
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">Your Characters' Realms</a></li>
+        <% currentUser.characters.forEach(character => { %>
+            <li><a class="waves-effect" href="/realm/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
+        <% }) %>
+    <% } %>
 
 </ul>
