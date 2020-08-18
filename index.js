@@ -44,6 +44,7 @@ let insertData = (itemListing) => {
                 })
                     .then(pricingData => {
                         pricingData.setConnectedRealm(aConRealm)
+                        return console.log("Done with listing, process next.")
                     })
                     .catch(err => {
                         console.log("ERROR:", err)
@@ -71,8 +72,9 @@ const testAuctionMethod = () => {
                                 var chunkedAuctions = chunkArray(results.data.auctions, 10)
 
                                 chunkedAuctions.forEach(chunkAuctions => {
-                                    chunkAuctions.forEach(listing => {
-                                        console.log("Listing:", listing)
+                                    chunkAuctions.forEach(async listing => {
+                                        await insertData(listing)
+                                        console.log("Done parsing")
                                     })
                                 })
                             } else {
