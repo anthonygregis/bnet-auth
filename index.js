@@ -29,8 +29,8 @@ const testAuctionMethod = () => {
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
                             if(status === 200) {
-                                for(let i = 0; i <= auctionData.length; i += 1) {
-                                    let auctionSubData = auctionData.slice(0, 1)
+                                for(let i = 0; i <= auctionData.length; i += 100) {
+                                    let auctionSubData = auctionData.slice(0, 100)
                                     // console.log("Subdata Length:", auctionSubData.length)
                                     auctionSubData.forEach(itemListing => {
                                         db.item.findOrCreate({
