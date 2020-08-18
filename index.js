@@ -1,8 +1,8 @@
 require('dotenv').config()
 fs = require('fs')
+var Readable = require('stream').Readable;
 const server = require('./server')
 const db = require('./models')
-const request = require('request')
 const axios = require('axios')
 var exec = require('exec')
 const BNET_ID = process.env.BNET_ID
@@ -65,7 +65,7 @@ const testAuctionMethod = () => {
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
                             if(status === 200) {
-                                var data = '';
+                                createReadableStreamSomehow({ objectMode: true })
 
                                 var readerStream = fs.createReadStream('auctionData.js'); //Create a readable stream
 
