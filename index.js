@@ -55,7 +55,7 @@ const testAuctionMethod = () => {
                     const writeStream = fs.createWriteStream(path.resolve(__dirname, 'auctionData.txt'))
                     const requestUrl = `${auctionHouse}&access_token=${access_token}`
                     axios.get({
-                        url: requestUrl,
+                        url: requestUrl.toString(),
                         responseType: 'stream'
                     })
                         .then(results => {
