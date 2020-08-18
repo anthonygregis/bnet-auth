@@ -1,5 +1,7 @@
 require('dotenv').config()
-fs = require('fs')
+const fs = require('fs')
+const path = require('path')
+const CsvParser = require('csv-parse')
 const server = require('./server')
 const db = require('./models')
 const axios = require('axios')
@@ -13,16 +15,6 @@ const getToken = (cb) => {
             results = JSON.parse(result)
             cb(results.access_token)
         });
-}
-
-function chunkArray(myArray, chunk_size){
-    var results = [];
-
-    while (myArray.length) {
-        results.push(myArray.splice(0, chunk_size));
-    }
-
-    return results;
 }
 
 let insertData = (itemListing) => {
@@ -43,7 +35,6 @@ let insertData = (itemListing) => {
             })
                 .then(pricingData => {
                     pricingData.setConnectedRealm(aConRealm)
-                    return "Done"
                 })
                 .catch(err => {
                     console.log("ERROR:", err)
@@ -67,12 +58,9 @@ const testAuctionMethod = () => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                var chunkedAuctions = chunkArray(results.data.auctions, 10)
-
-                                chunkedAuctions.forEach(async chunkAuctions => {
-                                    await chunkAuctions.forEach(async listing => {
-                                        await insertData(listing)
-                                    })
+                                const writeStream = fs.createWriteStream(path.resolve(__dirname, 'auctionData.txt'))
+                                results.data.auctions.forEach(listing => {
+                                    listing.pipe(writeStream)
                                 })
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
