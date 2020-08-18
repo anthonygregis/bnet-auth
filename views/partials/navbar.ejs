@@ -1,20 +1,20 @@
 <ul id="slide-out" class="sidenav sidenav-fixed">
     <li><div class="user-view">
             <div class="background">
-                <img src="images/office.jpg">
+                <img src="https://roadtovrlive-5ea0.kxcdn.com/wp-content/uploads/2015/02/blue-gradient.jpg">
             </div>
             <% if (currentUser) { %>
-                <a href="#user"><img class="circle" src="images/yuna.jpg"></a>
-                <a href="#name"><span class="black-text name"><%=  currentUser.id %></span></a>
+                <a href="#user"><img class="circle" src="https://www.pngmart.com/files/10/Warcraft-WOW-Logo-PNG-Photos.png"></a>
+                <a href="#name"><span class="black-text name">WoW Marketplace Tracking</span></a>
                 <a href="#email"><span class="black-text email"><%=  currentUser.battletag %></span></a>
             <% } %>
         </div></li>
-    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-    <li><a href="#!">Second Link</a></li>
+    <li><a href="/realms">Realms</a></li>
+    <li><a href="/items?sortBy=popular">Popular Items</a></li>
     <li><div class="divider"></div></li>
-    <li><a class="subheader">Your Realms</a></li>
+    <li><a class="subheader">Your Characters' Realms</a></li>
     <% currentUser.characters.forEach(character => { %>
-        <li><a class="waves-effect" href="/realm/<%= character.realm.slug %>"><%= character.realm.name %></a></li>
+        <li><a class="waves-effect" href="/realm/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
     <% }) %>
 
 </ul>
