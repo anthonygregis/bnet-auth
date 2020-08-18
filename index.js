@@ -15,6 +15,16 @@ const getToken = (cb) => {
         });
 }
 
+function chunkArray(myArray, chunk_size){
+    var results = [];
+
+    while (myArray.length) {
+        results.push(myArray.splice(0, chunk_size));
+    }
+
+    return results;
+}
+
 let insertData = (itemListing) => {
     setTimeout(() => {
         db.item.findOrCreate({
@@ -54,12 +64,16 @@ const testAuctionMethod = () => {
                 connRealm.forEach(aConRealm => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
-                        .then(results => {
+                        .then(async results => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                fs.writeFile('/app/auctionData.js', results.data.auctions, () => {
-                                    console.log("Done writing to file")
+                                var chunkedAuctions = chunkArray(results.data.auctions, 10)
+
+                                chunkedAuctions.forEach(chunkAuctions => {
+                                    chunkAuctions.forEach(listing => {
+                                        console.log("Listing:", listing)
+                                    })
                                 })
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
