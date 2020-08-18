@@ -31,7 +31,7 @@ const testAuctionMethod = () => {
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
                             if(status === 200) {
-                                var readerStream = fs.createReadStream('auctionData.js'); //Create a readable stream
+                                var readerStream = fs.createReadStream('./auctionData.txt'); //Create a readable stream
 
                                 readerStream.setEncoding('UTF8'); // Set the encoding to be utf8.
 
