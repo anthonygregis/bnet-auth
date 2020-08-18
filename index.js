@@ -62,7 +62,7 @@ const testAuctionMethod = () => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                results.data.auctions.pipe(writeStream);
+                                results.data.pipe(writeStream);
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
