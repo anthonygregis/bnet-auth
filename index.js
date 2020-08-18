@@ -14,7 +14,7 @@ const getToken = (cb) => {
         });
 }
 
-let insertData = (itemListing) => {
+let insertData = (itemListing, aConRealm) => {
     db.item.findOrCreate({
         where: {
             id: itemListing.item.id
@@ -48,28 +48,29 @@ const testAuctionMethod = () => {
     getToken(access_token => {
         db.connectedRealm.findAll()
             .then(connRealm => {
-                // console.log(connRealm)
-                connRealm.forEach(aConRealm => {
-                    let auctionHouse = aConRealm.auctionHouse
-                    axios.get(`${auctionHouse}&access_token=${access_token}`)
-                        .then(results => {
-                            //Get all auction info and put each object into csv
-                            //Load csv file and query that into database
-                            status = results.status
-                            statusMessage = results.statusText
-                            if(status === 200) {
-                                for(let i = 0; i <= 1000; i++) {
-                                    insertData(results.data.auctions[i])
-                                }
-                            } else {
-                                console.log("Auction House Fetch Failed:", statusMessage)
+                // Realm iterator
+                let currentRealm = 0
+                let auctionHouse = connRealm[currentRealm].auctionHouse
+                axios.get(`${auctionHouse}&access_token=${access_token}`)
+                    .then(results => {
+                        //Get all auction info and put each object into csv
+                        //Load csv file and query that into database
+                        status = results.status
+                        statusMessage = results.statusText
+                        if(status === 200) {
+                            for(let i = 0; i < 2000; i++) {
+                                insertData(results.data.auctions[i], connRealm[currentRealm])
+                                //Go to next connectedRealm
+                                currentRealm += 1
                             }
-                            // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
-                        })
-                        .catch(err => {
-                            console.log("ERROR:", err)
-                        })
-                })
+                        } else {
+                            console.log("Auction House Fetch Failed:", statusMessage)
+                        }
+                        // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
+                    })
+                    .catch(err => {
+                        console.log("ERROR:", err)
+                    })
             })
             .catch(err => {
                 console.log(err)
