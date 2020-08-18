@@ -69,8 +69,8 @@ const testAuctionMethod = () => {
                             if(status === 200) {
                                 var chunkedAuctions = chunkArray(results.data.auctions, 10)
 
-                                chunkedAuctions.forEach(chunkAuctions => {
-                                    chunkAuctions.forEach(async listing => {
+                                chunkedAuctions.forEach(async chunkAuctions => {
+                                    await chunkAuctions.forEach(async listing => {
                                         await insertData(listing)
                                     })
                                 })
