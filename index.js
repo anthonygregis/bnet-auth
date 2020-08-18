@@ -57,18 +57,17 @@ const testAuctionMethod = () => {
                     const writeStream = fs.createWriteStream(path.resolve(__dirname, 'auctionData.txt'))
                     const stream = await axios
                         .get(`${auctionHouse}&access_token=${access_token}`, { responseType: 'stream' })
-                        .then(results => results.data.auctions)
-
-                        const pipeline = stream
-                            .pipe(Pick.withParser({ filter: "auctions" }))
-                            .pipe(streamArray())
-
-                        pipeline.on("data", ({ value }) => console.log(value))
-                        pipeline.on("end", () => console.log("end"))
-
+                        .then(results => results.data)
                         .catch(err => {
                             console.log("ERROR:", err)
                         })
+
+                    const pipeline = stream
+                        .pipe(Pick.withParser({ filter: "auctions" }))
+                        .pipe(streamArray())
+
+                    pipeline.on("data", ({ value }) => console.log(value))
+                    pipeline.on("end", () => console.log("end"))
                 })
             })
             .catch(err => {
