@@ -65,7 +65,7 @@ const testAuctionMethod = () => {
                             statusMessage = results.statusText
                             // auctionData = results.data.auctions
                             if(status === 200) {
-                                console.log(typeof results.data.auctions)
+                                console.log(results.data.auctions)
                                 // var readable = streamify(results.data.auctions)
                                 //
                                 // await readable.pipe(insertData)
