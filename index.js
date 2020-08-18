@@ -62,12 +62,20 @@ const testAuctionMethod = () => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                results.data.pipe(writeStream);
+                                results.data.auctions
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
                             // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
                         })
+
+                        const pipeline = stream
+                            .pipe(Pick.withParser({ filter: "auctions" }))
+                            .pipe(streamArray())
+
+                        pipeline.on("data", ({ value }) => console.log(value))
+                        pipeline.on("end", () => console.log("end"))
+
                         .catch(err => {
                             console.log("ERROR:", err)
                         })
