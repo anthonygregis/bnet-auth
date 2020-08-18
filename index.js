@@ -29,6 +29,7 @@ const testAuctionMethod = () => {
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
                             if(status === 200) {
+                                console.log(auctionData.length)
                                 let insertData = (itemListing) => {
                                     db.item.findOrCreate({
                                         where: {
