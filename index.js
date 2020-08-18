@@ -53,20 +53,9 @@ const testAuctionMethod = () => {
                 // console.log(connRealm)
                 connRealm.forEach(aConRealm => {
                     let auctionHouse = aConRealm.auctionHouse
+                    const writeStream = fs.createWriteStream(path.resolve(__dirname, 'auctionData.txt'))
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
-                        .then(async results => {
-                            status = results.status
-                            statusMessage = results.statusText
-                            if(status === 200) {
-                                const writeStream = fs.createWriteStream(path.resolve(__dirname, 'auctionData.txt'))
-                                results.data.auctions.forEach(listing => {
-                                    listing.pipe(writeStream)
-                                })
-                            } else {
-                                console.log("Auction House Fetch Failed:", statusMessage)
-                            }
-                            // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
-                        })
+                        .pipe(writeStream)
                         .catch(err => {
                             console.log("ERROR:", err)
                         })
