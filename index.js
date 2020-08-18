@@ -68,7 +68,7 @@ const testAuctionMethod = () => {
 
                                 // Handle stream events --> data, end, and error
                                 readerStream.on('data', function(chunk) {
-                                    console.log("CHUNKY HEAP:", chunk)
+                                    console.log("CHUNKY HEAP:", JSON.parse(chunk))
                                 });
 
                                 readerStream.on('end',function() {
