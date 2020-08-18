@@ -76,7 +76,9 @@ const testAuctionMethod = () => {
                                 });
 
                                 readerStream.on('end',function() {
-                                    console.log("Listing:", data)
+                                    data.forEach(listing => {
+                                        console.log("Listing:", listing)
+                                    })
                                 });
 
                                 readerStream.on('error', function(err) {
