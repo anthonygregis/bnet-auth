@@ -65,7 +65,7 @@ const testAuctionMethod = () => {
                     const pipeline = stream
                         .pipe(streamArray.withParser())
 
-                    pipeline.on("data", () => console.log(value))
+                    pipeline.on("data", (data) => console.log(data))
                     pipeline.on("end", () => console.log("end"))
                 })
             })
