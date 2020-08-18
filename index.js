@@ -64,7 +64,7 @@ const testAuctionMethod = () => {
                         })
 
                     const pipeline = stream
-                        .pipe(Pick.withParser({ filter: "auctions" }))
+                        .pipe(withParser(Pick, { filter: "auctions" }))
                         .pipe(streamArray())
 
                     pipeline.on("data", ({ value }) => console.log(value))
