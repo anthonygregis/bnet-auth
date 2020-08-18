@@ -77,7 +77,7 @@ const testAuctionMethod = () => {
                                 });
 
                                 readerStream.on('end',function() {
-                                    insertData(data)
+                                    console.log(JSON.parse(data))
                                 });
 
                                 readerStream.on('error', function(err) {
