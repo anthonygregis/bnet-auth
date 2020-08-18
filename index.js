@@ -53,12 +53,15 @@ const testAuctionMethod = () => {
                 connRealm.forEach(aConRealm => {
                     let auctionHouse = aConRealm.auctionHouse
                     const writeStream = fs.createWriteStream(path.resolve(__dirname, 'auctionData.txt'))
-                    axios.get(`${auctionHouse}&access_token=${access_token}`)
+                    axios.get({
+                        url: `${auctionHouse}&access_token=${access_token}`
+                        responseType: 'stream'
+                    })
                         .then(results => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                response.data.pipe(writeStream);
+                                response.data.auctions.pipe(writeStream);
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
