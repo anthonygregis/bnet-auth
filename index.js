@@ -32,6 +32,8 @@ const testAuctionMethod = () => {
                             auctionData = results.data.auctions
                             if(status === 200) {
                                 var readerStream = fs.createReadStream('auctionData.js'); //Create a readable stream
+                                var data = '';
+                                var chunk;
 
                                 readerStream.on('readable', function() {
                                     while ((chunk=readerStream.read()) != null) {
