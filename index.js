@@ -55,7 +55,7 @@ const testAuctionMethod = () => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
                         .then(async results => {
-                            await fs.writeFile('auctionData.js', JSON.stringify(results.data.auctions), ('utf8'), function (err,data) {
+                            await fs.writeFile('auctionData.js', results.data.auctions, function (err,data) {
                                 if (err) {
                                     console.log(err)
                                 }
@@ -66,20 +66,16 @@ const testAuctionMethod = () => {
                                 var data = ''
                                 //Create a readable stream
                                 var readerStream = fs.createReadStream('auctionData.js', {
-                                    encoding: "utf8",
                                     objectMode: true
                                 });
 
                                 // Handle stream events --> data, end, and error
                                 readerStream.on('data', function(chunk) {
-                                    console.log("Chunk:", chunk)
                                     data += chunk;
                                 });
 
                                 readerStream.on('end',function() {
-                                    // JSON.parse(data).forEach(listing => {
-                                    //     console.log("Listing:", listing)
-                                    // })
+                                    console.log("Data:", data)
                                 });
 
                                 readerStream.on('error', function(err) {
