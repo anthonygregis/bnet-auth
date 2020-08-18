@@ -5,8 +5,9 @@ const server = require('./server')
 const db = require('./models')
 const axios = require('axios')
 var exec = require('exec')
-const { Pick } = require('stream-json/filters/Pick');
-const streamArray = require('stream-json/streamers/StreamArray');
+const {chain}  = require('stream-chain');
+const {parser} = require('stream-json');
+const {streamArray} = require('stream-json/streamers/StreamArray');
 const BNET_ID = process.env.BNET_ID
 const BNET_SECRET = process.env.BNET_SECRET
 
@@ -62,8 +63,11 @@ const testAuctionMethod = () => {
                             console.log("ERROR:", err)
                         })
 
-                    const pipeline = stream
-                        .pipe(streamArray.withParser())
+                    const pipeline = chain([
+                        axios.get(`${auctionHouse}&access_token=${access_token}`, { responseType: 'stream' }),
+                        parser(),
+                        streamArray()
+                    ])
 
                     pipeline.on("data", (data) => console.log(data))
                     pipeline.on("end", () => console.log("end"))
