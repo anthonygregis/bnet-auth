@@ -52,14 +52,14 @@ const testAuctionMethod = () => {
                 let currentRealm = 0
                 let auctionHouse = connRealm[currentRealm].auctionHouse
                 axios.get(`${auctionHouse}&access_token=${access_token}`)
-                    .then(async results => {
+                    .then(results => {
                         // Get all auction info and put each object into csv
                         // Load csv file and query that into database
                         status = results.status
                         statusMessage = results.statusText
                         if(status === 200) {
                             for(let i = 0; i < 50000; i++) {
-                                await insertData(results.data.auctions[i], connRealm[currentRealm])
+                                insertData(results.data.auctions[i], connRealm[currentRealm])
                             }
                             //Go to next connectedRealm
                             currentRealm += 1
