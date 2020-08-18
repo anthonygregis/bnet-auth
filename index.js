@@ -54,32 +54,11 @@ const testAuctionMethod = () => {
                 connRealm.forEach(aConRealm => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
-                        .then(async results => {
-                            await fs.writeFile('auctionData.js', JSON.stringify(results.data.auctions), function (err,data) {
-                                if (err) {
-                                    console.log(err)
-                                }
-                            })
+                        .then(results => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                var i = 0
-                                //Create a readable stream
-                                var readerStream = fs.createReadStream('auctionData.js');
-
-                                // Handle stream events --> data, end, and error
-                                readerStream.on('data', function(chunk) {
-                                    i++
-                                    console.log(i)
-                                });
-
-                                readerStream.on('end',function() {
-                                    console.log("Done")
-                                });
-
-                                readerStream.on('error', function(err) {
-                                    console.log(err.stack);
-                                });
+                                fs.writeFile('./auctionData.js', results.data.auctions.json())
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
@@ -99,3 +78,20 @@ const testAuctionMethod = () => {
 //Start Express
 server
 testAuctionMethod()
+
+//STUPID STUFF
+//Create a readable stream
+// var readerStream =
+//
+//     // Handle stream events --> data, end, and error
+//     readerStream.on('data', function(chunk) {
+//         console.log("Chunk:", chunk)
+//     });
+//
+// readerStream.on('end',function() {
+//     console.log("Done")
+// });
+//
+// readerStream.on('error', function(err) {
+//     console.log("Shit broke");
+// });
