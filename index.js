@@ -53,7 +53,8 @@ const testAuctionMethod = () => {
                 connRealm.forEach(aConRealm => {
                     let auctionHouse = aConRealm.auctionHouse
                     const writeStream = fs.createWriteStream(path.resolve(__dirname, 'auctionData.txt'))
-                    const requestUrl = auctionHouse + "&access_token=" + access_token
+                    let requestUrl = ''
+                    requestUrl += auctionHouse + "&access_token=" + access_token
                     console.log(requestUrl)
                     axios.get({
                         url: requestUrl,
