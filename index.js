@@ -64,9 +64,9 @@ const testAuctionMethod = () => {
                             // })
                             status = results.status
                             statusMessage = results.statusText
-                            auctionData = results.data.auctions
+                            // auctionData = results.data.auctions
                             if(status === 200) {
-                                readable.pipe(results)
+                                readable.pipe(results.data.auctions)
 
                                 readable.on('data', function(chunk) {
                                     data += chunk;
