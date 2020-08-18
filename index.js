@@ -63,13 +63,14 @@ const testAuctionMethod = () => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
+                                var i = 0
                                 //Create a readable stream
                                 var readerStream = fs.createReadStream('auctionData.js');
 
                                 // Handle stream events --> data, end, and error
                                 readerStream.on('data', function(chunk) {
-                                    chunk = JSON.parse(chunk)
-                                    console.log("CHUNKY HEAP:", chunk)
+                                    i++
+                                    console.log(i)
                                 });
 
                                 readerStream.on('end',function() {
