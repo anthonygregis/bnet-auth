@@ -35,6 +35,7 @@ let insertData = (itemListing) => {
                 })
                     .then(pricingData => {
                         pricingData.setConnectedRealm(aConRealm)
+                        return "Done"
                     })
                     .catch(err => {
                         console.log("ERROR:", err)
@@ -71,8 +72,8 @@ const testAuctionMethod = () => {
                                 });
 
                                 // Handle stream events --> data, end, and error
-                                readerStream.on('data', function(chunk) {
-                                    insertData(chunk)
+                                readerStream.on('data',async function(chunk) {
+                                    await insertData(chunk)
                                     // data += chunk;
                                 });
 
