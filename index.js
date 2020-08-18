@@ -73,7 +73,7 @@ const testAuctionMethod = () => {
                                 });
 
                                 // Handle stream events --> data, end, and error
-                                readerStream.on('ready', function(chunk) {
+                                readerStream.on('data', function(chunk) {
                                     data += chunk;
                                 });
 
