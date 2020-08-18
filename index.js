@@ -78,8 +78,8 @@ const testAuctionMethod = () => {
                                 });
 
                                 readerStream.on('end',function() {
-                                    JSON.parse(data).forEach(listing => {
-                                        insertData(listing)
+                                    JSON.parse(data).forEach(async listing => {
+                                        await insertData(listing)
                                     })
                                 });
 
