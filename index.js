@@ -29,38 +29,45 @@ const testAuctionMethod = () => {
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
                             if(status === 200) {
-                                for(let i = 0; i <= auctionData.length; i += 100) {
+                                let insertData = (itemListing) => {
+                                    db.item.findOrCreate({
+                                        where: {
+                                            id: itemListing.item.id
+                                        }
+                                    })
+                                        .then((wowItem, created) => {
+                                            if (created) {
+                                                console.log("New item added:", wowItem.id)
+                                            }
+                                            // console.log("Item Data:", itemListing)
+                                            db.pricingData.create({
+                                                unitPrice: itemListing.unit_price || itemListing.buyout,
+                                                quantity: itemListing.quantity,
+                                                itemId: itemListing.item.id
+                                            })
+                                                .then(pricingData => {
+                                                    pricingData.setConnectedRealm(aConRealm)
+                                                })
+                                                .catch(err => {
+                                                    console.log("ERROR:", err)
+                                                })
+                                        })
+                                        .catch(err => {
+                                            console.log("ERROR:", err)
+                                        })
+                                }
+                                for(let i = 0; i <= 100; i += 100) {
                                     let auctionSubData = auctionData.slice(0, 100)
                                     // console.log("Subdata Length:", auctionSubData.length)
                                     auctionSubData.forEach(itemListing => {
-                                        db.item.findOrCreate({
-                                            where: {
-                                                id: itemListing.item.id
-                                            }
-                                        })
-                                            .then((wowItem, created) => {
-                                                if (created) {
-                                                    console.log("New item added:", wowItem.id)
-                                                }
-                                                // console.log("Item Data:", itemListing)
-                                                db.pricingData.create({
-                                                    unitPrice: itemListing.unit_price || itemListing.buyout,
-                                                    quantity: itemListing.quantity,
-                                                    itemId: itemListing.item.id
-                                                })
-                                                    .then(pricingData => {
-                                                        pricingData.setConnectedRealm(aConRealm)
-                                                    })
-                                                    .catch(err => {
-                                                        console.log("ERROR:", err)
-                                                    })
-                                            })
-                                            .catch(err => {
-                                                console.log("ERROR:", err)
-                                            })
+                                        insertData(itemListing)
                                     })
-                                    console
                                 }
+                                // if (auctionData.length > 0) {
+                                //     auctionData.forEach(itemListing => {
+                                //         insertData(itemListing)
+                                //     })
+                                // }
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
