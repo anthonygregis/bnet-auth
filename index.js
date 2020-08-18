@@ -1,7 +1,6 @@
 require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
-const CsvParser = require('csv-parse')
 const server = require('./server')
 const db = require('./models')
 const axios = require('axios')
@@ -59,7 +58,7 @@ const testAuctionMethod = () => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                results.data.auctions.pipe(writeStream)
+                                response.data.pipe(writeStream);
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
