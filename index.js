@@ -26,11 +26,17 @@ const testAuctionMethod = () => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
                         .then(async results => {
-                            await fs.writeFile('auctionData.js', results.data.auctions, encoding = ('utf8'))
+                            await fs.writeFile('auctionData.js', results.data.auctions, ('utf8'), function (err) {
+                                if (err) {
+                                    console.log(err)
+                                }
+                            })
                             status = results.status
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
                             if(status === 200) {
+                                var data = '';
+
                                 var readerStream = fs.createReadStream('./auctionData.txt'); //Create a readable stream
 
                                 readerStream.setEncoding('UTF8'); // Set the encoding to be utf8.
