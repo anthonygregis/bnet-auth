@@ -58,7 +58,7 @@ const testAuctionMethod = () => {
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                fs.writeFileSync('./auctionData.js', results.data.auctions)
+                                fs.writeFileSync('/app/auctionData.js', results.data.auctions)
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
