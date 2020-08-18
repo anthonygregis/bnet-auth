@@ -45,61 +45,61 @@ let insertData = (itemListing) => {
     }, 1000)
 }
 
-const testAuctionMethod = () => {
-    console.log("Running auction house grabbing")
-    getToken(access_token => {
-        db.connectedRealm.findAll()
-            .then(connRealm => {
-                // console.log(connRealm)
-                connRealm.forEach(aConRealm => {
-                    let auctionHouse = aConRealm.auctionHouse
-                    axios.get(`${auctionHouse}&access_token=${access_token}`)
-                        .then(async results => {
-                            await fs.writeFile('auctionData.js', results.data.auctions, ('utf8'), function (err,data) {
-                                if (err) {
-                                    console.log(err)
-                                }
-                            })
-                            status = results.status
-                            statusMessage = results.statusText
-                            if(status === 200) {
-                                var data = ''
-                                //Create a readable stream
-                                var readerStream = fs.createReadStream('auctionData.js', {
-                                    encoding: "utf8",
-                                    objectMode: true
-                                });
-
-                                // Handle stream events --> data, end, and error
-                                readerStream.on('data', function(chunk) {
-                                    data += chunk;
-                                });
-
-                                readerStream.on('end',function() {
-                                    data.forEach(listing => {
-                                        console.log("Listing:", listing)
-                                    })
-                                });
-
-                                readerStream.on('error', function(err) {
-                                    console.log(err.stack);
-                                });
-                            } else {
-                                console.log("Auction House Fetch Failed:", statusMessage)
-                            }
-                            // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
-                        })
-                        .catch(err => {
-                            console.log("ERROR:", err)
-                        })
-                })
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    })
-}
+// const testAuctionMethod = () => {
+//     console.log("Running auction house grabbing")
+//     getToken(access_token => {
+//         db.connectedRealm.findAll()
+//             .then(connRealm => {
+//                 // console.log(connRealm)
+//                 connRealm.forEach(aConRealm => {
+//                     let auctionHouse = aConRealm.auctionHouse
+//                     axios.get(`${auctionHouse}&access_token=${access_token}`)
+//                         .then(async results => {
+//                             await fs.writeFile('auctionData.js', JSON.stringify(results.data.auctions), ('utf8'), function (err,data) {
+//                                 if (err) {
+//                                     console.log(err)
+//                                 }
+//                             })
+//                             status = results.status
+//                             statusMessage = results.statusText
+//                             if(status === 200) {
+//                                 var data = ''
+//                                 //Create a readable stream
+//                                 var readerStream = fs.createReadStream('auctionData.js', {
+//                                     encoding: "utf8",
+//                                     objectMode: true
+//                                 });
+//
+//                                 // Handle stream events --> data, end, and error
+//                                 readerStream.on('data', function(chunk) {
+//                                     data += chunk;
+//                                 });
+//
+//                                 readerStream.on('end',function() {
+//                                     JSON.parse(data).forEach(listing => {
+//                                         console.log("Listing:", listing)
+//                                     })
+//                                 });
+//
+//                                 readerStream.on('error', function(err) {
+//                                     console.log(err.stack);
+//                                 });
+//                             } else {
+//                                 console.log("Auction House Fetch Failed:", statusMessage)
+//                             }
+//                             // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
+//                         })
+//                         .catch(err => {
+//                             console.log("ERROR:", err)
+//                         })
+//                 })
+//             })
+//             .catch(err => {
+//                 console.log(err)
+//             })
+//     })
+// }
 
 //Start Express
 server
-testAuctionMethod()
+// testAuctionMethod()
