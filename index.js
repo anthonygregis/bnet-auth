@@ -30,7 +30,7 @@ const testAuctionMethod = () => {
                             auctionData = results.data.auctions
                             if(status === 200) {
                                 for(let i = 0; i <= auctionData.length; i += 100) {
-                                    auctionSubData = auctionData.splice(i, 100)
+                                    let auctionSubData = auctionData.splice(i, 100)
                                     auctionSubData.forEach(itemListing => {
                                         db.item.findOrCreate({
                                             where: {
@@ -57,12 +57,13 @@ const testAuctionMethod = () => {
                                             .catch(err => {
                                                 console.log("ERROR:", err)
                                             })
+                                            wait(1000);
                                     })
                                 }
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
-                            // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
+                            setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
                         })
                         .catch(err => {
                             console.log("ERROR:", err)
