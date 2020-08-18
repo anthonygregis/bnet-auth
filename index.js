@@ -1,6 +1,7 @@
 require('dotenv').config()
 fs = require('fs')
-var Readable = require('stream').Readable;
+const Stream = require('stream')
+const readable = new Stream.Readable({ objectMode: true })
 const server = require('./server')
 const db = require('./models')
 const axios = require('axios')
@@ -55,37 +56,51 @@ const testAuctionMethod = () => {
                 connRealm.forEach(aConRealm => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
-                        .then(async results => {
-                            await fs.writeFile('auctionData.js', JSON.stringify(results.data.auctions), ('utf8'), function (err,data) {
-                                if (err) {
-                                    console.log(err)
-                                }
-                            })
+                        .then(results => {
+                            // await fs.writeFile('auctionData.js', JSON.stringify(results.data.auctions), ('utf8'), function (err,data) {
+                            //     if (err) {
+                            //         console.log(err)
+                            //     }
+                            // })
                             status = results.status
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
                             if(status === 200) {
-                                var data = ''
-                                //Create a readable stream
-                                var readerStream = fs.createReadStream('auctionData.js', {
-                                    encoding: "utf8",
-                                    objectMode: true
-                                });
+                                readable.pipe(results)
 
-                                // Handle stream events --> data, end, and error
-                                readerStream.on('data', function(chunk) {
+                                readable.on('data', function(chunk) {
                                     data += chunk;
                                 });
 
-                                readerStream.on('end',function() {
-                                    JSON.parse(data).forEach(async listing => {
-                                        await insertData(listing)
-                                    })
+                                readable.on('end',function() {
+                                    console.log("Listing:", data)
                                 });
 
-                                readerStream.on('error', function(err) {
+                                readable.on('error', function(err) {
                                     console.log(err.stack);
                                 });
+
+                                // var data = ''
+                                // //Create a readable stream
+                                // var readerStream = fs.createReadStream('auctionData.js', {
+                                //     encoding: "utf8",
+                                //     objectMode: true
+                                // });
+                                //
+                                // // Handle stream events --> data, end, and error
+                                // readerStream.on('data', function(chunk) {
+                                //     data += chunk;
+                                // });
+                                //
+                                // readerStream.on('end',function() {
+                                //     JSON.parse(data).forEach(async listing => {
+                                //         await insertData(listing)
+                                //     })
+                                // });
+                                //
+                                // readerStream.on('error', function(err) {
+                                //     console.log(err.stack);
+                                // });
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
