@@ -63,12 +63,11 @@ const testAuctionMethod = () => {
                             // })
                             status = results.status
                             statusMessage = results.statusText
-                            // auctionData = results.data.auctions
+                            auctionData = results.data.auctions
                             if(status === 200) {
-                                console.log(results.data.auctions)
-                                // var readable = streamify(results.data.auctions)
+                                var readable = streamify(auctionData)
                                 //
-                                // await readable.pipe(insertData)
+                                await readable.pipe(insertData)
                                 // var data = ''
                                 // //Create a readable stream
                                 // var readerStream = fs.createReadStream('auctionData.js', {
