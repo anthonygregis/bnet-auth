@@ -56,7 +56,7 @@ const testAuctionMethod = () => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
                         .then(async results => {
-                            await fs.writeFile('auctionData.js', results.data.auctions, ('utf8'), function (err,data) {
+                            await fs.writeFile('auctionData.js', JSON.stringify(results.data.auctions), ('utf8'), function (err,data) {
                                 if (err) {
                                     console.log(err)
                                 }
