@@ -72,6 +72,7 @@ const testAuctionMethod = () => {
                                 // Handle stream events --> data, end, and error
                                 readerStream.on('data', function(chunk) {
                                     console.log("Chunk:", JSON.parse(chunk))
+                                    console.log("-------------------------")
                                     // data += chunk;
                                 });
 
