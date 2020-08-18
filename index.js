@@ -16,6 +16,7 @@ const getToken = (cb) => {
 }
 
 let insertData = (itemListing) => {
+    itemListing = JSON.parse(itemListing)
     setTimeout(() => {
         db.item.findOrCreate({
             where: {
@@ -71,7 +72,7 @@ const testAuctionMethod = () => {
 
                                 // Handle stream events --> data, end, and error
                                 readerStream.on('data', function(chunk) {
-                                    console.log("Chunk:", chunk)
+                                    insertData(chunk)
                                     // data += chunk;
                                 });
 
