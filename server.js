@@ -63,6 +63,7 @@ app.use((req, res, next) => {
 
 app.use('/auth', require('./routes/auth'))
 app.use('/realms', require('./routes/realm'))
+app.use('/notifications', require('./routes/realm'))
 
 app.get('/', function(req, res) {
   res.render('index')

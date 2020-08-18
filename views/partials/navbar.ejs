@@ -17,7 +17,7 @@
         <li><div class="divider"></div></li>
         <li><a class="subheader">Your Characters' Realms</a></li>
         <% currentUser.characters.forEach(character => { %>
-            <li><a class="waves-effect" href="/realm/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
+            <li><a class="waves-effect" href="/realms/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
         <% }) %>
     <% } %>
 

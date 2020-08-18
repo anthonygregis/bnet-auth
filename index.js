@@ -32,6 +32,7 @@ let insertData = (itemListing) => {
             })
                 .then(pricingData => {
                     pricingData.setConnectedRealm(aConRealm)
+                    // return
                 })
                 .catch(err => {
                     console.log("ERROR:", err)
@@ -52,10 +53,14 @@ const testAuctionMethod = () => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
                         .then(results => {
+                            //Get all auction info and put each object into csv
+                            //Load csv file and query that into database
                             status = results.status
                             statusMessage = results.statusText
                             if(status === 200) {
-                                // Find way to parse results.data.auctions into database
+                                for(let i = 0; i <= 1000; i++) {
+                                    insertData(results.data.auctions[i])
+                                }
                             } else {
                                 console.log("Auction House Fetch Failed:", statusMessage)
                             }
@@ -74,7 +79,7 @@ const testAuctionMethod = () => {
 
 //Start Express
 server
-// testAuctionMethod()
+testAuctionMethod()
 
 //STUPID STUFF
 //Create a readable stream

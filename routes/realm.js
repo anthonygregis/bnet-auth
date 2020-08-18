@@ -25,5 +25,4 @@ router.get('/:realmSlug', (req, res) => {
         })
 })
 
-
 module.exports = router
