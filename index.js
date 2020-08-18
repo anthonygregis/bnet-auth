@@ -79,7 +79,7 @@ const testAuctionMethod = () => {
 
                                 readerStream.on('end',function() {
                                     let auctions = JSON.parse(data)
-                                    data.forEach(listing => {
+                                    auctions.forEach(listing => {
                                         console.log("Listing:", listing)
                                     })
                                 });
