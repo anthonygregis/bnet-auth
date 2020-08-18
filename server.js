@@ -61,11 +61,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// MOVED TO ROUTER AUTH
-// app.get('/auth/bnet', passport.authenticate('bnet'))
-//
-// app.get('/auth/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/auth/error', successRedirect: '/' }))
-
 app.use('/auth', require('./routes/auth'))
 
 app.get('/', function(req, res) {

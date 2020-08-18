@@ -1,13 +1,8 @@
 require('dotenv').config()
-const fs = require('fs')
-const path = require('path')
 const server = require('./server')
 const db = require('./models')
 const axios = require('axios')
 var exec = require('exec')
-const {chain}  = require('stream-chain');
-const {parser} = require('stream-json');
-const {streamArray} = require('stream-json/streamers/StreamArray');
 const BNET_ID = process.env.BNET_ID
 const BNET_SECRET = process.env.BNET_SECRET
 
@@ -53,24 +48,22 @@ const testAuctionMethod = () => {
         db.connectedRealm.findAll()
             .then(connRealm => {
                 // console.log(connRealm)
-                connRealm.forEach(async aConRealm => {
+                connRealm.forEach(aConRealm => {
                     let auctionHouse = aConRealm.auctionHouse
-                    const writeStream = fs.createWriteStream(path.resolve(__dirname, 'auctionData.txt'))
-                    const stream = await axios
-                        .get(`${auctionHouse}&access_token=${access_token}`, { responseType: 'stream' })
-                        .then(results => results.data)
+                    axios.get(`${auctionHouse}&access_token=${access_token}`)
+                        .then(results => {
+                            status = results.status
+                            statusMessage = results.statusText
+                            if(status === 200) {
+                                // Find way to parse results.data.auctions into database
+                            } else {
+                                console.log("Auction House Fetch Failed:", statusMessage)
+                            }
+                            // setInterval(testAuctionMethod, 1 * 60 * 60 * 1000)
+                        })
                         .catch(err => {
                             console.log("ERROR:", err)
                         })
-
-                    const pipeline = chain([
-                        axios.get(`${auctionHouse}&access_token=${access_token}`, { responseType: 'stream' }),
-                        parser(),
-                        streamArray()
-                    ])
-
-                    pipeline.on("data", (data) => console.log(data))
-                    pipeline.on("end", () => console.log("end"))
                 })
             })
             .catch(err => {
@@ -81,7 +74,7 @@ const testAuctionMethod = () => {
 
 //Start Express
 server
-testAuctionMethod()
+// testAuctionMethod()
 
 //STUPID STUFF
 //Create a readable stream
@@ -97,5 +90,5 @@ testAuctionMethod()
 // });
 //
 // readerStream.on('error', function(err) {
-//     console.log("Shit broke");
+//     console.log("stuff broke");
 // });
