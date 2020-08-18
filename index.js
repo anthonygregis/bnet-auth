@@ -26,7 +26,7 @@ const testAuctionMethod = () => {
                     let auctionHouse = aConRealm.auctionHouse
                     axios.get(`${auctionHouse}&access_token=${access_token}`)
                         .then(async results => {
-                            await fs.writeFile(auctionData.js, results.data.auctions, encoding = ('utf8'))
+                            await fs.writeFile('auctionData.js', results.data.auctions, encoding = ('utf8'))
                             status = results.status
                             statusMessage = results.statusText
                             auctionData = results.data.auctions
@@ -44,6 +44,8 @@ const testAuctionMethod = () => {
                                 readerStream.on('end', function() {
                                     console.log(data)
                                 });
+
+                                fs.unlink('auctionData.js')
                                 // console.log(auctionData.length)
                                 // let insertData = (itemListing) => {
                                 //     setTimeout(() => {
