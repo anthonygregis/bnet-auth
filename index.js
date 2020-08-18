@@ -5,7 +5,6 @@ const server = require('./server')
 const db = require('./models')
 const axios = require('axios')
 var exec = require('exec')
-const withParser = require('stream-json/utils/withParser');
 const { Pick } = require('stream-json/filters/Pick');
 const { streamArray } = require('stream-json/streamers/StreamArray');
 const BNET_ID = process.env.BNET_ID
@@ -64,7 +63,7 @@ const testAuctionMethod = () => {
                         })
 
                     const pipeline = stream
-                        .pipe(streamArray.withParser(Pick, { filter: "auctions" })())
+                        .pipe(streamArray.withParser(Pick, { filter: "auctions" }))
 
                     pipeline.on("data", ({ value }) => console.log(value))
                     pipeline.on("end", () => console.log("end"))
