@@ -72,7 +72,7 @@ app.get('/', function(req, res) {
 
 app.get('/items', async (req, res) => {
   //Get Items Info
-  let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData WHERE connectedRealmId = ${realmInfo.connectedRealmId} GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 40`, { type: QueryTypes.SELECT })
+  let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 40`, { type: QueryTypes.SELECT })
   res.render('items', { mostAvailableItems: mostAvailableItems, pageName: "Global Most Available Items", pageDescription: 'Global most popular items currently.' })
 })
 
