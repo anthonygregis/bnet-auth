@@ -24,8 +24,9 @@ router.get('/:realmSlug', async (req, res) => {
         where: {
             connectedRealmId: realmInfo.connectedRealm.id
         },
+        attributes: ['itemId', [db.sequelize.fn('COUNT', db.sequelize.col('itemId')), 'totalListings']],
         order: [
-            ['quantity', 'DESC']
+            ['totalListings', 'DESC']
         ],
         limit: 10
     })
