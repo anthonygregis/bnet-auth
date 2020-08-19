@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       unitPrice: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       quantity: {
         type: Sequelize.INTEGER

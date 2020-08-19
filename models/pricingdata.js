@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   pricingData.init({
-    unitPrice: DataTypes.INTEGER,
+    unitPrice: DataTypes.BIGINT,
     quantity: DataTypes.INTEGER
   }, {
     sequelize,

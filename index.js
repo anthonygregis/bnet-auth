@@ -14,10 +14,6 @@ const getToken = (cb) => {
         });
 }
 
-let insertDataPricing = (itemListing, aConRealm) => {
-
-}
-
 const testAuctionMethod = () => {
     console.log("Running auction house grabbing")
     getToken(access_token => {
@@ -81,6 +77,7 @@ const testAuctionMethod = () => {
                                     }
                                 }
                             })()
+                            console.log(results.data.auctions.length)
                         } else {
                             console.log("Auction House Fetch Failed:", statusMessage)
                         }
