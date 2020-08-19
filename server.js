@@ -69,6 +69,10 @@ app.get('/', function(req, res) {
   res.render('index', { pageName: "Home", pageDescription: "Welcome to WoW Marketplace Tracking" })
 });
 
+app.get('/items', (req, res) => {
+
+})
+
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`🎧 You're listening to the smooth sounds of port ${port} 🎧`)
