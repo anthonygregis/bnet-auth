@@ -66,7 +66,7 @@ app.use('/realms', require('./routes/realm'))
 app.use('/notifications', require('./routes/realm'))
 
 app.get('/', function(req, res) {
-  res.render('index', { pageName: "Home", pageDescription: "Welcome to WoW Marketplace Tracking"})
+  res.render('index', { pageName: "Home", pageDescription: "Welcome to WoW Marketplace Tracking" })
 });
 
 

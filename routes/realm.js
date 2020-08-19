@@ -33,4 +33,26 @@ router.get('/:realmSlug', async (req, res) => {
     res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
 })
 
+router.get('/:realmSlug/:itemId', async (req, res) => {
+    let realmInfo = await db.realm.findOne({
+        where: { slug: req.params.realmSlug },
+        include: {
+            model: db.connectedRealm
+        }
+    })
+
+    //Get Items Info
+    let itemHistoricalData = await db.pricingData.findAll({
+        where: {
+            itemId: req.params.itemId,
+            connectedRealmId: realmInfo.connectedRealm.id
+        },
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    })
+
+    res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
+})
+
 module.exports = router
