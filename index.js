@@ -20,7 +20,8 @@ let insertData = (itemListing, aConRealm) => {
             where: {
                 id: itemListing.item.id
             },
-        }, { transaction: t})
+            transaction: t
+        })
             .then( (wowItem, created) => {
                 // if (created) {
                 //     console.log("New item added:", wowItem.id)
@@ -30,7 +31,7 @@ let insertData = (itemListing, aConRealm) => {
                     unitPrice: itemListing.unit_price || itemListing.buyout,
                     quantity: itemListing.quantity,
                     itemId: itemListing.item.id
-                }, { transaction: t})
+                }, { transaction: t })
                     .then((pricingData) => {
                         pricingData.setConnectedRealm(aConRealm)
                     })
