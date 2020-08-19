@@ -28,9 +28,9 @@ let insertDataPricing = (itemListing, aConRealm) => {
                 unitPrice: itemListing.unit_price || itemListing.buyout,
                 quantity: itemListing.quantity,
                 itemId: itemListing.item.id,
-                connectedRealmId: aConRealm.id
             })
                 .then(() => {
+                    pricingData.setConnectedRealm(aConRealm)
                     // Finished Transaction
                 })
                 .catch(err => {
