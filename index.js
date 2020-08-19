@@ -13,80 +13,80 @@ const getToken = (cb) => {
         });
 }
 
-const itemInfo = () => {
-    console.log("Running auction house grabbing")
-    getToken(access_token => {
-        db.item.findAll({
-            where: {
-                media: null
-            }
-        })
-            .then(items => {
-                const asyncIterable = {
-                    [Symbol.asyncIterator]() {
-                        return {
-                            i: 0,
-                            next() {
-                                if (this.i < items.length) {
-                                    return Promise.resolve({value: this.i++, done: false});
-                                }
-
-                                return Promise.resolve({done: true});
-                            }
-                        };
-                    }
-                };
-
-                (async function () {
-                    for await (let num of asyncIterable) {
-                        try {
-                            let results = await axios.get(`https://us.api.blizzard.com/data/wow/item/${items[num].id}?namespace=static-us&locale=en_US&access_token=${access_token}`)
-                            let itemMedia = await axios.get(`https://us.api.blizzard.com/data/wow/media/item/${items[num].id}?namespace=static-us&locale=en_US&access_token=${access_token}`)
-                            if (results.status === 200) {
-
-                                const result = await db.sequelize.transaction(async (t) => {
-
-                                    const item = await db.item.update({
-                                        name: results.data.name,
-                                        quality: results.data.quality.name,
-                                        level: results.data.level,
-                                        media: itemMedia.data.assets[0].value,
-                                        itemClass: results.data.item_class.name,
-                                        itemSubclass: results.data.item_subclass.name,
-                                        inventoryType: results.data.inventory_type.name,
-                                        vendorPurchase: results.data.purchase_price,
-                                        vendorSell: results.data.sell_price,
-                                        maxCount: results.data.max_count,
-                                        isEquippable: results.data.is_equippable,
-                                        isStackable: results.data.is_stackable,
-                                        purchaseQuantity: results.data.purchase_quantity
-                                    },
-                                    {
-                                        where: {
-                                            id: items[num].id
-                                        },
-                                        transaction: t
-                                    })
-
-                                    return true
-                                })
-                            }
-
-                            // If the execution reaches this line, the transaction has been committed successfully
-                            // `result` is whatever was returned from the transaction callback (the `user`, in this case)
-
-                        } catch (error) {
-                            console.log("ERROR:", error)
-                            // If the execution reaches this line, an error occurred.
-                            // The transaction has already been rolled back automatically by Sequelize!
-
-                        }
-                    }
-                })()
-                console.log(items.length)
-            })
-    })
-}
+// const itemInfo = () => {
+//     console.log("Running auction house grabbing")
+//     getToken(access_token => {
+//         db.item.findAll({
+//             where: {
+//                 media: null
+//             }
+//         })
+//             .then(items => {
+//                 const asyncIterable = {
+//                     [Symbol.asyncIterator]() {
+//                         return {
+//                             i: 0,
+//                             next() {
+//                                 if (this.i < items.length) {
+//                                     return Promise.resolve({value: this.i++, done: false});
+//                                 }
+//
+//                                 return Promise.resolve({done: true});
+//                             }
+//                         };
+//                     }
+//                 };
+//
+//                 (async function () {
+//                     for await (let num of asyncIterable) {
+//                         try {
+//                             let results = await axios.get(`https://us.api.blizzard.com/data/wow/item/${items[num].id}?namespace=static-us&locale=en_US&access_token=${access_token}`)
+//                             let itemMedia = await axios.get(`https://us.api.blizzard.com/data/wow/media/item/${items[num].id}?namespace=static-us&locale=en_US&access_token=${access_token}`)
+//                             if (results.status === 200) {
+//
+//                                 const result = await db.sequelize.transaction(async (t) => {
+//
+//                                     const item = await db.item.update({
+//                                         name: results.data.name,
+//                                         quality: results.data.quality.name,
+//                                         level: results.data.level,
+//                                         media: itemMedia.data.assets[0].value,
+//                                         itemClass: results.data.item_class.name,
+//                                         itemSubclass: results.data.item_subclass.name,
+//                                         inventoryType: results.data.inventory_type.name,
+//                                         vendorPurchase: results.data.purchase_price,
+//                                         vendorSell: results.data.sell_price,
+//                                         maxCount: results.data.max_count,
+//                                         isEquippable: results.data.is_equippable,
+//                                         isStackable: results.data.is_stackable,
+//                                         purchaseQuantity: results.data.purchase_quantity
+//                                     },
+//                                     {
+//                                         where: {
+//                                             id: items[num].id
+//                                         },
+//                                         transaction: t
+//                                     })
+//
+//                                     return true
+//                                 })
+//                             }
+//
+//                             // If the execution reaches this line, the transaction has been committed successfully
+//                             // `result` is whatever was returned from the transaction callback (the `user`, in this case)
+//
+//                         } catch (error) {
+//                             console.log("ERROR:", error)
+//                             // If the execution reaches this line, an error occurred.
+//                             // The transaction has already been rolled back automatically by Sequelize!
+//
+//                         }
+//                     }
+//                 })()
+//                 console.log(items.length)
+//             })
+//     })
+// }
 
 const itemIterator = async () => {
     const asyncIterable = {
