@@ -6,7 +6,7 @@ const { Op } = require("sequelize");
 router.get('/', (req, res) => {
     db.realm.findAll()
         .then(realms => {
-            res.render('realms', { realms: realms })
+            res.render('realms', { realms: realms, pageName: "Realms", pageDescription: "All available realms for marketplace tracking." })
         })
 })
 
@@ -30,7 +30,7 @@ router.get('/:realmSlug', async (req, res) => {
         limit: 10
     })
 
-    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems })
+    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, pageName: realmInfo.name, pageDescription: `${realmInfo.name}'s historical marketplace data and most popular items currently.` })
 })
 
 module.exports = router
