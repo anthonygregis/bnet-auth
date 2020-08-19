@@ -1,15 +1,15 @@
 <% if (alerts.error) { %>
     <% alerts.error.forEach(msg => { %>
-        <div class="alert alert-error">
-            <%= msg %>
-        </div>
+        <script>
+            M.toast({html: '<%= msg %>'})
+        </script>
     <% })%>
 <% } %>
 
 <% if (alerts.success) { %>
     <% alerts.success.forEach(msg => { %>
-        <div class="alert alert-success">
-            <%= msg %>
-        </div>
+        <script>
+            M.toast({html: '<%= msg %>'})
+        </script>
     <% })%>
 <% } %>

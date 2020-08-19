@@ -15,8 +15,6 @@
     </header>
     <main>
       <div class="container">
-        <%- include('partials/alerts') -%>
-        <h1>Authentication App</h1>
         <%- body %>
       </div>
     </main>
@@ -29,5 +27,6 @@
         var instances = M.Sidenav.init(elems, options);
       });
     </script>
+    <%- include('partials/alerts') -%>
   </body>
 </html>
