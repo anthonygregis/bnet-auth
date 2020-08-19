@@ -1,7 +1,7 @@
 <meta property="og:site_name" content="WoW Marketplace Tracking" />
 <meta property="og:image" content="https://logos-download.com/wp-content/uploads/2016/02/World_of_Warcraft_logo.jpg" />
 
-<% if(pageName && pageDescription) { %>
+<% if(!typeof pageName == 'undefined') { %>
     <meta property="og:title" content="<%= pageName %>" />
     <meta property="og:description" content="<%= pageDescription %>">
 <% } %>
