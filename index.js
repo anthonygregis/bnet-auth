@@ -53,6 +53,9 @@ const testAuctionMethod = () => {
                                 for await (let num of asyncIterable) {
                                     try {
 
+                                        console.log("Item ID:", results.data.auctions[num].item.id)
+                                        console.log("connRealm ID:", connRealm[currentRealm].id)
+
                                         const result = await db.sequelize.transaction(async (t) => {
 
                                             const item = await db.item.findOrCreate({
@@ -70,7 +73,7 @@ const testAuctionMethod = () => {
 
                                             pricingData.setConnectedRealm(connRealm[currentRealm].id)
 
-                                            return pricingData;
+                                            return true
 
                                         });
 
@@ -78,7 +81,7 @@ const testAuctionMethod = () => {
                                         // `result` is whatever was returned from the transaction callback (the `user`, in this case)
 
                                     } catch (error) {
-
+                                        console.log("ERROR:", error)
                                         // If the execution reaches this line, an error occurred.
                                         // The transaction has already been rolled back automatically by Sequelize!
 
