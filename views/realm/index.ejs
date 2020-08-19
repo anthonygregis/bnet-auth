@@ -5,8 +5,8 @@
     <div class="col s6">
         <div class="collection">
             <h4 class="collection-header">Most Popular Items</h4>
-            <% mostAvailableItems.forEach(item => { %>
-                <a href="/realms/area-52/<%= item.id %>" class="collection-item" data-wowhead="item=<%= item.id %>"><%= item.name %></a>
+            <% mostAvailableItems.forEach(listing => { %>
+                <a href="/realms/area-52/<%= listing.item.id %>" class="collection-item" data-wowhead="item=<%= listing.item.id %>"></a>
             <% }) %>
         </div>
     </div>
