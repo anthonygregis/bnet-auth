@@ -64,7 +64,7 @@ const itemInfo = () => {
                                     },
                                     {
                                         where: {
-                                            id: results.data.auctions[num].item.id
+                                            id: items[num].id
                                         },
                                         transaction: t
                                     })
