@@ -30,7 +30,7 @@ router.get('/:realmSlug', async (req, res) => {
         limit: 10
     })
 
-    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, pageName: realmInfo.name, pageDescription: `${realmInfo.name}s historical marketplace data and most popular items currently.` })
+    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
 })
 
 module.exports = router
