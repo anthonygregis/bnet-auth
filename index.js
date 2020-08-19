@@ -14,29 +14,31 @@ const getToken = (cb) => {
         });
 }
 
-let insertData = async (itemListing, aConRealm) => {
-        const item = await db.item.findOrCreate({
-            where: {
-                id: itemListing.item.id
+let checkItemExist = (itemId) => {
+    const item = db.item.findOrCreate({
+        where: {
+            id: itemId
+        }
+    })
+        .then( (wowItem, created) => {
+            if (created) {
+                console.log("New item added:", wowItem.id)
             }
         })
-            .then( (wowItem, created) => {
-                // if (created) {
-                //     console.log("New item added:", wowItem.id)
-                // }
-                // console.log("Item Data:", itemListing)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        .catch(err => {
+            console.log(err)
+        })
+}
 
-        const pricingData = await db.pricingData.create({
+let insertDataPricing = (itemListing, aConRealm) => {
+        const pricingData = db.pricingData.create({
             unitPrice: itemListing.unit_price || itemListing.buyout,
             quantity: itemListing.quantity,
-            itemId: itemListing.item.id
+            itemId: itemListing.item.id,
+            connectedRealmId: aConRealm.id
         })
-            .then((pricingData) => {
-                pricingData.setConnectedRealm(aConRealm)
+            .then(() => {
+                // Finished Transaction
             })
             .catch(err => {
                 console.log(err)
@@ -60,7 +62,8 @@ const testAuctionMethod = () => {
                         statusMessage = results.statusText
                         if(status === 200) {
                             for(let i = 0; i < 25000; i++) {
-                                insertData(results.data.auctions[i], connRealm[currentRealm])
+                                checkItemExist(results.data.auctions[i].item.id)
+                                insertDataPricing(results.data.auctions[i], connRealm[currentRealm])
                             }
                             //Go to next connectedRealm after completing for loop
                             currentRealm += 1
