@@ -3,6 +3,13 @@ const router = express.Router()
 const db = require('../models')
 const { Op } = require("sequelize");
 
+router.get('/', (req, res) => {
+    db.realm.findAll()
+        .then(realms => {
+            res.render('realms', { realms: realms })
+        })
+})
+
 router.get('/:realmSlug', async (req, res) => {
     //Get Realm Info
     let realmInfo = await db.realm.findOne({
