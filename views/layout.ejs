@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="WoW Marketplace Tracking" />
+    <meta property="og:image" content="https://logos-download.com/wp-content/uploads/2016/02/World_of_Warcraft_logo.jpg" />
     <title>Authentication App</title>
     <!-- Compiled and minified CSS -->
     <!--Import Google Icon Font-->
@@ -32,3 +34,9 @@
     </script>
   </body>
 </html>
+
+if(product.available && userClaim.`${product.productType}` < 1) {
+    claim html
+} else {
+    cant claim html
+}

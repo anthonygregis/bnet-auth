@@ -3,15 +3,15 @@
 </div>
 <div class="row">
     <div class="col s6">
-        <div class="collection">
-            <h4 class="collection-header grey darken-3">Most Popular Items</h4>
+        <div class="collection grey darken-4">
+            <h4 class="collection-header">Most Popular Items</h4>
             <% mostAvailableItems.forEach(listing => { %>
-                <a href="/realms/area-52/<%= listing.itemId %>" class="collection-item grey darken-4" data-wowhead="item=<%= listing.itemId %>"></a>
+                <a href="/realms/area-52/<%= listing.itemId %>" class="collection-item" data-wowhead="item=<%= listing.itemId %>"></a>
             <% }) %>
         </div>
     </div>
     <div class="col s6">
-        <div class="collection">
+        <div class="collection grey darken-4">
             <a href="#!" class="collection-header"><h4>Potential Deals</h4></a>
             <a href="#!" class="collection-item">Alvin</a>
             <a href="#!" class="collection-item active">Alvin</a>
