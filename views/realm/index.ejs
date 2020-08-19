@@ -6,7 +6,7 @@
         <div class="collection">
             <h4 class="collection-header">Most Popular Items</h4>
             <% mostAvailableItems.forEach(item => { %>
-                <a href="/realms/area-52/<%= item.id %>" class="q3" data-wowhead="item=<%= item.id %>"><%= item.name %></a>
+                <a href="/realms/area-52/<%= item.id %>" class="collection-item" data-wowhead="item=<%= item.id %>"><%= item.name %></a>
             <% }) %>
         </div>
     </div>
