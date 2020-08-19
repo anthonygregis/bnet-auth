@@ -41,8 +41,8 @@ const itemInfo = () => {
                 (async function () {
                     for await (let num of asyncIterable) {
                         try {
-                            let results = await axios.get(`https://us.api.blizzard.com/data/wow/item/${items.id}?namespace=static-us&locale=en_US&access_token=${access_token}`)
-                            let itemMedia = await axios.get(`https://us.api.blizzard.com/data/wow/media/item/${items.id}?namespace=static-us&locale=en_US&access_token=${access_token}`)
+                            let results = await axios.get(`https://us.api.blizzard.com/data/wow/item/${items[num].id}?namespace=static-us&locale=en_US&access_token=${access_token}`)
+                            let itemMedia = await axios.get(`https://us.api.blizzard.com/data/wow/media/item/${items[num].id}?namespace=static-us&locale=en_US&access_token=${access_token}`)
                             if (results.status === 200) {
 
                                 const result = await db.sequelize.transaction(async (t) => {
