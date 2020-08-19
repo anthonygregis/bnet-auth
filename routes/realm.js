@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../models')
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 
 router.get('/', (req, res) => {
     db.realm.findAll()
@@ -20,16 +20,7 @@ router.get('/:realmSlug', async (req, res) => {
     })
 
     //Get Items Info
-    let mostAvailableItems = await db.pricingData.findAll({
-        where: {
-            connectedRealmId: realmInfo.connectedRealm.id
-        },
-        attributes: ['itemId', [db.sequelize.fn('COUNT', db.sequelize.col('itemId')), 'totalListings']],
-        order: [
-            [[db.sequelize.literal('totalListings'), 'DESC']]
-        ],
-        limit: 10
-    })
+    let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(*) 'totalListings' FROM pricingData GROUP BY itemId ORDER BY 'totalListings' LIMIT 10`, { type: QueryTypes.SELECT })
 
     res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
 })
