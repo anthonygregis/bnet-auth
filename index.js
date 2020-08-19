@@ -49,6 +49,7 @@ const testAuctionMethod = () => {
             .then(connRealm => {
                 // Realm iterator
                 let currentRealm = 0
+
                 let auctionHouse = connRealm[currentRealm].auctionHouse
                 axios.get(`${auctionHouse}&access_token=${access_token}`)
                     .then(results => {
@@ -60,7 +61,7 @@ const testAuctionMethod = () => {
                             for(let i = 0; i < 50000; i++) {
                                 insertData(results.data.auctions[i], connRealm[currentRealm])
                             }
-                            //Go to next connectedRealm
+                            //Go to next connectedRealm after completing for loop
                             currentRealm += 1
                         } else {
                             console.log("Auction House Fetch Failed:", statusMessage)
