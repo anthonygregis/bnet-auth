@@ -26,7 +26,7 @@ const testAuctionMethod = () => {
                 // Realm iterator
                 let currentRealm = 0
 
-                console.log(connRealm)
+                console.log(connRealm.id)
 
                 let auctionHouse = connRealm[currentRealm].auctionHouse
                 axios.get(`${auctionHouse}&access_token=${access_token}`)
