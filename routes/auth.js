@@ -4,9 +4,10 @@ const passport = require('../config/ppConfig')
 
 router.get('/bnet', passport.authenticate('bnet'))
 
-router.get('/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/auth/failure' }), (req, res) =>
-  res.redirect("/")
-)
+router.get('/bnet/callback', passport.authenticate('bnet', { failureRedirect: '/auth/failure' }), (req, res) => {
+    req.flash('success', 'awdawd')
+    res.redirect("/")
+})
 
 router.get('/logout', (req, res)=>{
   req.logOut()

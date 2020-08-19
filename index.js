@@ -1,5 +1,4 @@
 require('dotenv').config()
-const server = require('./server')
 const db = require('./models')
 const axios = require('axios')
 var exec = require('exec')
@@ -94,7 +93,6 @@ const auctionMethod = () => {
     getToken(access_token => {
         db.connectedRealm.findAll()
             .then(connRealm => {
-
                 let auctionHouse = connRealm[0].auctionHouse
                 axios.get(`${auctionHouse}&access_token=${access_token}`)
                     .then((results) => {
@@ -169,8 +167,7 @@ const auctionMethod = () => {
 }
 
 //Start Express
-server
-// auctionMethod()
+auctionMethod()
 // itemInfo()
 
 //STUPID STUFF
