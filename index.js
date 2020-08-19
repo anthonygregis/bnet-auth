@@ -68,9 +68,9 @@ const testAuctionMethod = () => {
                                                 itemId: results.data.auctions[num].item.id,
                                             }, { transaction: t })
 
-                                            pricingData.setConnectedRealm(connRealm[currentRealm])
+                                            pricingData.setConnectedRealm(connRealm[currentRealm].id)
 
-                                            return user;
+                                            return pricingData;
 
                                         });
 
