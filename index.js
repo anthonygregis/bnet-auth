@@ -14,7 +14,7 @@ const getToken = (cb) => {
         });
 }
 
-let checkItemExist = (itemId) => {
+let insertDataPricing = (itemListing, aConRealm) => {
     const item = db.item.findOrCreate({
         where: {
             id: itemId
@@ -24,25 +24,22 @@ let checkItemExist = (itemId) => {
             if (created) {
                 console.log("New item added:", wowItem.id)
             }
+            const pricingData = db.pricingData.create({
+                unitPrice: itemListing.unit_price || itemListing.buyout,
+                quantity: itemListing.quantity,
+                itemId: itemListing.item.id,
+                connectedRealmId: aConRealm.id
+            })
+                .then(() => {
+                    // Finished Transaction
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         })
         .catch(err => {
             console.log(err)
         })
-}
-
-let insertDataPricing = (itemListing, aConRealm) => {
-        const pricingData = db.pricingData.create({
-            unitPrice: itemListing.unit_price || itemListing.buyout,
-            quantity: itemListing.quantity,
-            itemId: itemListing.item.id,
-            connectedRealmId: aConRealm.id
-        })
-            .then(() => {
-                // Finished Transaction
-            })
-            .catch(err => {
-                console.log(err)
-            })
 }
 
 const testAuctionMethod = () => {
@@ -61,10 +58,26 @@ const testAuctionMethod = () => {
                         status = results.status
                         statusMessage = results.statusText
                         if(status === 200) {
-                            for(let i = 0; i < 25000; i++) {
-                                checkItemExist(results.data.auctions[i].item.id)
-                                insertDataPricing(results.data.auctions[i], connRealm[currentRealm])
-                            }
+                            const asyncIterable = {
+                                [Symbol.asyncIterator]() {
+                                    return {
+                                        i: 0,
+                                        next() {
+                                            if (this.i < 25000) {
+                                                return Promise.resolve({ value: this.i++, done: false });
+                                            }
+
+                                            return Promise.resolve({ done: true });
+                                        }
+                                    };
+                                }
+                            };
+
+                            (async function() {
+                                for await (let num of asyncIterable) {
+                                    insertDataPricing(results.data.auctions[i], connRealm[currentRealm])
+                                }
+                            })()
                             //Go to next connectedRealm after completing for loop
                             currentRealm += 1
                         } else {
