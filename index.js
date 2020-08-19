@@ -29,7 +29,7 @@ let insertDataPricing = (itemListing, aConRealm) => {
                 quantity: itemListing.quantity,
                 itemId: itemListing.item.id,
             })
-                .then(() => {
+                .then((pricingData) => {
                     pricingData.setConnectedRealm(aConRealm)
                     // Finished Transaction
                 })
@@ -75,7 +75,7 @@ const testAuctionMethod = () => {
 
                             (async function() {
                                 for await (let num of asyncIterable) {
-                                    insertDataPricing(results.data.auctions[num], connRealm[currentRealm])
+                                    await insertDataPricing(results.data.auctions[num], connRealm[currentRealm])
                                 }
                             })()
                             //Go to next connectedRealm after completing for loop
