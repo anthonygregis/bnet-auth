@@ -23,12 +23,11 @@ const testAuctionMethod = () => {
     getToken(access_token => {
         db.connectedRealm.findAll()
             .then(connRealm => {
-                // Realm iterator
-                let currentRealm = 0
 
-                let auctionHouse = connRealm[currentRealm].auctionHouse
+                let auctionHouse = connRealm[0].auctionHouse
                 axios.get(`${auctionHouse}&access_token=${access_token}`)
                     .then((results) => {
+
                         // Get all auction info and put each object into csv
                         // Load csv file and query that into database
                         status = results.status
@@ -68,7 +67,7 @@ const testAuctionMethod = () => {
                                                 itemId: results.data.auctions[num].item.id,
                                             }, { transaction: t })
 
-                                            pricingData.setConnectedRealm(connRealm[currentRealm].get().id)
+                                            pricingData.setConnectedRealm(connRealm[0].get().id)
 
                                             return true
 
@@ -85,8 +84,6 @@ const testAuctionMethod = () => {
                                     }
                                 }
                             })()
-                            //Go to next connectedRealm after completing for loop
-                            currentRealm += 1
                         } else {
                             console.log("Auction House Fetch Failed:", statusMessage)
                         }
