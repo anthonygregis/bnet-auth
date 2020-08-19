@@ -26,6 +26,8 @@ const testAuctionMethod = () => {
                 // Realm iterator
                 let currentRealm = 0
 
+                console.log(connRealm)
+
                 let auctionHouse = connRealm[currentRealm].auctionHouse
                 axios.get(`${auctionHouse}&access_token=${access_token}`)
                     .then((results) => {
@@ -34,60 +36,60 @@ const testAuctionMethod = () => {
                         status = results.status
                         statusMessage = results.statusText
                         if(status === 200) {
-                            const asyncIterable = {
-                                [Symbol.asyncIterator]() {
-                                    return {
-                                        i: 0,
-                                        next() {
-                                            if (this.i < 25000) {
-                                                return Promise.resolve({ value: this.i++, done: false });
-                                            }
-
-                                            return Promise.resolve({ done: true });
-                                        }
-                                    };
-                                }
-                            };
-
-                            (async function() {
-                                for await (let num of asyncIterable) {
-                                    try {
-
-                                        console.log("Item ID:", results.data.auctions[num].item.id)
-                                        console.log("connRealm ID:", connRealm[currentRealm].id)
-
-                                        const result = await db.sequelize.transaction(async (t) => {
-
-                                            const item = await db.item.findOrCreate({
-                                                where: {
-                                                    id: results.data.auctions[num].item.id
-                                                },
-                                                transaction: t
-                                            })
-
-                                            const pricingData = await db.pricingData.create({
-                                                unitPrice: results.data.auctions[num].unit_price || results.data.auctions[num].buyout,
-                                                quantity: results.data.auctions[num].quantity,
-                                                itemId: results.data.auctions[num].item.id,
-                                            }, { transaction: t })
-
-                                            pricingData.setConnectedRealm(connRealm[currentRealm].id)
-
-                                            return true
-
-                                        });
-
-                                        // If the execution reaches this line, the transaction has been committed successfully
-                                        // `result` is whatever was returned from the transaction callback (the `user`, in this case)
-
-                                    } catch (error) {
-                                        console.log("ERROR:", error)
-                                        // If the execution reaches this line, an error occurred.
-                                        // The transaction has already been rolled back automatically by Sequelize!
-
-                                    }
-                                }
-                            })()
+                            // const asyncIterable = {
+                            //     [Symbol.asyncIterator]() {
+                            //         return {
+                            //             i: 0,
+                            //             next() {
+                            //                 if (this.i < 25000) {
+                            //                     return Promise.resolve({ value: this.i++, done: false });
+                            //                 }
+                            //
+                            //                 return Promise.resolve({ done: true });
+                            //             }
+                            //         };
+                            //     }
+                            // };
+                            //
+                            // (async function() {
+                            //     for await (let num of asyncIterable) {
+                            //         try {
+                            //
+                            //             console.log("Item ID:", results.data.auctions[num].item.id)
+                            //             console.log("connRealm ID:", connRealm[currentRealm].id)
+                            //
+                            //             const result = await db.sequelize.transaction(async (t) => {
+                            //
+                            //                 const item = await db.item.findOrCreate({
+                            //                     where: {
+                            //                         id: results.data.auctions[num].item.id
+                            //                     },
+                            //                     transaction: t
+                            //                 })
+                            //
+                            //                 const pricingData = await db.pricingData.create({
+                            //                     unitPrice: results.data.auctions[num].unit_price || results.data.auctions[num].buyout,
+                            //                     quantity: results.data.auctions[num].quantity,
+                            //                     itemId: results.data.auctions[num].item.id,
+                            //                 }, { transaction: t })
+                            //
+                            //                 pricingData.setConnectedRealm(connRealm[currentRealm].id)
+                            //
+                            //                 return true
+                            //
+                            //             });
+                            //
+                            //             // If the execution reaches this line, the transaction has been committed successfully
+                            //             // `result` is whatever was returned from the transaction callback (the `user`, in this case)
+                            //
+                            //         } catch (error) {
+                            //             console.log("ERROR:", error)
+                            //             // If the execution reaches this line, an error occurred.
+                            //             // The transaction has already been rolled back automatically by Sequelize!
+                            //
+                            //         }
+                            //     }
+                            // })()
                             //Go to next connectedRealm after completing for loop
                             currentRealm += 1
                         } else {
