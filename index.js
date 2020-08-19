@@ -14,25 +14,24 @@ const getToken = (cb) => {
         });
 }
 
-let insertData = (itemListing, aConRealm) => {
-    db.item.findOrCreate({
+let insertData = async (itemListing, aConRealm) => {
+    await db.item.findOrCreate({
         where: {
             id: itemListing.item.id
         }
     })
-        .then((wowItem, created) => {
+        .then( async (wowItem, created) => {
             if (created) {
                 console.log("New item added:", wowItem.id)
             }
             // console.log("Item Data:", itemListing)
-            db.pricingData.create({
+            await db.pricingData.create({
                 unitPrice: itemListing.unit_price || itemListing.buyout,
                 quantity: itemListing.quantity,
                 itemId: itemListing.item.id
             })
-                .then(pricingData => {
-                    pricingData.setConnectedRealm(aConRealm)
-                    return
+                .then(async (pricingData) => {
+                    await pricingData.setConnectedRealm(aConRealm)
                 })
                 .catch(err => {
                     console.log("ERROR:", err)
