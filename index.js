@@ -68,9 +68,9 @@ const itemInfo = () => {
                                         },
                                         transaction: t
                                     })
-                                })
 
-                                return true
+                                    return true
+                                })
                             }
 
                             // If the execution reaches this line, the transaction has been committed successfully
