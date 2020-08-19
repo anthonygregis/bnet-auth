@@ -8,6 +8,7 @@ const passport = require('./config/ppConfig')
 const flash = require('connect-flash')
 
 const db = require('./models')
+const { Op, QueryTypes } = require("sequelize");
 const SequelizeStore = require("connect-session-sequelize")(session.Store)
 const seqStore = new SequelizeStore({
   db: db.sequelize,
@@ -69,8 +70,10 @@ app.get('/', function(req, res) {
   res.render('index', { pageName: "Home", pageDescription: "Welcome to WoW Marketplace Tracking" })
 });
 
-app.get('/items', (req, res) => {
-
+app.get('/items', async (req, res) => {
+  //Get Items Info
+  let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData WHERE connectedRealmId = ${realmInfo.connectedRealmId} GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 40`, { type: QueryTypes.SELECT })
+  res.render('items', { mostAvailableItems: mostAvailableItems, pageName: "Global Most Available Items", pageDescription: 'Global most popular items currently.' })
 })
 
 const port = process.env.PORT || 3000;
