@@ -19,7 +19,7 @@ const itemInfo = () => {
     getToken(access_token => {
         db.item.findAll({
             where: {
-                name: null
+                media: null
             }
         })
             .then(items => {
@@ -51,7 +51,7 @@ const itemInfo = () => {
                                         name: results.data.name,
                                         quality: results.data.quality.name,
                                         level: results.data.level,
-                                        media: itemMedia.data.assets.value,
+                                        media: itemMedia.data.assets[0].value,
                                         itemClass: results.data.item_class.name,
                                         itemSubclass: results.data.item_subclass.name,
                                         inventoryType: results.data.inventory_type.name,
