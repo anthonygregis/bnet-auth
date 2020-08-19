@@ -88,6 +88,58 @@ const itemInfo = () => {
     })
 }
 
+const itemIterator = async () => {
+    const asyncIterable = {
+        [Symbol.asyncIterator]() {
+            return {
+                i: 0,
+                next() {
+                    if (this.i < results.data.auctions.length) {
+                        return Promise.resolve({ value: this.i++, done: false });
+                    }
+
+                    return Promise.resolve({ done: true });
+                }
+            };
+        }
+    };
+
+    for await (let num of asyncIterable) {
+        try {
+
+            const result = await db.sequelize.transaction(async (t) => {
+
+                const item = await db.item.findOrCreate({
+                    where: {
+                        id: results.data.auctions[num].item.id
+                    },
+                    transaction: t
+                })
+
+                const pricingData = await db.pricingData.create({
+                    unitPrice: results.data.auctions[num].unit_price || results.data.auctions[num].buyout,
+                    quantity: results.data.auctions[num].quantity,
+                    itemId: results.data.auctions[num].item.id,
+                }, { transaction: t })
+
+                pricingData.setConnectedRealm(connRealm[0].get().id)
+
+                return true
+
+            });
+
+            // If the execution reaches this line, the transaction has been committed successfully
+            // `result` is whatever was returned from the transaction callback (the `user`, in this case)
+
+        } catch (error) {
+            console.log("ERROR:", error)
+            // If the execution reaches this line, an error occurred.
+            // The transaction has already been rolled back automatically by Sequelize!
+
+        }
+    }
+}
+
 const auctionMethod = () => {
     console.log("Running auction house grabbing")
     getToken(access_token => {
@@ -99,57 +151,7 @@ const auctionMethod = () => {
                         status = results.status
                         statusMessage = results.statusText
                         if(status === 200) {
-                            const asyncIterable = {
-                                [Symbol.asyncIterator]() {
-                                    return {
-                                        i: 0,
-                                        next() {
-                                            if (this.i < results.data.auctions.length) {
-                                                return Promise.resolve({ value: this.i++, done: false });
-                                            }
-
-                                            return Promise.resolve({ done: true });
-                                        }
-                                    };
-                                }
-                            };
-
-                            (async function() {
-                                for await (let num of asyncIterable) {
-                                    try {
-
-                                        const result = await db.sequelize.transaction(async (t) => {
-
-                                            const item = await db.item.findOrCreate({
-                                                where: {
-                                                    id: results.data.auctions[num].item.id
-                                                },
-                                                transaction: t
-                                            })
-
-                                            const pricingData = await db.pricingData.create({
-                                                unitPrice: results.data.auctions[num].unit_price || results.data.auctions[num].buyout,
-                                                quantity: results.data.auctions[num].quantity,
-                                                itemId: results.data.auctions[num].item.id,
-                                            }, { transaction: t })
-
-                                            pricingData.setConnectedRealm(connRealm[0].get().id)
-
-                                            return true
-
-                                        });
-
-                                        // If the execution reaches this line, the transaction has been committed successfully
-                                        // `result` is whatever was returned from the transaction callback (the `user`, in this case)
-
-                                    } catch (error) {
-                                        console.log("ERROR:", error)
-                                        // If the execution reaches this line, an error occurred.
-                                        // The transaction has already been rolled back automatically by Sequelize!
-
-                                    }
-                                }
-                            })()
+                            itemIterator()
                             console.log(results.data.auctions.length)
                         } else {
                             console.log("Auction House Fetch Failed:", statusMessage)
