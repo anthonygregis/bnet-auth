@@ -17,7 +17,7 @@ const getToken = (cb) => {
 const itemInfo = () => {
     console.log("Running auction house grabbing")
     getToken(access_token => {
-        db.items.findAll({
+        db.item.findAll({
             where: {
                 name: null
             }
