@@ -14,44 +14,33 @@ const getToken = (cb) => {
         });
 }
 
-let insertData = (itemListing, aConRealm) => {
-    return db.sequelize.transaction(function(t) {
-        return db.item.findOrCreate({
+let insertData = async (itemListing, aConRealm) => {
+        const item = await db.item.findOrCreate({
             where: {
                 id: itemListing.item.id
-            },
-            transaction: t
+            }
         })
             .then( (wowItem, created) => {
                 // if (created) {
                 //     console.log("New item added:", wowItem.id)
                 // }
                 // console.log("Item Data:", itemListing)
-                return db.pricingData.create({
-                    unitPrice: itemListing.unit_price || itemListing.buyout,
-                    quantity: itemListing.quantity,
-                    itemId: itemListing.item.id
-                }, { transaction: t })
-                    .then((pricingData) => {
-                        pricingData.setConnectedRealm(aConRealm)
-                    })
-                    .catch(err => {
-                        throw new Error();
-                    })
             })
             .catch(err => {
-                throw new Error();
+                console.log(err)
             })
-    })
-        .then(function (result) {
-            //Transaction has been committed to DB
-            console.log("Auction Listing Completed")
+
+        const pricingData = await db.pricingData.create({
+            unitPrice: itemListing.unit_price || itemListing.buyout,
+            quantity: itemListing.quantity,
+            itemId: itemListing.item.id
         })
-        .catch(function (err) {
-            //Transaction has been rolled back
-            //An error occured
-            console.log("ERROR:", err)
-        })
+            .then((pricingData) => {
+                pricingData.setConnectedRealm(aConRealm)
+            })
+            .catch(err => {
+                console.log(err)
+            })
 }
 
 const testAuctionMethod = () => {
@@ -70,7 +59,7 @@ const testAuctionMethod = () => {
                         status = results.status
                         statusMessage = results.statusText
                         if(status === 200) {
-                            for(let i = 0; i < 25000; i++) {
+                            for(let i = 0; i < 15000; i++) {
                                 insertData(results.data.auctions[i], connRealm[currentRealm])
                             }
                             //Go to next connectedRealm after completing for loop
