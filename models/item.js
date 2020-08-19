@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     quality: DataTypes.STRING,
     level: DataTypes.INTEGER,
-    media: DataTypes.INTEGER,
+    media: DataTypes.STRING,
     itemClass: DataTypes.STRING,
     itemSubclass: DataTypes.STRING,
     inventoryType: DataTypes.STRING,

@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       media: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       itemClass: {
         type: Sequelize.STRING

@@ -171,7 +171,7 @@ const auctionMethod = () => {
 //Start Express
 server
 // auctionMethod()
-itemInfo()
+// itemInfo()
 
 //STUPID STUFF
 //Create a readable stream
