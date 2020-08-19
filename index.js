@@ -58,7 +58,7 @@ const testAuctionMethod = () => {
                         status = results.status
                         statusMessage = results.statusText
                         if(status === 200) {
-                            for(let i = 0; i < 50000; i++) {
+                            for(let i = 0; i < 10000; i++) {
                                 insertData(results.data.auctions[i], connRealm[currentRealm])
                             }
                             //Go to next connectedRealm after completing for loop
