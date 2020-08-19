@@ -27,9 +27,6 @@ const testAuctionMethod = () => {
                 let auctionHouse = connRealm[0].auctionHouse
                 axios.get(`${auctionHouse}&access_token=${access_token}`)
                     .then((results) => {
-
-                        // Get all auction info and put each object into csv
-                        // Load csv file and query that into database
                         status = results.status
                         statusMessage = results.statusText
                         if(status === 200) {
@@ -38,7 +35,7 @@ const testAuctionMethod = () => {
                                     return {
                                         i: 0,
                                         next() {
-                                            if (this.i < 25000) {
+                                            if (this.i < results.data.auctions.length) {
                                                 return Promise.resolve({ value: this.i++, done: false });
                                             }
 
