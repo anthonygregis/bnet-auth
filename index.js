@@ -17,7 +17,7 @@ const getToken = (cb) => {
 let insertDataPricing = (itemListing, aConRealm) => {
     const item = db.item.findOrCreate({
         where: {
-            id: itemId
+            id: itemListing.item.id
         }
     })
         .then( (wowItem, created) => {
@@ -75,7 +75,7 @@ const testAuctionMethod = () => {
 
                             (async function() {
                                 for await (let num of asyncIterable) {
-                                    insertDataPricing(results.data.auctions[i], connRealm[currentRealm])
+                                    insertDataPricing(results.data.auctions[num], connRealm[currentRealm])
                                 }
                             })()
                             //Go to next connectedRealm after completing for loop
