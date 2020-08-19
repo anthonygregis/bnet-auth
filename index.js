@@ -53,7 +53,7 @@ const testAuctionMethod = () => {
                                 for await (let num of asyncIterable) {
                                     try {
 
-                                        const result = await sequelize.transaction(async (t) => {
+                                        const result = await db.sequelize.transaction(async (t) => {
 
                                             const item = await db.item.findOrCreate({
                                                 where: {
