@@ -26,7 +26,7 @@ router.get('/:realmSlug', async (req, res) => {
         },
         attributes: ['itemId', [db.sequelize.fn('COUNT', db.sequelize.col('itemId')), 'totalListings']],
         order: [
-            ['totalListings', 'DESC']
+            [[db.sequelize.literal('PostCount'), 'DESC']]
         ],
         limit: 10
     })
