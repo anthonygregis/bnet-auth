@@ -53,9 +53,6 @@ const testAuctionMethod = () => {
                                 for await (let num of asyncIterable) {
                                     try {
 
-                                        console.log("Item ID:", results.data.auctions[num].item.id)
-                                        console.log("connRealm ID:", connRealm[currentRealm].id)
-
                                         const result = await db.sequelize.transaction(async (t) => {
 
                                             const item = await db.item.findOrCreate({
