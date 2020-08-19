@@ -15,31 +15,7 @@ const getToken = (cb) => {
 }
 
 let insertDataPricing = (itemListing, aConRealm) => {
-    const item = db.item.findOrCreate({
-        where: {
-            id: itemListing.item.id
-        }
-    })
-        .then( (wowItem, created) => {
-            if (created) {
-                console.log("New item added:", wowItem.id)
-            }
-            const pricingData = db.pricingData.create({
-                unitPrice: itemListing.unit_price || itemListing.buyout,
-                quantity: itemListing.quantity,
-                itemId: itemListing.item.id,
-            })
-                .then((pricingData) => {
-                    pricingData.setConnectedRealm(aConRealm)
-                    // Finished Transaction
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        })
-        .catch(err => {
-            console.log(err)
-        })
+
 }
 
 const testAuctionMethod = () => {
@@ -75,7 +51,38 @@ const testAuctionMethod = () => {
 
                             (async function() {
                                 for await (let num of asyncIterable) {
-                                    await insertDataPricing(results.data.auctions[num], connRealm[currentRealm])
+                                    try {
+
+                                        const result = await sequelize.transaction(async (t) => {
+
+                                            const item = await db.item.findOrCreate({
+                                                where: {
+                                                    id: results.data.auctions[num].item.id
+                                                },
+                                                transaction: t
+                                            })
+
+                                            const pricingData = await db.pricingData.create({
+                                                unitPrice: results.data.auctions[num].unit_price || results.data.auctions[num].buyout,
+                                                quantity: results.data.auctions[num].quantity,
+                                                itemId: results.data.auctions[num].item.id,
+                                            }, { transaction: t })
+
+                                            pricingData.setConnectedRealm(connRealm[currentRealm])
+
+                                            return user;
+
+                                        });
+
+                                        // If the execution reaches this line, the transaction has been committed successfully
+                                        // `result` is whatever was returned from the transaction callback (the `user`, in this case)
+
+                                    } catch (error) {
+
+                                        // If the execution reaches this line, an error occurred.
+                                        // The transaction has already been rolled back automatically by Sequelize!
+
+                                    }
                                 }
                             })()
                             //Go to next connectedRealm after completing for loop
