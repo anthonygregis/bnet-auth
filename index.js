@@ -14,30 +14,41 @@ const getToken = (cb) => {
         });
 }
 
-let insertData = async (itemListing, aConRealm) => {
-    await db.item.findOrCreate({
-        where: {
-            id: itemListing.item.id
-        }
-    })
-        .then( async (wowItem, created) => {
-            if (created) {
-                console.log("New item added:", wowItem.id)
-            }
-            // console.log("Item Data:", itemListing)
-            await db.pricingData.create({
-                unitPrice: itemListing.unit_price || itemListing.buyout,
-                quantity: itemListing.quantity,
-                itemId: itemListing.item.id
+let insertData = (itemListing, aConRealm) => {
+    return db.sequelize.transaction(function(t) {
+        return db.item.findOrCreate({
+            where: {
+                id: itemListing.item.id
+            },
+        }, { transaction: t})
+            .then( (wowItem, created) => {
+                // if (created) {
+                //     console.log("New item added:", wowItem.id)
+                // }
+                // console.log("Item Data:", itemListing)
+                return db.pricingData.create({
+                    unitPrice: itemListing.unit_price || itemListing.buyout,
+                    quantity: itemListing.quantity,
+                    itemId: itemListing.item.id
+                }, { transaction: t})
+                    .then((pricingData) => {
+                        pricingData.setConnectedRealm(aConRealm)
+                    })
+                    .catch(err => {
+                        throw new Error();
+                    })
             })
-                .then(async (pricingData) => {
-                    await pricingData.setConnectedRealm(aConRealm)
-                })
-                .catch(err => {
-                    console.log("ERROR:", err)
-                })
+            .catch(err => {
+                throw new Error();
+            })
+    })
+        .then(function (result) {
+            //Transaction has been committed to DB
+            console.log("Auction Listing Completed")
         })
-        .catch(err => {
+        .catch(function (err) {
+            //Transaction has been rolled back
+            //An error occured
             console.log("ERROR:", err)
         })
 }
@@ -52,14 +63,14 @@ const testAuctionMethod = () => {
 
                 let auctionHouse = connRealm[currentRealm].auctionHouse
                 axios.get(`${auctionHouse}&access_token=${access_token}`)
-                    .then(results => {
+                    .then(async (results) => {
                         // Get all auction info and put each object into csv
                         // Load csv file and query that into database
                         status = results.status
                         statusMessage = results.statusText
                         if(status === 200) {
                             for(let i = 0; i < 10000; i++) {
-                                insertData(results.data.auctions[i], connRealm[currentRealm])
+                                await insertData(results.data.auctions[i], connRealm[currentRealm])
                             }
                             //Go to next connectedRealm after completing for loop
                             currentRealm += 1
