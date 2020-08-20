@@ -21,6 +21,8 @@ router.get('/:realmSlug', async (req, res) => {
 
     let items = await db.item.findAll()
 
+    items = items.slice(0, 25)
+
     //Get Items Info
     let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData WHERE connectedRealmId = ${realmInfo.connectedRealmId} GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 10`, { type: QueryTypes.SELECT })
 
