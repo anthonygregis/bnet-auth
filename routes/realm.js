@@ -64,4 +64,23 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
     res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
 })
 
+router.post('/:realmSlug/:itemId', isLoggedIn, (req, res) => {
+    db.monitoredItem.findOrCreate({
+        where: {
+            userId: req.user.id,
+            itemId: req.params.itemId,
+            connectedRealmId: req.body.connectedRealmId
+        }
+    })
+        .then(([monitoredItem, created]) => {
+            if (created) {
+                req.flash('success', 'Item has been added to your monitored items!')
+                res.redirect(`/${req.params.realmSlug}/${req.params.itemId}`)
+            } else {
+                req.flash('info', 'Item already exist in your monitored items')
+                res.redirect(`/${req.params.realmSlug}/${req.params.itemId}`)
+            }
+        })
+})
+
 module.exports = router

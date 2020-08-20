@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.connectedRealm.hasMany(models.realm)
       models.connectedRealm.hasMany(models.pricingData)
+      models.connectedRealm.hasMany(models.monitoredItem)
     }
   };
   connectedRealm.init({
