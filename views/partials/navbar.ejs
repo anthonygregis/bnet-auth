@@ -14,20 +14,11 @@
     <li><a href="/items?sortBy=dayChange">Potential Deals</a></li>
     <% if (currentUser) { %>
         <li><a href="/monitoring">Your Monitored Items</a></li>
-        <li>
-            <ul class="collapsible collapsible-accordion">
-                <li>
-                    <a class="collapsible-header">Your Characters' Realms</a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <% currentUser.characters.forEach(character => { %>
-                                <li><a class="waves-effect" href="/realms/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
-                            <% }) %>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </li>
+        <li><div class="divider"></div></li>
+        <li><a class="subheader">Your Characters' Realms</a></li>
+        <% currentUser.characters.forEach(character => { %>
+            <li><a class="waves-effect" href="/realms/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
+        <% }) %>
     <% } %>
 
 </ul>

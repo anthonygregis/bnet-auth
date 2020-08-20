@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.realm.hasMany(models.character)
+      models.realm.hasMany(models.monitoredItem)
       models.realm.belongsTo(models.connectedRealm)
     }
   };

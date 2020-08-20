@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.monitoredItem.belongsTo(models.item)
+      models.monitoredItem.belongsTo(models.realm)
       models.monitoredItem.belongsTo(models.connectedRealm)
       models.monitoredItem.belongsTo(models.user)
     }
@@ -19,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   monitoredItem.init({
     itemId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
+    realmId: DataTypes.INTEGER,
     connectedRealmId: DataTypes.INTEGER
   }, {
     sequelize,

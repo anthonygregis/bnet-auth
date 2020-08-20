@@ -1,0 +1,7 @@
+<h1 class="center-align">Realms</h1>
+
+<div class="collection">
+    <% monitoredItems.forEach(monitoredItem => { %>
+        <a href="/realms/<%= monitoredItem.realm.slug %>/<%= monitoredItem.item.id%>" class="collection-item" data-wowhead="item=<%= monitoredItem.id %>"></a>
+    <% }) %>
+</div>

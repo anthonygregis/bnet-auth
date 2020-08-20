@@ -8,10 +8,11 @@ router.get('/', isLoggedIn, (req, res) => {
     db.monitoredItem.findAll({
         where: {
             userId: req.user.id
-        }
+        },
+        include: [db.realm]
     })
         .then(monitoredItems => {
-            res.send(monitoredItems)
+            res.render('monitoring')
         })
         .catch(err => {
             console.log(err)

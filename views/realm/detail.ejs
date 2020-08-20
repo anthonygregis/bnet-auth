@@ -1,6 +1,7 @@
 <h1 class="center-align"><a href="#" data-wh-icon-size="large" data-wowhead="item=<%= itemHistoricalData[0].itemId %>"></a></h1>
 
 <form action="" method="POST">
+    <input type="hidden" name="realmId" value="<%= realmInfo.slug %>">
     <input type="hidden" name="connectedRealmId" value="<%= itemHistoricalData[0].connectedRealmId %>">
     <input type="submit" value="Add To Favorites">
 </form>
