@@ -3,7 +3,7 @@ const router = express.Router()
 const passport = require('../config/ppConfig')
 const isLoggedIn = require('../middleware/isLoggedIn')
 
-app.get('/', isLoggedIn, (req, res) => {
+router.get('/', isLoggedIn, (req, res) => {
     db.monitoredItem.findAll({
         where: {
             userId: req.user.id
@@ -16,3 +16,5 @@ app.get('/', isLoggedIn, (req, res) => {
             console.log(err)
         })
 })
+
+module.exports = router
