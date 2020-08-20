@@ -1,3 +1,5 @@
+<script>const whTooltips = {colorLinks: false, iconizeLinks: false, iconSize: false, renameLinks: true};</script>
+<script src="https://wow.zamimg.com/widgets/power.js"></script>
 <div class="row">
     <h1>Realm: <%= realmInfo.name %></h1>
 </div>
@@ -16,7 +18,7 @@
         <div class="collection grey darken-4">
             <h4 class="collection-header">Items</h4>
             <% items.forEach(item => { %>
-                <a href="/realms/<%= realmInfo.slug %>/<%= item.id %>" class="collection-item" data-wowhead="item=<%= item.id %>"></a>
+                <a href="/realms/<%= realmInfo.slug %>/<%= item.id %>" class="collection-item" data-wowhead="item=<%= item.id %>" iconizeLinks="true"></a>
             <% }) %>
         </div>
     </div>
