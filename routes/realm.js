@@ -46,6 +46,8 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
 
     let items = await db.item.findAll()
 
+    console.log(items)
+
     res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, items: items, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
 })
 
