@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const db = require('../models')
 const { Op, QueryTypes } = require("sequelize");
+const isLoggedIn = require('../middleware/isLoggedIn')
 
 router.get('/', (req, res) => {
     db.realm.findAll()
