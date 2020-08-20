@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.monitoredItems.belongsTo(models.item)
-      models.monitoredItems.belongsTo(models.connectedRealm)
-      models.monitoredItems.belongsTo(models.user)
+      models.monitoredItem.belongsTo(models.item)
+      models.monitoredItem.belongsTo(models.connectedRealm)
+      models.monitoredItem.belongsTo(models.user)
     }
   };
   monitoredItem.init({
