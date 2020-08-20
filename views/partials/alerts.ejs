@@ -13,3 +13,11 @@
         </script>
     <% })%>
 <% } %>
+
+<% if (alerts.info) { %>
+    <% alerts.info.forEach(msg => { %>
+        <script>
+            M.toast({html: '<%= msg %>'})
+        </script>
+    <% })%>
+<% } %>
