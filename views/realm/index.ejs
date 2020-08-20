@@ -16,7 +16,7 @@
         <div class="collection grey darken-4">
             <h4 class="collection-header">Items</h4>
             <% items.forEach(item => { %>
-                <a href="/realms/<%= realmInfo.slug %>/<%= item.itemId %>" class="collection-item" data-wowhead="item=<%= item.itemId %>"></a>
+                <a href="/realms/<%= realmInfo.slug %>/<%= item.id %>" class="collection-item" data-wowhead="item=<%= item.id %>"></a>
             <% }) %>
         </div>
     </div>
