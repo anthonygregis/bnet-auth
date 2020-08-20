@@ -17,6 +17,9 @@ module.exports = {
       connectedRealmId: {
         type: Sequelize.INTEGER
       },
+      realmId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
