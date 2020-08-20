@@ -19,10 +19,12 @@ router.get('/:realmSlug', async (req, res) => {
         }
     })
 
+    let items = await db.item.findAll()
+
     //Get Items Info
     let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData WHERE connectedRealmId = ${realmInfo.connectedRealmId} GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 10`, { type: QueryTypes.SELECT })
 
-    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
+    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, items: items, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
 })
 
 router.get('/:realmSlug/:itemId', async (req, res) => {
@@ -44,11 +46,9 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
         ]
     })
 
-    let items = await db.item.findAll()
-
     console.log(items)
 
-    res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, items: items, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
+    res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
 })
 
 module.exports = router
