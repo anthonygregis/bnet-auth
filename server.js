@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 
 app.use('/auth', require('./routes/auth'))
 app.use('/realms', require('./routes/realm'))
-app.use('/notifications', require('./routes/realm'))
+app.use('/monitoring', require('./routes/monitoring'))
 
 app.get('/', function(req, res) {
   res.render('index', { pageName: "Home", pageDescription: "Welcome to WoW Marketplace Tracking" })

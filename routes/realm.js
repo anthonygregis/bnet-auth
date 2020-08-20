@@ -74,10 +74,10 @@ router.post('/:realmSlug/:itemId', isLoggedIn, (req, res) => {
         .then(([monitoredItem, created]) => {
             if (created) {
                 req.flash('success', 'Item has been added to your monitored items!')
-                res.redirect(`/${req.params.realmSlug}/${req.params.itemId}`)
+                res.redirect(`/realms/${req.params.realmSlug}/${req.params.itemId}`)
             } else {
                 req.flash('info', 'Item already exist in your monitored items')
-                res.redirect(`/${req.params.realmSlug}/${req.params.itemId}`)
+                res.redirect(`/realms/${req.params.realmSlug}/${req.params.itemId}`)
             }
         })
 })
