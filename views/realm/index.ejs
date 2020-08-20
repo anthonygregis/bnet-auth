@@ -2,17 +2,22 @@
     <h1>Realm: <%= realmInfo.name %></h1>
 </div>
 <div class="row">
-    <div class="col s6">
+    <div class="col s12">
         <div class="collection grey darken-4">
             <h4 class="collection-header">Most Popular Items</h4>
             <% mostAvailableItems.forEach(listing => { %>
-                <a href="/realms/area-52/<%= listing.itemId %>" class="collection-item" data-wowhead="item=<%= listing.itemId %>"></a>
+                <a href="/realms/<%= realmInfo.slug %>/<%= listing.itemId %>" class="collection-item" data-wowhead="item=<%= listing.itemId %>"></a>
             <% }) %>
         </div>
     </div>
-    <div class="col s6">
+</div>
+<div class="row">
+    <div class="col s12">
         <div class="collection grey darken-4">
-            <h4 class="collection-header">Potential Deals</h4>
+            <h4 class="collection-header">Items</h4>
+            <% items.forEach(item => { %>
+                <a href="/realms/<%= realmInfo.slug %>/<%= item.itemId %>" class="collection-item" data-wowhead="item=<%= item.itemId %>"></a>
+            <% }) %>
         </div>
     </div>
 </div>
