@@ -24,7 +24,18 @@ router.get('/:realmSlug', async (req, res) => {
     items = items.slice(0, 25)
 
     //Get Items Info
-    let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData WHERE connectedRealmId = ${realmInfo.connectedRealmId} GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 10`, { type: QueryTypes.SELECT })
+    let mostAvailableItems = await db.pricingData.findAll({
+        where: {
+            connectedRealmId: realmInfo.connectedRealm.id
+        },
+        order: [
+            ['quantity', 'DESC']
+        ],
+        limit: 10
+    })
+
+    //Get Items Info
+    // let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData WHERE connectedRealmId = ${realmInfo.connectedRealmId} GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 10`, { type: QueryTypes.SELECT })
 
     res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, items: items, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
 })
