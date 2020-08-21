@@ -68,6 +68,7 @@ router.post('/:realmSlug/:itemId', isLoggedIn, (req, res) => {
         where: {
             userId: req.user.id,
             itemId: req.params.itemId,
+            realmId: req.body.realmId,
             connectedRealmId: req.body.connectedRealmId
         }
     })
