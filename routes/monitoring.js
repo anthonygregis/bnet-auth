@@ -15,6 +15,7 @@ router.get('/', isLoggedIn, (req, res) => {
             include: {
                 model: db.pricingData,
                 attributes: [
+                    'itemId',
                     [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
                     [db.sequelize.fn('AVG', db.sequelize.col('quantity'), 'averageQty')]
                 ],
