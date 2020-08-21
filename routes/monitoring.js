@@ -12,7 +12,7 @@ router.get('/', isLoggedIn, (req, res) => {
         include: [db.realm]
     })
         .then(monitoredItems => {
-            res.render('monitoring', {monitoredItems: monitoredItems})
+            res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
         })
         .catch(err => {
             console.log(err)
