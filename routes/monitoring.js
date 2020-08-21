@@ -20,7 +20,7 @@ router.get('/', isLoggedIn, (req, res) => {
 })
 
 router.get('/edit/:id', isLoggedIn, async (req, res) => {
-    const realms = await db.realm.findAll()
+    const realms = await db.realm.findAll({attributes: ['slug']})
 
     db.monitoredItem.findOne({
         where: {
@@ -29,7 +29,8 @@ router.get('/edit/:id', isLoggedIn, async (req, res) => {
         include: [db.realm]
     })
         .then(monitoredItem => {
-            res.render('monitoring/edit', {monitoredItem: monitoredItem, realms: realms, pageName: "Monitored Item Edit", pageDescription: 'Edit your monitored item' })
+            res.send(realms)
+            // res.render('monitoring/edit', {monitoredItem: monitoredItem, realms: realms, pageName: "Monitored Item Edit", pageDescription: 'Edit your monitored item' })
         })
         .catch(err => {
             console.log(err)
