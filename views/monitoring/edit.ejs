@@ -22,9 +22,10 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        var autoData = <%- autoData %>
         $(document).ready(function () {
             $('input.autocomplete').autocomplete({
-                data: <%- autoData %>
+                data: autoData
             });
         });
     })
