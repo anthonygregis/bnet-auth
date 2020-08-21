@@ -51,11 +51,11 @@ router.put('/edit/:id', isLoggedIn, async (req, res) => {
             id: req.body.id
         }
     })
-        .success(result => {
+        .then(result => {
             req.flash('success', "Monitored item has been updated")
             res.redirect('/monitoring')
         })
-        .error(err => {
+        .catch(err => {
             req.flash('error', "Monitored item could not be updated")
             res.redirect('/monitoring')
         })
