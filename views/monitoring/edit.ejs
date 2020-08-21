@@ -20,15 +20,11 @@
     </form>
 </div>
 
-<script id="realms" type="application/json">
-    <%= JSON.stringify(realms) %>
-</script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         $(document).ready(function () {
             $('input.autocomplete').autocomplete({
-                data:
+                data: <%- autoData %>
             });
         });
     })

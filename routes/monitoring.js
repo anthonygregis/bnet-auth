@@ -35,8 +35,7 @@ router.get('/edit/:id', isLoggedIn, async (req, res) => {
         include: [db.realm]
     })
         .then(monitoredItem => {
-            res.send(autoData)
-            // res.render('monitoring/edit', {monitoredItem: monitoredItem, realms: realms, pageName: "Monitored Item Edit", pageDescription: 'Edit your monitored item' })
+            res.render('monitoring/edit', {monitoredItem: monitoredItem, autoData: autoData, pageName: "Monitored Item Edit", pageDescription: 'Edit your monitored item' })
         })
         .catch(err => {
             console.log(err)
