@@ -5,14 +5,50 @@ const { Op } = require('sequelize')
 const passport = require('../config/ppConfig')
 const isLoggedIn = require('../middleware/isLoggedIn')
 
+/*
+    Get all monitored items and the average unitPrice and average quantity of all pricing data rows where connectedRealmId and itemId = monitored item
+ */
+
 router.get('/', isLoggedIn, async (req, res) => {
-
-    const monitoredItems = await db.sequelize.query('SELECT ' +
-                                                        'm.*,' +
-                                                        'p.*, AVG(p.unitPrice), AVG(p.quantity)' +
-                                                    'FROM monitoredItems m, pricingData p ' +
-                                                    `WHERE m.userId = ${req.user.id} AND p.connectedRealmId = m.connectedRealmId AND p.itemId = m.itemId`)
-
+    const monitoredItems = await db.sequelize.query(`
+        SELECT * FROM monitoredItems
+        INNER JOIN pricingData
+        ON monitoredItems.connectedRealmId = pricingData.connectedRealmId AND monitoredItems.itemId = pricingData.itemId
+    `)
+    // const monitoredItems = await db.sequelize.query('SELECT ' +
+    //                                                     'm.*,' +
+    //                                                     'p.*, AVG(p.unitPrice), AVG(p.quantity)' +
+    //                                                 'FROM monitoredItems m, pricingData p ' +
+    //                                                 `WHERE m.userId = ${req.user.id} AND p.connectedRealmId = m.connectedRealmId AND p.itemId = m.itemId`)
+    // +
+    // 'INNER JOIN connectedRealms AS c ' +
+    // 'ON m.connectedRealmId = c.id ' +
+    // 'INNER JOIN pricingData as p ' +
+    // 'ON c.id = p.connectedRealmId AND p.itemId = m.itemId'
+    // db.monitoredItem.findAll({
+    //     where: {
+    //         userId: req.user.id
+    //     },
+    //     include: [db.realm, {
+    //         model: db.connectedRealm,
+    //         include: {
+    //             model: db.pricingData,
+    //             attributes: [
+    //                 'itemId',
+    //                 [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
+    //                 [db.sequelize.fn('AVG', db.sequelize.col('quantity'), 'averageQty')]
+    //             ],
+    //             group: 'itemId',
+    //             where: {
+    //                 createdAt: {
+    //                     [Op.lt]: new Date(),
+    //                     [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
+    //                 },
+    //                 itemId: db.sequelize.col('monitoredItem.itemId')
+    //             }
+    //         }
+    //     }]
+    // })
     res.send(monitoredItems)
     // res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
 })
