@@ -21,9 +21,11 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $('input.autocomplete').autocomplete({
-            data: realms,
+    document.addEventListener('DOMContentLoaded', function() {
+        $(document).ready(function () {
+            $('input.autocomplete').autocomplete({
+                data: realms
+            });
         });
-    });
+    })
 </script>
