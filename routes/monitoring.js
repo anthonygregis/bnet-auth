@@ -22,6 +22,12 @@ router.get('/', isLoggedIn, (req, res) => {
 router.get('/edit/:id', isLoggedIn, async (req, res) => {
     const realms = await db.realm.findAll({attributes: ['slug']})
 
+    let autoData = {}
+
+    realms.forEach(realm => {
+        autoData[`${realm.slug}`] = null
+    })
+
     db.monitoredItem.findOne({
         where: {
             id: req.params.id
@@ -29,7 +35,7 @@ router.get('/edit/:id', isLoggedIn, async (req, res) => {
         include: [db.realm]
     })
         .then(monitoredItem => {
-            res.send(realms)
+            res.send(autoData)
             // res.render('monitoring/edit', {monitoredItem: monitoredItem, realms: realms, pageName: "Monitored Item Edit", pageDescription: 'Edit your monitored item' })
         })
         .catch(err => {
