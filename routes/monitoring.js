@@ -16,7 +16,7 @@ router.get('/', isLoggedIn, (req, res) => {
             for(let i = 0; i < monitoredItems.length; i++) {
                 db.pricingData.findAll({
                     attributes: [
-                        [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice')), 'averageBuyout'],
+                        [db.sequelize.fn('AVG', db.sequelize.col('unitPrice')), 'averageBuyout'],
                         [db.sequelize.fn('AVG', db.sequelize.col('quantity')), 'averageQty']
                     ],
                     group: 'itemId',
