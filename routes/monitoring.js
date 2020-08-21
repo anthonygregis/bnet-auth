@@ -19,7 +19,6 @@ router.get('/', isLoggedIn, (req, res) => {
                     [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
                     [db.sequelize.fn('AVG', db.sequelize.col('quantity'), 'averageQty')]
                 ],
-                as: "dailyHistorical",
                 group: 'itemId',
                 where: {
                     createdAt: {
