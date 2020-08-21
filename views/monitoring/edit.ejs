@@ -22,7 +22,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var autoData = <%- autoData %>
+        var autoData = <%- JSON.stringify(autoData) %>
         $(document).ready(function () {
             $('input.autocomplete').autocomplete({
                 data: autoData
