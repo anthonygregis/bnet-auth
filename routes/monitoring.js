@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const db = require('../models')
+const { Op } = require('sequelize')
 const passport = require('../config/ppConfig')
 const isLoggedIn = require('../middleware/isLoggedIn')
 
@@ -9,10 +10,25 @@ router.get('/', isLoggedIn, (req, res) => {
         where: {
             userId: req.user.id
         },
-        include: [db.realm]
+        include: [db.realm, {
+            model: db.pricingData,
+            attributes: [
+                [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
+                [db.sequelize.fn('AVG'. db.sequelize.col('quantity'), 'averageQty')]
+            ],
+            as: "dailyHistorical",
+            group: 'itemId',
+            where: {
+                createdAt: {
+                    [Op.lt]: new Date(),
+                    [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
+                }
+            }
+        }]
     })
         .then(monitoredItems => {
-            res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
+            res.send(monitoredItems)
+            // res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
         })
         .catch(err => {
             console.log(err)
