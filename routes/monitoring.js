@@ -42,6 +42,25 @@ router.get('/edit/:id', isLoggedIn, async (req, res) => {
         })
 })
 
+router.put('/edit/:id', isLoggedIn, async (req, res) => {
+    db.monitoredItem.update({
+        slug: req.body.realm
+    },
+    {
+        where: {
+            id: req.body.id
+        }
+    })
+        .success(result => {
+            req.flash('success', "Monitored item has been updated")
+            res.redirect('/monitoring')
+        })
+        .error(err => {
+            req.flash('error', "Monitored item could not be updated")
+            res.redirect('/monitoring')
+        })
+})
+
 router.delete('/', isLoggedIn, (req, res) => {
     db.monitoredItem.destroy({
         where: {
