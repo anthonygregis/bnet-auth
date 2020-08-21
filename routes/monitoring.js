@@ -10,7 +10,7 @@ router.get('/', isLoggedIn, async (req, res) => {
                                                         'm.*,' +
                                                         'c.*,' +
                                                         'AVG(p.unitPrice), AVG(p.quantity) ' +
-                                                    'FROM monitoredItems AS m' +
+                                                    'FROM monitoredItems AS m ' +
                                                     'INNER JOIN connectedRealms AS c ' +
                                                         'ON m.connectedRealmId = c.id ' +
                                                     'INNER JOIN pricingData as p ' +
