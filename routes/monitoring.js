@@ -5,38 +5,42 @@ const { Op } = require('sequelize')
 const passport = require('../config/ppConfig')
 const isLoggedIn = require('../middleware/isLoggedIn')
 
-router.get('/', isLoggedIn, (req, res) => {
-    db.monitoredItem.findAll({
-        where: {
-            userId: req.user.id
-        },
-        include: [db.realm, {
-            model: db.connectedRealm,
-            include: {
-                model: db.pricingData,
-                attributes: [
-                    'itemId',
-                    [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
-                    [db.sequelize.fn('AVG', db.sequelize.col('quantity'), 'averageQty')]
-                ],
-                group: 'itemId',
-                where: {
-                    createdAt: {
-                        [Op.lt]: new Date(),
-                        [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
-                    },
-                    itemId: db.sequelize.col('monitoredItem.itemId')
-                }
-            }
-        }]
-    })
-        .then(monitoredItems => {
-            res.send(monitoredItems)
-            // res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
-        })
-        .catch(err => {
-            console.log(err)
-        })
+router.get('/', isLoggedIn, async (req, res) => {
+    const monitoredItems = await db.sequelize.query('SELECT ' +
+                                                        'm.*,' +
+                                                        'c.*,' +
+                                                        'AVG(p.unitPrice), AVG(p.quantity) ' +
+                                                    'FROM monitoredItems AS m' +
+                                                    'INNER JOIN connectedRealms AS c ' +
+                                                        'ON m.connectedRealmId = c.id ' +
+                                                    'INNER JOIN pricingData as p ' +
+                                                        'ON c.id = p.connectedRealmId AND m.itemId = p.itemId')
+    // db.monitoredItem.findAll({
+    //     where: {
+    //         userId: req.user.id
+    //     },
+    //     include: [db.realm, {
+    //         model: db.connectedRealm,
+    //         include: {
+    //             model: db.pricingData,
+    //             attributes: [
+    //                 'itemId',
+    //                 [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
+    //                 [db.sequelize.fn('AVG', db.sequelize.col('quantity'), 'averageQty')]
+    //             ],
+    //             group: 'itemId',
+    //             where: {
+    //                 createdAt: {
+    //                     [Op.lt]: new Date(),
+    //                     [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
+    //                 },
+    //                 itemId: db.sequelize.col('monitoredItem.itemId')
+    //             }
+    //         }
+    //     }]
+    // })
+    res.send(monitoredItems)
+    // res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
 })
 
 router.get('/edit/:id', isLoggedIn, async (req, res) => {
