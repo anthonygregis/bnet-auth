@@ -12,6 +12,7 @@ router.get('/', isLoggedIn, (req, res) => {
         },
         include: [db.realm, {
             model: db.pricingData,
+            where: { id: db.monitoredItem.itemId },
             attributes: [
                 [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
                 [db.sequelize.fn('AVG', db.sequelize.col('quantity'), 'averageQty')]
