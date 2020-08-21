@@ -64,6 +64,7 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
 })
 
 router.post('/:realmSlug/:itemId', isLoggedIn, (req, res) => {
+    console.log("REALM ID:", req.body.realmId)
     db.monitoredItem.findOrCreate({
         where: {
             userId: req.user.id,
