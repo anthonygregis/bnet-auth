@@ -3,7 +3,7 @@
 <div class="collection">
     <% monitoredItems.forEach(monitoredItem => { %>
         <div class="collection-item">
-            <a href="/realms/<%= monitoredItem.realm.slug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a>
+            <a href="/realms/<%= monitoredItem.realm.slug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a> - <%= monitoredItem.realm.name %>
             <a href="/monitoring/edit/<%= monitoredItem.id %>"><i class="material-icons">edit</i></a>
             <a href="javascript:{}" onclick="document.getElementById('<%= monitoredItem.id %>').submit();"><i class="material-icons">delete_forever</i></a>
         </div>
