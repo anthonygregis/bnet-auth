@@ -10,32 +10,28 @@ router.get('/', isLoggedIn, (req, res) => {
         where: {
             userId: req.user.id
         },
-        include: [db.realm]
+        include: [db.realm, {
+            model: db.connectedRealm,
+            include: {
+                model: db.pricingData,
+                attributes: [
+                    [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
+                    [db.sequelize.fn('AVG', db.sequelize.col('quantity'), 'averageQty')]
+                ],
+                as: "dailyHistorical",
+                group: 'itemId',
+                where: {
+                    createdAt: {
+                        [Op.lt]: new Date(),
+                        [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
+                    },
+                    itemId: db.sequelize.col('monitoredItem.itemId')
+                }
+            }
+        }]
     })
         .then(monitoredItems => {
-            for(let i = 0; i < monitoredItems.length; i++) {
-                db.pricingData.findAll({
-                    attributes: [
-                        [db.sequelize.fn('AVG', db.sequelize.col('unitPrice')), 'averageBuyout'],
-                        [db.sequelize.fn('AVG', db.sequelize.col('quantity')), 'averageQty']
-                    ],
-                    group: 'itemId',
-                    where: {
-                        createdAt: {
-                            [Op.lt]: new Date(),
-                            [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
-                        },
-                        itemId: monitoredItems[i].itemId
-                    }
-                })
-                    .then(pricingData => {
-                        monitoredItems[i].dailyHistorical = pricingData
-                        if(i === monitoredItems.length - 1) {
-                            res.send(monitoredItems)
-                        }
-                    })
-
-            }
+            res.send(monitoredItems)
             // res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
         })
         .catch(err => {
