@@ -10,24 +10,28 @@ router.get('/', isLoggedIn, (req, res) => {
         where: {
             userId: req.user.id
         },
-        include: [db.realm, {
-            model: db.pricingData,
-            where: { id: db.monitoredItem.itemId },
-            attributes: [
-                [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
-                [db.sequelize.fn('AVG', db.sequelize.col('quantity'), 'averageQty')]
-            ],
-            as: "dailyHistorical",
-            group: 'itemId',
-            where: {
-                createdAt: {
-                    [Op.lt]: new Date(),
-                    [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
-                }
-            }
-        }]
+        include: [db.realm]
     })
-        .then(monitoredItems => {
+        .then(async monitoredItems => {
+            await monitoredItems.forEach(monItem => {
+                db.pricingData.findAll({
+                    attributes: [
+                        [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
+                        [db.sequelize.fn('AVG', db.sequelize.col('quantity'), 'averageQty')]
+                    ],
+                    group: 'itemId',
+                    where: {
+                        createdAt: {
+                            [Op.lt]: new Date(),
+                            [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
+                        },
+                        itemId: monitoredItem.itemId
+                    }
+                })
+                    .then(pricingData => {
+                        monItem.dailyHistorical = pricingData
+                    })
+            })
             res.send(monitoredItems)
             // res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
         })
