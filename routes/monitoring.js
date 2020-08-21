@@ -12,7 +12,7 @@ router.get('/', isLoggedIn, (req, res) => {
         include: [db.realm]
     })
         .then(monitoredItems => {
-            res.render('monitoring', monitoredItems)
+            res.render('monitoring', {monitoredItems: monitoredItems})
         })
         .catch(err => {
             console.log(err)
