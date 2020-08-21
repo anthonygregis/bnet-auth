@@ -43,7 +43,7 @@ router.get('/edit/:id', isLoggedIn, async (req, res) => {
 })
 
 router.put('/edit/:id', isLoggedIn, async (req, res) => {
-    let realm = await db.realm.findOne({
+    db.realm.findOne({
         where: {
             slug: req.body.realm
         }
