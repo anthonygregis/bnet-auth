@@ -4,7 +4,13 @@
     <% monitoredItems.forEach(monitoredItem => { %>
         <div class="collection-item">
             <a href="/realms/<%= monitoredItem.realm.slug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a>
-            <a href="/monitoring/<%= monitoredItem.id %>?_method=DELETE"><i class="material-icons">delete_forever</i></a>
+            <a href="javascript:{}" onclick="document.getElementById('<%= monitoredItem.id %>').submit();"><i class="material-icons">delete_forever</i></a>
         </div>
     <% }) %>
 </div>
+
+<% monitoredItems.forEach(monitoredItem => { %>
+        <form method="POST" action="/monitoring?_method=DELETE" id="<%= monitoredItem.id %>" style="display: none">
+                <input type="hidden" name="id" value="<%= monitoredItem.id %>">
+        </form>
+<% }) %>

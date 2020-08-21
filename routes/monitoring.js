@@ -19,8 +19,8 @@ router.get('/', isLoggedIn, (req, res) => {
         })
 })
 
-router.delete('/:id', isLoggedIn, (req, res) => {
-    db.monitoredItem.destroyById(req.params.id)
+router.delete('/', isLoggedIn, (req, res) => {
+    db.monitoredItem.destroyById(req.body.id)
         .then(monitoredItem => {
             req.flash('success', 'Monitored item has been deleted')
             res.redirect('/monitoring')
