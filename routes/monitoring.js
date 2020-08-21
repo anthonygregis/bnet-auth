@@ -25,7 +25,7 @@ router.get('/', isLoggedIn, (req, res) => {
                             [Op.lt]: new Date(),
                             [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
                         },
-                        itemId: monitoredItem.itemId
+                        itemId: monItem.itemId
                     }
                 })
                     .then(pricingData => {
