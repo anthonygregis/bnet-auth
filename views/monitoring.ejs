@@ -2,6 +2,9 @@
 
 <div class="collection">
     <% monitoredItems.forEach(monitoredItem => { %>
-        <a href="/realms/<%= monitoredItem.realm.slug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a>
+        <div class="collection-item">
+            <a href="/realms/<%= monitoredItem.realm.slug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a>
+            <a href="/monitoring/<%= monitoredItem.id %>"><i class="material-icons">delete_forever</i></a>
+        </div>
     <% }) %>
 </div>
