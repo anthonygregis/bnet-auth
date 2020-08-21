@@ -12,7 +12,7 @@ const isLoggedIn = require('../middleware/isLoggedIn')
 router.get('/', isLoggedIn, async (req, res) => {
     const monitoredItems = await db.sequelize.query(`
         SELECT * FROM monitoredItems
-        INNER JOIN pricingData
+        LEFT JOIN pricingData
         ON monitoredItems.connectedRealmId = pricingData.connectedRealmId AND monitoredItems.itemId = pricingData.itemId
     `)
     // const monitoredItems = await db.sequelize.query('SELECT ' +
