@@ -48,22 +48,30 @@ router.put('/edit/:id', isLoggedIn, async (req, res) => {
             slug: req.body.realm
         }
     })
-    db.monitoredItem.update({
-        realmId: realm.id
-    },
-    {
-        where: {
-            id: req.body.id
-        }
-    })
-        .then(result => {
-            req.flash('success', "Monitored item has been updated")
-            res.redirect('/monitoring')
+        .then(realm => {
+            if(!typeof realm.id == "undefined") {
+                db.monitoredItem.update({
+                        realmId: realm.id
+                    },
+                    {
+                        where: {
+                            id: req.body.id
+                        }
+                    })
+                    .then(result => {
+                        req.flash('success', "Monitored item has been updated")
+                        res.redirect('/monitoring')
+                    })
+                    .catch(err => {
+                        req.flash('error', "Monitored item could not be updated")
+                        res.redirect('/monitoring')
+                    })
+            } else {
+                req.flash('error', "Realm name must use autocomplete version")
+                res.redirect(`/monitoring/edit/${req.body.id}`)
+            }
         })
-        .catch(err => {
-            req.flash('error', "Monitored item could not be updated")
-            res.redirect('/monitoring')
-        })
+
 })
 
 router.delete('/', isLoggedIn, (req, res) => {
