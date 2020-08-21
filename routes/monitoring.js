@@ -49,7 +49,7 @@ router.put('/edit/:id', isLoggedIn, async (req, res) => {
         }
     })
         .then(realm => {
-            if(!realm.id) {
+            if(realm !== null) {
                 db.monitoredItem.update({
                         realmId: realm.id
                     },
