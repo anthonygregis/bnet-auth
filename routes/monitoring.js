@@ -12,8 +12,8 @@ router.get('/', isLoggedIn, (req, res) => {
         },
         include: [db.realm]
     })
-        .then(async monitoredItems => {
-            await monitoredItems.forEach(monItem => {
+        .then(monitoredItems => {
+            for(let i = 0; i < monitoredItems.length; i++) {
                 db.pricingData.findAll({
                     attributes: [
                         [db.sequelize.fn('AVG', db.sequelize.col('buyoutPrice'), 'averageBuyout')],
@@ -25,14 +25,17 @@ router.get('/', isLoggedIn, (req, res) => {
                             [Op.lt]: new Date(),
                             [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
                         },
-                        itemId: monItem.itemId
+                        itemId: monitoredItems[i].itemId
                     }
                 })
                     .then(pricingData => {
-                        monItem.dailyHistorical = pricingData
+                        monitoredItems[i].dailyHistorical = pricingData
+                        if(i === monitoredItems.length - 1) {
+                            res.send(monitoredItems)
+                        }
                     })
-            })
-            res.send(monitoredItems)
+
+            }
             // res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
         })
         .catch(err => {
