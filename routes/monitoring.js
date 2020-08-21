@@ -14,7 +14,7 @@ router.get('/', isLoggedIn, async (req, res) => {
                                                     'INNER JOIN connectedRealms AS c ' +
                                                         'ON m.connectedRealmId = c.id ' +
                                                     'INNER JOIN pricingData as p ' +
-                                                        'ON c.id = p.connectedRealmId AND m.itemId = p.itemId')
+                                                        'ON c.id = p.connectedRealmId WHERE p.itemId = m.itemId')
     // db.monitoredItem.findAll({
     //     where: {
     //         userId: req.user.id
