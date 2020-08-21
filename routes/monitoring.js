@@ -10,11 +10,13 @@ router.get('/', isLoggedIn, async (req, res) => {
                                                         'm.*,' +
                                                         'c.*,' +
                                                         'AVG(p.unitPrice), AVG(p.quantity) ' +
-                                                    `FROM monitoredItems WHERE m.id = ${req.user.id} AS m ` +
-                                                    'INNER JOIN connectedRealms AS c ' +
-                                                        'ON m.connectedRealmId = c.id ' +
-                                                    'INNER JOIN pricingData as p ' +
-                                                        'ON c.id = p.connectedRealmId AND p.itemId = m.itemId')
+                                                    `FROM monitoredItems m, connectedRealms c, pricingData p, ' +
+                                                     WHERE m.id = ${req.user.id} AND c.id = m.connectedRealmId AND p.connectedRealmId = c.id AND p.itemId = m.itemId`)
+    // +
+    // 'INNER JOIN connectedRealms AS c ' +
+    // 'ON m.connectedRealmId = c.id ' +
+    // 'INNER JOIN pricingData as p ' +
+    // 'ON c.id = p.connectedRealmId AND p.itemId = m.itemId'
     // db.monitoredItem.findAll({
     //     where: {
     //         userId: req.user.id
