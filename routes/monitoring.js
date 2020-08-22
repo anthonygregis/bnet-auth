@@ -15,9 +15,7 @@ router.get('/', isLoggedIn, async (req, res) => {
                (SELECT AVG(unitPrice) / SUM(quantity)
                FROM pricingData 
                WHERE pricingData.itemId = monitoredItems.itemId 
-                 AND pricingData.connectedRealmId = monitoredItems.connectedRealmId 
-                 AND pricingData.createdAt < ${new Date()} 
-                 AND pricingData.createdAt > ${new Date(new Date() - 24 * 60 * 60 * 100)}) 
+                 AND pricingData.connectedRealmId = monitoredItems.connectedRealmId)
                    AS averageUnitPrice,
                (SELECT AVG(quantity) 
                FROM pricingData
