@@ -29,7 +29,7 @@ router.get('/:realmSlug', async (req, res) => {
         where: {
             connectedRealmId: realmInfo.connectedRealm.id
         },
-        attributes: [[db.sequelize.fn('distinct', sequelize.col('itemId')), 'itemId'], [db.sequelize.fn('sum', sequelize.col('quantity')), 'quantity']],
+        attributes: [[db.sequelize.fn('distinct', db.sequelize.col('itemId')), 'itemId'], [db.sequelize.fn('sum', db.sequelize.col('quantity')), 'quantity']],
         order: [
             ['quantity', 'DESC']
         ],
@@ -37,7 +37,7 @@ router.get('/:realmSlug', async (req, res) => {
     })
 
     //Get Items Info
-    // let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData WHERE connectedRealmId = ${realmInfo.connectedRealmId} GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 10`, { type: QueryTypes.SELECT })
+    // let mostAvailableItems = await db.1.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData WHERE connectedRealmId = ${realmInfo.connectedRealmId} GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 10`, { type: QueryTypes.SELECT })
 
     res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, items: items, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
 })
