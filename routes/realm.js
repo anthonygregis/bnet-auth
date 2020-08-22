@@ -58,11 +58,22 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
             connectedRealmId: realmInfo.connectedRealm.id
         },
         order: [
-            ['createdAt', 'DESC']
+            ['createdAt', 'ASC']
         ]
     })
 
-    res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
+    let pricingDates = []
+    let pricingData = []
+
+    for(let i = 0; i < itemHistoricalData.length; i++) {
+        pricingDates.push(itemHistoricalData[i].createdAt.toLocaleString())
+        pricingData.push({
+            t: itemHistoricalData[i].createdAt,
+            y: itemHistoricalData[i].unitPrice
+        })
+    }
+
+    res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pricingDates: pricingDates, pricingData: pricingData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
 })
 
 router.post('/:realmSlug/:itemId', isLoggedIn, (req, res) => {
