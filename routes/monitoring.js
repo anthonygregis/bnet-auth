@@ -21,7 +21,15 @@ router.get('/', isLoggedIn, async (req, res) => {
                FROM pricingData
                WHERE pricingData.itemId = monitoredItems.itemId 
                  AND pricingData.connectedRealmId = monitoredItems.connectedRealmId) 
-                   AS averageQuantity
+                   AS averageQuantity,
+               (SELECT slug
+                FROM realms
+                WHERE realms.connectedId = monitoredItems.connectedRealmId)
+                    AS realmSlug,
+               (SELECT name
+                FROM realms
+                WHERE realms.connectedId = monitoredItems.connectedRealmId)
+                   AS realmName
         FROM monitoredItems
     `)
     res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })

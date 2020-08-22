@@ -3,7 +3,7 @@
 <div class="collection">
     <% monitoredItems[0].forEach(monitoredItem => { %>
         <div class="collection-item">
-            <a href="/realms/<%= monitoredItem.realm.slug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a> Realm - <%= monitoredItem.realm.name %>
+            <a href="/realms/<%= monitoredItem.realmSlug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a> Realm - <%= monitoredItem.realmName %>
             Daily Info <br>
             <span>Average Unit Price: <%= monitoredItem.pricingData.averageUnitPrice%></span>
             <span>Average Quantity: <%= monitoredItem.averageQuantity%></span>
