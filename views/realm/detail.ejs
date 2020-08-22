@@ -13,17 +13,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var chartPricingDates = <%- JSON.stringify(pricingDates) %>
-        var chartPricingData = <%- JSON.stringify(pricingData) %>
+        var chartPricingDates = <%- pricingDates %>
+        var chartPricingData = <%- pricingData %>
         var ctx = document.getElementById("myChart").getContext("2d");
 
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: chartPricingDates,
+                labels: JSON.stringify(chartPricingDates),
                 datasets: [{
                     label: 'Demo',
-                    data: chartPricingData,
+                    data: JSON.stringify(chartPricingData),
                     borderWidth: 1
                 }]
             },
