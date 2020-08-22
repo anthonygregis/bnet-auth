@@ -4,9 +4,12 @@
     <% monitoredItems[0].forEach(monitoredItem => { %>
         <div class="collection-item">
             <a href="/realms/<%= monitoredItem.realmSlug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a> Realm - <%= monitoredItem.realmName %>
-            Daily Info <br>
-            <span>Average Unit Price: <%= monitoredItem.averageUnitPrice%></span>
-            <span>Average Quantity: <%= monitoredItem.averageQuantity%></span>
+            <br>
+            Daily Info
+            <br>
+            <span>Average Unit Price: <%= Math.round(monitoredItem.averageUnitPrice) %></span>
+            <span>Average Quantity: <%= Math.round(monitoredItem.averageQuantity) %></span>
+            <br>
             <a href="/monitoring/edit/<%= monitoredItem.id %>"><i class="material-icons">edit</i></a>
             <a href="javascript:{}" onclick="document.getElementById('<%= monitoredItem.id %>').submit();"><i class="material-icons">delete_forever</i></a>
         </div>
