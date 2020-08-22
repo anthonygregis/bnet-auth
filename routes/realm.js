@@ -70,7 +70,9 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
         pricingData.push(itemHistoricalData[i].unitPrice / itemHistoricalData[i].quantity)
     }
 
-    res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pricingDates: pricingDates, pricingData: pricingData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
+    res.send(pricingDates, pricingData)
+
+    // res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pricingDates: pricingDates, pricingData: pricingData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
 })
 
 router.post('/:realmSlug/:itemId', isLoggedIn, (req, res) => {
