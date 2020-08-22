@@ -5,7 +5,7 @@
         <div class="collection-item">
             <a href="/realms/<%= monitoredItem.realm.slug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a> Realm - <%= monitoredItem.realm.name %>
             Daily Info <br>
-            <span>Average Buyout: <%= monitoredItem.pricingData.averageBuyout%></span>
+            <span>Average Unit Price: <%= monitoredItem.pricingData.averageUnitPrice%></span>
             <span>Average Quantity: <%= monitoredItem.averageQuantity%></span>
             <a href="/monitoring/edit/<%= monitoredItem.id %>"><i class="material-icons">edit</i></a>
             <a href="javascript:{}" onclick="document.getElementById('<%= monitoredItem.id %>').submit();"><i class="material-icons">delete_forever</i></a>
