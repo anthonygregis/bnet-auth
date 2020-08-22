@@ -29,7 +29,7 @@ router.get('/:realmSlug', async (req, res) => {
         where: {
             connectedRealmId: realmInfo.connectedRealm.id
         },
-        attributes: [[sequelize.fn('distinct', sequelize.col('itemId')), 'itemId'], [sequelize.fn('sum', sequelize.col('quantity')), 'quantity']],
+        attributes: [[db.sequelize.fn('distinct', sequelize.col('itemId')), 'itemId'], [db.sequelize.fn('sum', sequelize.col('quantity')), 'quantity']],
         order: [
             ['quantity', 'DESC']
         ],
