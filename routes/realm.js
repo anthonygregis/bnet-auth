@@ -66,7 +66,7 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
     let pricingData = []
 
     for(let i = 0; i < itemHistoricalData.length; i++) {
-        pricingDates.push(itemHistoricalData[i].createdAt.toLocaleString())
+        pricingDates.push(`${itemHistoricalData[i].createdAt.toLocaleString()}`)
         pricingData.push(Math.round(itemHistoricalData[i].unitPrice / itemHistoricalData[i].quantity))
     }
 
