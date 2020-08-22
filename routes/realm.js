@@ -75,7 +75,7 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
         pricingData
     }
 
-    res.send(test)
+    res.status(200).send(test)
 
     // res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pricingDates: pricingDates, pricingData: pricingData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
 })
