@@ -1,12 +1,12 @@
 <ul id="slide-out" class="sidenav sidenav-fixed grey darken-4 white-text">
     <li><div class="user-view white-text">
             <a href="#user"><img class="circle" src="https://www.pngmart.com/files/10/Warcraft-WOW-Logo-PNG-Photos.png"></a>
-            <a href="#name"><span class="name">WoW Marketplace Tracking</span></a>
+            <a href="#name"><span class="name white-text">WoW Marketplace Tracking</span></a>
             <% if (currentUser) { %>
-                <a href="#email"><span class="email"><%=  currentUser.battletag %></span></a>
-                <a href="/auth/logout"><span class="email">Logout</span></a>
+                <a href="#email"><span class="email white-text"><%=  currentUser.battletag %></span></a>
+                <a href="/auth/logout"><span class="email white-text">Logout</span></a>
             <% } else { %>
-                <a href="/auth/bnet"><span class="email">Login with BNet</span></a>
+                <a href="/auth/bnet"><span class="email white-text">Login with BNet</span></a>
             <% } %>
         </div></li>
     <li><a class="white-text" href="/realms">Realms</a></li>
