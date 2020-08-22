@@ -67,10 +67,10 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
 
     for(let i = 0; i < itemHistoricalData.length; i++) {
         pricingDates.push(itemHistoricalData[i].createdAt.toLocaleString())
-        pricingData.push(itemHistoricalData[i].unitPrice)
+        pricingData.push(itemHistoricalData[i].unitPrice / itemHistoricalData[i].quantity)
     }
 
-    res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pricingDates: JSON.stringify(pricingDates), pricingData: JSON.stringify(pricingData), pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
+    res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pricingDates: pricingDates, pricingData: pricingData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
 })
 
 router.post('/:realmSlug/:itemId', isLoggedIn, (req, res) => {
