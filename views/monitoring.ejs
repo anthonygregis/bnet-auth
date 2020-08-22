@@ -1,7 +1,7 @@
 <h1 class="center-align">Monitored Items</h1>
 
 <div class="collection">
-    <% monitoredItems.forEach(monitoredItem => { %>
+    <% monitoredItems[0].forEach(monitoredItem => { %>
         <div class="collection-item">
             <a href="/realms/<%= monitoredItem.realm.slug %>/<%= monitoredItem.itemId%>" class="collection-item" data-wowhead="item=<%= monitoredItem.itemId %>"></a> Realm - <%= monitoredItem.realm.name %>
             Daily Info <br>
@@ -13,7 +13,7 @@
     <% }) %>
 </div>
 
-<% monitoredItems.forEach(monitoredItem => { %>
+<% monitoredItems[0].forEach(monitoredItem => { %>
         <form method="POST" action="/monitoring?_method=DELETE" id="<%= monitoredItem.id %>" style="display: none">
                 <input type="hidden" name="id" value="<%= monitoredItem.id %>">
         </form>
