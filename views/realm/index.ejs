@@ -3,7 +3,7 @@
 </div>
 <div class="row">
     <div class="col s12">
-        <div class="collection grey darken-4">
+        <div class="collection grey darken-3">
             <h4 class="collection-header">Most Popular Items</h4>
             <% mostAvailableItems.forEach(listing => { %>
                 <a href="/realms/<%= realmInfo.slug %>/<%= listing.itemId %>" class="collection-item" data-wowhead="item=<%= listing.itemId %>"></a>
@@ -13,7 +13,7 @@
 </div>
 <div class="row">
     <div class="col s12">
-        <div class="collection grey darken-4">
+        <div class="collection grey darken-3">
             <h4 class="collection-header">Items</h4>
             <% items.forEach(item => { %>
                 <a href="/realms/<%= realmInfo.slug %>/<%= item.id %>" class="collection-item" data-wowhead="item=<%= item.id %>" iconizeLinks="true"></a>
