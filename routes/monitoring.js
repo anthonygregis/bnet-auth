@@ -31,6 +31,7 @@ router.get('/', isLoggedIn, async (req, res) => {
                 WHERE realms.connectedRealmId = monitoredItems.connectedRealmId)
                    AS realmName
         FROM monitoredItems
+        WHERE monitoredItems.userId = ${req.user.id}
     `)
     res.render('monitoring', {monitoredItems: monitoredItems, pageName: "Monitored Items", pageDescription: 'Your monitored items for a realm.' })
 })
