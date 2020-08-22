@@ -24,11 +24,11 @@ router.get('/', isLoggedIn, async (req, res) => {
                    AS averageQuantity,
                (SELECT slug
                 FROM realms
-                WHERE realms.connectedId = monitoredItems.connectedRealmId)
+                WHERE realms.connectedRealmId = monitoredItems.connectedRealmId)
                     AS realmSlug,
                (SELECT name
                 FROM realms
-                WHERE realms.connectedId = monitoredItems.connectedRealmId)
+                WHERE realms.connectedRealmId = monitoredItems.connectedRealmId)
                    AS realmName
         FROM monitoredItems
     `)
