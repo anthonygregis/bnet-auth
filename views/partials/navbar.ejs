@@ -1,5 +1,5 @@
 <ul id="slide-out" class="sidenav sidenav-fixed grey darken-4 white-text">
-    <li><div class="user-view white-texts">
+    <li><div class="user-view white-text">
             <a href="#user"><img class="circle" src="https://www.pngmart.com/files/10/Warcraft-WOW-Logo-PNG-Photos.png"></a>
             <a href="#name"><span class="name">WoW Marketplace Tracking</span></a>
             <% if (currentUser) { %>
@@ -9,15 +9,15 @@
                 <a href="/auth/bnet"><span class="email">Login with BNet</span></a>
             <% } %>
         </div></li>
-    <li class="white-text"><a href="/realms">Realms</a></li>
-    <li class="white-text"><a href="/items?sortBy=available">Most Available</a></li>
-    <li class="white-text"><a href="/items?sortBy=dayChange">Potential Deals</a></li>
+    <li><a class="white-text" href="/realms">Realms</a></li>
+    <li><a class="white-text" href="/items?sortBy=available">Most Available</a></li>
+    <li><a class="white-text" href="/items?sortBy=dayChange">Potential Deals</a></li>
     <% if (currentUser) { %>
-        <li class="white-text"><a href="/monitoring">Your Monitored Items</a></li>
-        <li class="white-text"><div class="divider"></div></li>
-        <li class="white-text"><a class="subheader">Your Characters' Realms</a></li>
+        <li><a class="white-text" href="/monitoring">Your Monitored Items</a></li>
+        <li><div class="divider"></div></li>
+        <li><a class="subheader white-text">Your Characters' Realms</a></li>
         <% currentUser.characters.forEach(character => { %>
-            <li class="white-text"><a class="waves-effect" href="/realms/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
+            <li><a class="waves-effect white-text" href="/realms/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
         <% }) %>
     <% } %>
 
