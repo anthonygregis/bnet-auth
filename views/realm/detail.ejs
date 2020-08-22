@@ -20,10 +20,10 @@
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: JSON.stringify(chartPricingDates),
+                labels: chartPricingDates,
                 datasets: [{
                     label: 'Demo',
-                    data: JSON.stringify(chartPricingData),
+                    data: chartPricingData,
                     borderWidth: 1
                 }]
             },
