@@ -70,7 +70,12 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
         pricingData.push(itemHistoricalData[i].unitPrice / itemHistoricalData[i].quantity)
     }
 
-    res.send(pricingDates, pricingData)
+    let test = {
+        pricingDates,
+        pricingData
+    }
+
+    res.send(test)
 
     // res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pricingDates: pricingDates, pricingData: pricingData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
 })
