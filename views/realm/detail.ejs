@@ -22,7 +22,7 @@
             data: {
                 labels: chartPricingDates,
                 datasets: [{
-                    label: 'Demo',
+                    label: 'Market Price',
                     data: chartPricingData,
                     borderWidth: 1
                 }]
@@ -30,7 +30,10 @@
             options: {
                 scales: {
                     xAxes: [{
-                        type: 'time'
+                        type: 'time',
+                    }],
+                    yAxes: [{
+                        label: 'Market Price'
                     }]
                 }
             }
