@@ -27,7 +27,10 @@ router.get('/:realmSlug', async (req, res) => {
     //Get Items Info
     let mostAvailableItems = await db.pricingData.findAll({
         where: {
-            connectedRealmId: realmInfo.connectedRealm.id
+            connectedRealmId: realmInfo.connectedRealm.id,
+            createdAt: {
+                [Op.gt]: new Date(new Date() - 2 * 60 * 60 * 1000)
+            }
         },
         attributes: ['itemId', 'quantity'],
         order: [
