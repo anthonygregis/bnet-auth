@@ -32,7 +32,7 @@ router.get('/:realmSlug', async (req, res) => {
                 [Op.gt]: new Date(new Date() - 2 * 60 * 60 * 1000)
             }
         },
-        attributes: ['itemId', 'quantity'],
+        attributes: [[db.sequelize.fn('DISTINCT', db.sequelize.col('itemId')) ,'itemId'], 'quantity'],
         order: [
             ['quantity', 'DESC']
         ],
