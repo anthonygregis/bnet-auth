@@ -8,7 +8,7 @@
 </form>
 <% } %>
 
-<canvas id="myChart" width="400" height="400"></canvas>
+<canvas id="myChart"></canvas>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
 <script>
@@ -33,7 +33,10 @@
                         type: 'time',
                     }],
                     yAxes: [{
-                        label: 'Market Price'
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Market Price'
+                        }
                     }]
                 }
             }
