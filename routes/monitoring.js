@@ -18,14 +18,14 @@ router.get('/', isLoggedIn, async (req, res) => {
                  AND pricingData.connectedRealmId = monitoredItems.connectedRealmId
                  ORDER BY createdAt
                    LIMIT 1)
-                   AS averageUnitPrice,
+                   AS unitPrice,
                (SELECT quantity 
                FROM pricingData
                WHERE pricingData.itemId = monitoredItems.itemId 
                  AND pricingData.connectedRealmId = monitoredItems.connectedRealmId
                  ORDER BY createdAt
                    LIMIT 1) 
-                   AS averageQuantity,
+                   AS quantity,
                (SELECT slug
                 FROM realms
                 WHERE realms.connectedRealmId = monitoredItems.connectedRealmId)
