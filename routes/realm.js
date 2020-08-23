@@ -29,10 +29,10 @@ router.get('/:realmSlug', async (req, res) => {
         where: {
             connectedRealmId: realmInfo.connectedRealm.id,
             createdAt: {
-                [Op.gt]: new Date(new Date() - 2 * 60 * 60 * 1000)
+                [Op.gt]: new Date(new Date() - 1 * 60 * 60 * 1000)
             }
         },
-        attributes: [[db.sequelize.fn('DISTINCT', db.sequelize.col('itemId')) ,'itemId'], 'quantity'],
+        attributes: ['itemId', 'quantity'],
         order: [
             ['quantity', 'DESC']
         ],
