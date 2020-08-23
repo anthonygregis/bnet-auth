@@ -12,15 +12,19 @@ const isLoggedIn = require('../middleware/isLoggedIn')
 router.get('/', isLoggedIn, async (req, res) => {
     const monitoredItems = await db.sequelize.query(`
         SELECT *,
-               (SELECT AVG(unitPrice) / SUM(quantity)
+               (SELECT unitPrice
                FROM pricingData 
                WHERE pricingData.itemId = monitoredItems.itemId 
-                 AND pricingData.connectedRealmId = monitoredItems.connectedRealmId)
+                 AND pricingData.connectedRealmId = monitoredItems.connectedRealmId
+                 ORDER BY createdAt
+                   LIMIT 1)
                    AS averageUnitPrice,
-               (SELECT AVG(quantity) 
+               (SELECT quantity 
                FROM pricingData
                WHERE pricingData.itemId = monitoredItems.itemId 
-                 AND pricingData.connectedRealmId = monitoredItems.connectedRealmId) 
+                 AND pricingData.connectedRealmId = monitoredItems.connectedRealmId
+                 ORDER BY createdAt
+                   LIMIT 1) 
                    AS averageQuantity,
                (SELECT slug
                 FROM realms
