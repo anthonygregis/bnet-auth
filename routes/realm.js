@@ -53,6 +53,14 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
         }
     })
 
+    const currentPricing = await db.sequelize.query(`
+        SELECT unitPrice / quantity AS unitPrice, quantity 
+        FROM pricingData
+        WHERE pricingData.itemId = ${req.params.itemId}
+            AND pricingData.connectedRealmId = ${realmInfo.connectedRealm.id}
+        LIMIT 1
+    `)
+
     //Get Items Info
     let itemHistoricalData = await db.pricingData.findAll({
         where: {
@@ -71,8 +79,8 @@ router.get('/:realmSlug/:itemId', async (req, res) => {
         pricingDates.push(`"${itemHistoricalData[i].createdAt.toLocaleString()}"`)
         pricingData.push(Math.round(itemHistoricalData[i].unitPrice / itemHistoricalData[i].quantity))
     }
-
-    res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pricingDates: pricingDates, pricingData: pricingData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
+    res.send(currentPricing)
+    // res.render('realm/detail', { realmInfo: realmInfo, itemHistoricalData: itemHistoricalData, pricingDates: pricingDates, pricingData: pricingData, pageName: "Detailed Info", pageDescription: realmInfo.name + 's historical marketplace data on an item.' })
 })
 
 router.post('/:realmSlug/:itemId', isLoggedIn, (req, res) => {
