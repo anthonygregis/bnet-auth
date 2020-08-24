@@ -8,6 +8,13 @@
 </form>
 <% } %>
 
+<div class="row">
+    <div class="col s4">
+        Current Price: <%= currentPricing[0][0].unitPrice %>
+        Quantity: <%= currentPricing[0][0].quantity %>
+    </div>
+</div>
+
 <canvas id="myChart"></canvas>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
