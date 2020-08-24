@@ -20,17 +20,11 @@ router.get('/:realmSlug', async (req, res) => {
         }
     })
 
-    if(req.query.pageNumber) {
-        pageIndex = parseInt(req.query.pageNumber) * 25
-    } else {
-        pageIndex = 0
-    }
-
     let items = await db.item.findAll()
 
     let pageNumbers = items.length / 25
 
-    items = items.slice(pageIndex, 25)
+    items = items.slice(0, 25)
 
     //Get Items Info
     let mostAvailableItems = await db.pricingData.findAll({
@@ -46,7 +40,7 @@ router.get('/:realmSlug', async (req, res) => {
         ],
         limit: 10
     })
-    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, items: items, pageName: realmInfo.name, pageNumbers: pageNumbers, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
+    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, items: items, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
 })
 
 router.get('/:realmSlug/:itemId', async (req, res) => {

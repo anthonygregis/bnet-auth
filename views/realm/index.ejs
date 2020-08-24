@@ -1,5 +1,7 @@
 <div class="row">
-    <h1>Realm: <%= realmInfo.name %></h1>
+    <div class="col s12">
+        <h1 class="center-align">Realm: <%= realmInfo.name %></h1>
+    </div>
 </div>
 <div class="row">
     <div class="col s12">
@@ -19,12 +21,5 @@
                 <a href="/realms/<%= realmInfo.slug %>/<%= item.id %>" class="collection-item" data-wowhead="item=<%= item.id %>" iconizeLinks="true"></a>
             <% }) %>
         </div>
-    </div>
-    <div class="col s12">
-        <ul class="pagination">
-            <% for(let i = 0; i < pageNumbers; i++) { %>
-                <li class="waves-effect"><a href="?pageNumber=<%= i %>"><%= i %></a></li>
-            <% } %>
-        </ul>
     </div>
 </div>
