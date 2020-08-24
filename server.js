@@ -79,7 +79,7 @@ app.get('/items', async (req, res) => {
 })
 
 app.get('*', function(req, res){
-  res.render('404');
+  res.render('404', {pageName: "404 - Not Found", pageDescription: "The page you are looking for is no longer here"})
 });
 
 const port = process.env.PORT || 3000;
