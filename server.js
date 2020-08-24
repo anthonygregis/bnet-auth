@@ -64,6 +64,20 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/auth', require('./routes/auth'))
+app.use('/realms', require('./routes/realm'))
+app.use('/monitoring', require('./routes/monitoring'))
+
+app.get('/', function(req, res) {
+  res.render('index', { pageName: "Home", pageDescription: "Welcome to WoW Marketplace Tracking" })
+});
+
+app.get('/items', async (req, res) => {
+  //Get Items Info
+  let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 40`, { type: QueryTypes.SELECT })
+  res.render('items', { mostAvailableItems: mostAvailableItems, pageName: "Global Most Available Items", pageDescription: 'Global most popular items currently.' })
+})
+
 app.use(function(req, res, next){
   res.status(404);
 
@@ -82,20 +96,6 @@ app.use(function(req, res, next){
   // default to plain-text. send()
   res.type('txt').send('Not found');
 });
-
-app.use('/auth', require('./routes/auth'))
-app.use('/realms', require('./routes/realm'))
-app.use('/monitoring', require('./routes/monitoring'))
-
-app.get('/', function(req, res) {
-  res.render('index', { pageName: "Home", pageDescription: "Welcome to WoW Marketplace Tracking" })
-});
-
-app.get('/items', async (req, res) => {
-  //Get Items Info
-  let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 40`, { type: QueryTypes.SELECT })
-  res.render('items', { mostAvailableItems: mostAvailableItems, pageName: "Global Most Available Items", pageDescription: 'Global most popular items currently.' })
-})
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
