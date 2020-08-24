@@ -1,107 +1,154 @@
-# Express Authentication
+# WoW Marketplace Tracker
 
-Express authentication template using Passport + flash messages + custom middleware
+My project 2 site designed to aggregate data from multiple World of Warcraft auction houses for historical use, monitoring current pricing, and predicting best times for listing items.
 
-## What it includes
+# Languages / Packages Used
+- Node
+- Express 
+    - EJS
+    - EJS Layouts
+    - Express Passport
+- BattleNet Passport Authentication
+- HTML
+- CSS
+- Materialize
 
-* Sequelize user model / migration
-* Settings for PostgreSQL
-* Passport and passport-local for authentication
-* Sessions to keep user logged in between pages
-* Flash messages for errors and successes
-* Passwords that are hashed with BCrypt
-* EJS Templating and EJS Layouts
+# How to Setup App
 
-### User Model
+1. Sign up for a [Battle.Net account](https://us.battle.net/account/creation/flow/heal-up-full) and create an application on [Developer Portal](https://develop.battle.net/)
 
-| Column Name | Data Type | Notes |
-| --------------- | ------------- | ------------------------------ |
-| id | Integer | Serial Primary Key, Auto-generated |
-| name | String | Must be provided |
-| email | String | Must be unique / used for login |
-| password | String | Stored as a hash |
-| createdAt | Date | Auto-generated |
-| updatedAt | Date | Auto-generated |
+2. `git clone https://github.com/anthonygregis/bnet-auth.git` in terminal
 
-### Default Routes
+3. `npm i` in terminal of root directory of project
+    - Installs all our necessary packages for web server
+    
+4. Setup .env file for web server
+    - BNET_ID=`Battle.Net Application ID`
+    - BNET_SECRET=`Battle.Net Application Secret Key`
+    - SECRET_SESSION=`Random string for express session`
+    
+5. Setup Sequelize Database
+    - Run `sequelize init` to get a configuration file for connetions
+    - Modify config file to be proper connections
+    - Run `sequelize db:create` to get your database created
+    - Run `sequelize db:migrate` to get all your proper tables
+    
+6. Start up web server `npm start`
 
-| Method | Path | Location | Purpose |
-| ------ | ---------------- | -------------- | ------------------- |
-| GET | / | server.js | Home page |
-| GET | /auth/login | auth.js | Login form |
-| GET | /auth/signup | auth.js | Signup form |
-| POST | /auth/login | auth.js | Login user |
-| POST | /auth/signup | auth.js | Creates User |
-| GET | /auth/logout | auth.js | Removes session info |
-| GET | /profile | server.js | Regular User Profile |
+7. Login using BNet and auto populate tables with servers from your characters
+    - Prevents useless data aggregation
 
-## Steps To Use
+8. Install a data aggregation node on your server that connects to a setup MySQL DB.
+    - git clone https://github.com/anthonygregis/auction-data-aggregation.git
+    - Setup .env file
+        - DB_NAME=`Name of database`
+        - DB_HOST=`IP of database server`
+        - DB_USER=`Database Username`
+        - DB_PASS=`Database Password`
+        - BNET_ID=`Battle.Net Application ID`
+        - BNET_SECRET=`Battle.Net Application Secret Key`
+    - Run `node index.js` (Runs on top of every hour automatically after)
+    
+# How To Use App
 
-#### 1. Create a new repo on Github and use your 'express-authentication' as the template
+When a user logs into the server it will populate your users, characters, realms, and connectedRealms tables with necessary info to get auction data for those characters.
 
-When we are finished with this boilerplate, we are going to make it a template on Github that will allow us to create a new repo on Github with all this code already loaded in.
-* Go to `github.com` and create a new repository. In the template dropdown, choose this template.
-* Clone your new repo to your local machine
-* Get Codin'!
+After running for a couple hours you should start to see historical data for items appearing on the site, users can check via multiple options.
+- Going to realms page and choosing a realm
+- Going to a character's realm page
+- Checking global most available items
 
-#### 2. Delete any .keep files
+Users can pick a specific item from a realm and monitor that item to easily check favorite items from the multiple realms in the monitoring page.
+They can also change the realm they want to monitor of an item if they change their mind.
 
-The `.keep` files are there to maintain the file structure of the auth. If there is a folder that has nothing in it, git won't add it. The dev work around is to add a file to it that has nothing in it, just forces git to keep the folder so we can use it later.
+# Pages
 
-#### 3. Install node modules from the package.json
+## Login `/auth/bnet`
 
-```
-npm install
-```
+This page redirects you to Battle.Net's login page and authorizes my server to make information calls on your behalf to the WoW API on a limited time access token.
 
-(Or just `npm i` for short)
+## Login Callback `/auth/bnet/callback`
 
-#### 4. Customize with new project name
+On return it inserts the user's unique id and battletag into users table, gets all their characters, realms, and connected realms for data aggregation.
+Stores user's access_token with an 8 hour expire time into sequelize sessions table.
 
-Remove defaulty type stuff. Some areas to consider are:
+## Realms `/realms`
 
-* Title in `layout.ejs`
-* Description/Repo Link in `package.json`
-* Remove boilerplate's README content and replace with new project's readme
+This page shows all currently available realms from the realm table
 
-#### 5. Create a new database for the new project
+## Most Available `/items`
 
-Using the sequelize command line interface, you can create a new database from the terminal.
+This page shows the most globally listed items inside of WoW
 
-```
-createdb <new_db_name>
-```
-
-#### 6. Update `config.json`
-
-* Change the database name
-* Other settings are likely okay, but check username, password, and dialect
-
-#### 7. Check the models and migrations for relevance to your project's needs
-
-For example, if your project requires a birthdate field, then don't add that in there. 
-
-> When changing your models, update both the model and the migration.
-
-#### 8. Run the migrations
-
-```
-sequelize db:migrate
+##### Get a distinct count of item's quantity for all realms
+```javascript
+//Get Items Info
+  let mostAvailableItems = await db.sequelize.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 40`, { type: QueryTypes.SELECT })
 ```
 
-#### 9. Add a `.env` file with the following fields:
+## Realm Info `/realms/${realm-slug}`
 
-* SESSION_SECRET: Can be any random string; usually a hash in production
-* PORT: Usually 3000 or 8000
+This Page shows off all the most available items for the server that this realm is on.
 
-#### 10. Run server; make sure it works
+##### Code Snippets
 
+Sequelize findAll query that returns 
+
+```javascript
+let mostAvailableItems = await db.pricingData.findAll({
+        where: {
+            connectedRealmId: realmInfo.connectedRealm.id,
+            createdAt: {
+                [Op.gt]: new Date(new Date() - 1 * 60 * 60 * 1000)
+            }
+        },
+        attributes: ['itemId', 'quantity'],
+        order: [
+            ['quantity', 'DESC']
+        ],
+        limit: 10
+    })
 ```
-nodemon
+
+## Monitoring 
+
+This page pulls all of a user's tracked items from specific realms and gives back the last hourly change.
+Users can also change the realm of an item if they want, or delete it from monitored items.
+
+##### Code Snippets
+
+This sequelize query gets all of a user's monitored items from the monitoredItems table and subqueries their pricing data for the specific realm using the monitored item id.
+
+```javascript
+const monitoredItems = await db.sequelize.query(`
+        SELECT *,
+               (SELECT unitPrice / quantity
+               FROM pricingData 
+               WHERE pricingData.itemId = monitoredItems.itemId 
+                 AND pricingData.connectedRealmId = monitoredItems.connectedRealmId
+                 ORDER BY createdAt
+                   LIMIT 1)
+                   AS unitPrice,
+               (SELECT quantity 
+               FROM pricingData
+               WHERE pricingData.itemId = monitoredItems.itemId 
+                 AND pricingData.connectedRealmId = monitoredItems.connectedRealmId
+                 ORDER BY createdAt
+                   LIMIT 1) 
+                   AS quantity,
+               (SELECT slug
+                FROM realms
+                WHERE realms.connectedRealmId = monitoredItems.connectedRealmId)
+                    AS realmSlug,
+               (SELECT name
+                FROM realms
+                WHERE realms.connectedRealmId = monitoredItems.connectedRealmId)
+                   AS realmName
+        FROM monitoredItems
+        WHERE monitoredItems.userId = ${req.user.id}
+    `)
 ```
 
-or
+---
 
-```
-node index.js
-```
+World of Warcraft, Warcraft, Battle.net and Blizzard Entertainment are trademarks or registered trademarks of Blizzard Entertainment, Inc. in the U.S. and/or other countries.
