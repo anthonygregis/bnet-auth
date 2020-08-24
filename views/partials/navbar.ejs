@@ -1,24 +1,33 @@
-<ul id="slide-out" class="sidenav sidenav-fixed grey darken-4 white-text">
-    <li><div class="user-view white-text">
-            <a href="#user"><img class="circle" src="https://www.pngmart.com/files/10/Warcraft-WOW-Logo-PNG-Photos.png"></a>
-            <a href="#name"><span class="name white-text">WoW Marketplace Tracking</span></a>
+<ul id="dropdown1" class="dropdown-content">
+    <% currentUser.characters.forEach(character => { %>
+        <li><a class="waves-effect white-text" href="/realms/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
+    <% }) %>
+</ul>
+
+<nav>
+    <div class="nav-wrapper">
+        <a href="#!" class="brand-logo"><img class="circle" src="https://www.pngmart.com/files/10/Warcraft-WOW-Logo-PNG-Photos.png"></a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="/">Home</a></li>
+            <li><a class="white-text" href="/realms">Realms</a></li>
+            <li><a class="white-text" href="/items?sortBy=available">Most Available</a></li>
             <% if (currentUser) { %>
-                <a href="#email"><span class="email white-text"><%=  currentUser.battletag %></span></a>
+                <li><a class="white-text" href="/monitoring">Your Monitored Items</a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Your Characters Realms<i class="material-icons right">arrow_drop_down</i></a></li>
                 <a href="/auth/logout"><span class="email white-text">Logout</span></a>
             <% } else { %>
                 <a href="/auth/bnet"><span class="email white-text">Login with BNet</span></a>
             <% } %>
-        </div></li>
-    <li><a class="white-text" href="/realms">Realms</a></li>
-    <li><a class="white-text" href="/items?sortBy=available">Most Available</a></li>
-<!--    <li><a class="white-text" href="/items?sortBy=dayChange">Potential Deals</a></li>-->
-    <% if (currentUser) { %>
+        </ul>
+    </div>
+</nav>
+<ul class="sidenav" id="mobile-demo">
+    <li><a href="/">Home</a></li>
+    <% if (!currentUser) { %>
+        <li><a href="/auth/bnet">Login</a></li>
+    <% } else { %>
         <li><a class="white-text" href="/monitoring">Your Monitored Items</a></li>
-        <li><div class="divider"></div></li>
-        <li><a class="subheader white-text">Your Characters' Realms</a></li>
-        <% currentUser.characters.forEach(character => { %>
-            <li><a class="waves-effect white-text" href="/realms/<%= character.realm.slug %>"><%= character.name %> - <%= character.realm.name %></a></li>
-        <% }) %>
+        <li><a href="/auth/logout">Logout</a></li>
     <% } %>
-
 </ul>
