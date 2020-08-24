@@ -20,4 +20,11 @@
             <% }) %>
         </div>
     </div>
+    <div class="col s12">
+        <ul class="pagination">
+            <% for(let i = 0; i < pageNumbers; i++) { %>
+                <li class="waves-effect"><a href="?pageNumber=<%= i %>"><%= i %></a></li>
+            <% } %>
+        </ul>
+    </div>
 </div>
