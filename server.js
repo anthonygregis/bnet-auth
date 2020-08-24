@@ -79,7 +79,7 @@ app.get('/items', async (req, res) => {
 })
 
 app.get('*', function(req, res){
-  res.status(404).render('404');
+  res.render('404');
 });
 
 const port = process.env.PORT || 3000;
