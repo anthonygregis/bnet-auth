@@ -38,8 +38,7 @@ router.get('/:realmSlug', async (req, res) => {
         ],
         limit: 10
     })
-    res.send(mostAvailableItems)
-    // res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, items: items, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
+    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, items: items, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
 })
 
 router.get('/:realmSlug/:itemId', async (req, res) => {
