@@ -78,10 +78,8 @@ app.get('/items', async (req, res) => {
   res.render('items', { mostAvailableItems: mostAvailableItems, pageName: "Global Most Available Items", pageDescription: 'Global most popular items currently.' })
 })
 
-app.use(function(req, res, next){
-  res.status(404);
-  res.render('404', { url: req.url });
-
+app.get('*', function(req, res){
+  res.status(404).render('404');
 });
 
 const port = process.env.PORT || 3000;
