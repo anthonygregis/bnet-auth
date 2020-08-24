@@ -38,11 +38,8 @@ router.get('/:realmSlug', async (req, res) => {
         ],
         limit: 10
     })
-
-    //Get Items Info
-    // let mostAvailableItems = await db.1.query(`SELECT DISTINCT(itemId), COUNT(quantity) 'totalQuantity' FROM pricingData WHERE connectedRealmId = ${realmInfo.connectedRealmId} GROUP BY itemId ORDER BY 'totalQuantity' LIMIT 10`, { type: QueryTypes.SELECT })
-
-    res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, items: items, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
+    res.send(mostAvailableItems)
+    // res.render('realm/index', { realmInfo: realmInfo, mostAvailableItems: mostAvailableItems, items: items, pageName: realmInfo.name, pageDescription: realmInfo.name + 's historical marketplace data and most popular items currently.' })
 })
 
 router.get('/:realmSlug/:itemId', async (req, res) => {
